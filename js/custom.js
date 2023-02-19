@@ -61,3 +61,8 @@ $(window).load(function () {
         }
     });
 });
+var scroll = new SmoothScroll('.scroll', {
+    speed: 500,
+    offset: 100
+  });
+  
