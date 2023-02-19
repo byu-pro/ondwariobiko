@@ -267,7 +267,7 @@ h5 {
     transform: translateX(-50%) translateY(-50%);
     width: 18px;
     height: 2px;
-    background-color: #000000;
+    background-color: #ffffff;
     -webkit-transition: background-color 0.3s;
     transition: background-color 0.3s;
     list-style: none;
@@ -279,7 +279,7 @@ h5 {
     width: 100%;
     height: 100%;
     position: absolute;
-    background-color: #393939;
+    background-color: #ffffff;
     right: 0;
     -webkit-transition: -webkit-transform .3s, top .3s, background-color 0s;
     -webkit-transition: top .3s, background-color 0s, -webkit-transform .3s;
