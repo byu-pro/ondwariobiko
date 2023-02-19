@@ -34,6 +34,11 @@
 
 html,
 
+/* Target all icon elements and set the color to red */
+.icon {
+    color: #FD0072;
+  }
+
 body {
     background-color: #000000;
   }
@@ -85,7 +90,11 @@ a {
     font-size: 11px;
 }
 
-
+/* Target all icon elements and set the color to red */
+.icon {
+    color: #FD0072;
+  }
+  
 /* typography
 ==================================================*/
 
@@ -156,6 +165,12 @@ h5 {
     animation-delay: -1.0s;
 }
 
+/* Target all icon elements and set the color to red */
+.icon {
+    color: #FD0072;
+  }
+
+
 @-webkit-keyframes bounce {
     0%,
     100% {
@@ -182,6 +197,12 @@ h5 {
 /* headr
 ==================================================*/
 
+/* Target all icon elements and set the color to red */
+.icon {
+    color: #FD0072;
+  }
+
+  
 .box-header {
     position: absolute;
     top: 0;
@@ -948,7 +969,7 @@ footer img {
 }
 
 .social-ul li a:hover {
-    color: #888;
+    color: #ffffff;
 }
 
 
