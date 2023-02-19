@@ -845,13 +845,13 @@ footer img {
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
+    position: relative;
     width: 100%;
     padding: 30px 0;
     text-align: center;
     background: #f5f5f5;
   }
+  
   
   footer .copyright {
     color: #ccc;
