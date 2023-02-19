@@ -217,7 +217,17 @@ h5 {
     color: #FD0072;
   }
 
+a.box-primary-nav-trigger:hover .box-menu-text {
+    color: #FD0072;
+}
   
+a.box-primary-nav-trigger:hover .box-menu-icon {
+    color: #FD0072;
+}
+a.box-primary-nav-trigger:hover .box-menu-icon {
+    color: #FD0072;
+  }
+    
 .box-header {
     position: absolute;
     top: 0;
