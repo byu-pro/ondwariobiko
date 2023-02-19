@@ -29,6 +29,7 @@
 
 @import url(https://fonts.googleapis.com/css?family=Poppins:400,500,600,700);
 
+
 /* General
 ==================================================*/
 
@@ -100,6 +101,7 @@ h3 {
 h5 {
     color: #ffbf00;
 }
+
 
 
 /* preloader
@@ -910,85 +912,51 @@ footer {
 /* About page
 ==================================================*/
 
-.top-bar {
-    color: #333;
-    padding: 150px 0 150px;
-    background: -webkit-linear-gradient( rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(../img/01.jpg);
-    background: linear-gradient( rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(../img/01.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center center;
-    text-align: center;
-    display: none;
+.about-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 960px;
+    height: 100vh; /* set height of the container to the full viewport height */
+  }
+  
+  .image-wrapper {
+    flex: 1;
+    margin-right: 40px;
+  }
+  
+  .text-wrapper {
+    flex: 1;
+  }
+  
+  .text-wrapper h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .text-wrapper p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .follow-wrapper {
+    display: flex;
+    align-items: center;
 }
 
-.top-bar h1 {
-    font-size: 60px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #999;
-    line-height: 50px;
-}
-
-.top-bar p {
-    font-size: 15px;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: #777;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.top-bar p a {
-    color: #777;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.top-bar p a:hover,
-.top-bar p a:focus {
-    color: #555;
-    text-decoration: none;
-    margin-left: auto;
-  margin-right: auto;
-}
-
-.social-ul {
+.social-media-icons {
+    display: flex;
+    align-items: center;
     list-style: none;
-    display: inline-block;
-    padding-left: 0;
+    padding: 0;
+    margin: 0;
 }
 
-.social-ul li {
+.box-social {
     margin: 0 10px;
-    float: left;
 }
 
-.social-ul li a {
-    font-size: 25px;
-    color: #555;
-    -webkit-transition: all .3s;
-    transition: all .3s;
-}
-
-.social-ul li a:hover {
-    color: #888;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
 /* Services page
 ==================================================*/
 
@@ -1004,7 +972,57 @@ body {
     margin-top: 0;
 }
 
-
+.about-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 960px;
+    position: relative;
+  }
+  
+  .image-wrapper {
+    flex: 1;
+    margin-right: 40px;
+  }
+  
+  .text-wrapper {
+    flex: 1;
+    position: relative;
+  }
+  
+  .text-wrapper h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .text-wrapper p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+  }
+  
+  .social-media-icons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .social-media-icons a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #333;
+  }
+  
+  .social-media-icons a i {
+    font-size: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .social-media-icons a:hover i {
+    transform: scale(1.2);
+  }
+  
 /* contact page
 ==================================================*/
 
