@@ -47,7 +47,7 @@ body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
     line-height: 1.8;
-    color: #999
+    color: #ffffff
 }
 
 .no-padding {
@@ -949,7 +949,7 @@ footer img {
 ==================================================*/
 
 .top-bar {
-    color: #333;
+    color: #ffffff;
     padding: 80px 0 80px;
     background: -webkit-linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
     background: linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
@@ -963,7 +963,7 @@ footer img {
     font-size: 60px;
     text-transform: uppercase;
     font-weight: 700;
-    color: #999;
+    color: #ffffff;
     line-height: 50px;
 }
 
@@ -971,16 +971,16 @@ footer img {
     font-size: 15px;
     text-transform: uppercase;
     font-weight: 500;
-    color: #777;
+    color: #ffffff;
 }
 
 .top-bar p a {
-    color: #777;
+    color: #ffffff;
 }
 
 .top-bar p a:hover,
 .top-bar p a:focus {
-    color: #555;
+    color: #ffffff;
     text-decoration: none;
 }
 
