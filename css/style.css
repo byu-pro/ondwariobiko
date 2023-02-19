@@ -33,6 +33,11 @@
 ==================================================*/
 
 html,
+
+body {
+    background-color: #000000;
+  }
+  
 body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
@@ -85,13 +90,13 @@ a {
 ==================================================*/
 
 h1 {
-    color: #393939;
+    color: #ffffff;
     font-size: 60px;
     text-transform: uppercase;
 }
 
 h3 {
-    color: #393939;
+    color: #ffffff;
 }
 
 h5 {
@@ -108,7 +113,7 @@ h5 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #f5f5f5;
+    background-color: #000000;
     /* change if the mask should be a color other than white */
     z-index: 1000;
     /* makes sure it stays on top */
@@ -181,7 +186,7 @@ h5 {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     height: 50px;
     width: 100%;
     z-index: 3;
@@ -235,7 +240,7 @@ h5 {
     top: 0;
     height: 100%;
     width: 50px;
-    background-color: #fff;
+    background-color: #000000;
 }
 
 .box-primary-nav-trigger .box-menu-text {
@@ -826,11 +831,11 @@ b i:last-child {
 footer {
     padding: 30px 0;
     text-align: center;
-    background: #f5f5f5
+    background: #000000
 }
 
 .copyright {
-    color: #ccc;
+    color: #FD0072;
     margin-bottom: 0;
 }
 
