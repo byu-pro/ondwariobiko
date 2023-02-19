@@ -101,7 +101,15 @@ a {
     color: #FD0072;
   }
 
- 
+.box-social a i {
+    color: #FD0072; /* set the default color of the icons */
+    transition: color 0.3s ease; /* add a transition effect when the color changes */
+}
+  
+.box-social a:hover i {
+    color: #ffffff; /* change the color of the icons when hovered over */
+}
+  
 /* typography
 ==================================================*/
 
