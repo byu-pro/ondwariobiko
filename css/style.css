@@ -521,7 +521,7 @@ b i:last-child {
     left: 50%;
     margin-left: -12px;
     border-radius: 15px;
-    border: 2px solid #888;
+    border: 2px solid #ffffff;
     -webkit-animation: intro 1s;
     animation: intro 1s;
 }
@@ -532,7 +532,7 @@ b i:last-child {
     height: 3px;
     margin: 6px auto;
     border-radius: 4px;
-    background: #888;
+    background: #ffffff;
     -webkit-animation: finger 2s infinite;
     animation: finger 2s infinite;
 }
