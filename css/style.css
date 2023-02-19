@@ -34,11 +34,17 @@
 ==================================================*/
 
 html,
+
+body {
+    background-color: #000000;
+}
+
 body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
     line-height: 1.8;
     color: #999
+    
 }
 
 .no-padding {
@@ -89,7 +95,7 @@ a {
 ==================================================*/
 
 h1 {
-    color: #393939;
+    color: #ffffff;
     font-size: 60px;
     text-transform: uppercase;
 }
@@ -186,7 +192,7 @@ h5 {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     height: 50px;
     width: 100%;
     z-index: 3;
