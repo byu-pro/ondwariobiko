@@ -895,13 +895,13 @@ footer img {
 
 .top-bar {
     color: #333;
-    padding: 150px 0 150px;
-    background: -webkit-linear-gradient( rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(../img/01.jpg);
-    background: linear-gradient( rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), url(../img/01.jpg);
+    padding: 80px 0 80px;
+    background: -webkit-linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
+    background: linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
     background-size: cover;
     background-attachment: fixed;
     background-position: center center;
-    text-align: center;
+    text-align: left;
 }
 
 .top-bar h1 {
