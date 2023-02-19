@@ -120,6 +120,11 @@ p{
     margin-top: 20px;
 }
 
+.box-social i {
+    color: #FD0072;
+  }
+  
+  
 /* preloader
 ==================================================*/
 
@@ -968,6 +973,7 @@ footer {
     list-style: none;
     padding: 0;
     margin: 0;
+    color: #FD0072;
 }
 
 .box-social {
