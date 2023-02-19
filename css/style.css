@@ -94,6 +94,13 @@ a {
 .icon {
     color: #FD0072;
   }
+
+  
+/* Target all social media icon elements and set the color to red */
+.box-social i {
+    color: #FD0072;
+  }
+
   
 /* typography
 ==================================================*/
