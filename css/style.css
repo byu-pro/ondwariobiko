@@ -109,6 +109,11 @@ a {
 .box-social a:hover i {
     color: #ffffff; /* change the color of the icons when hovered over */
 }
+
+.box-primary-nav li a:hover {
+    color: #FD0072;
+  }
+
   
 /* typography
 ==================================================*/
@@ -217,6 +222,10 @@ h5 {
     color: #FD0072;
   }
 
+.box-primary-nav li a:hover {
+    color: #FD0072;
+  }
+  
 a.box-primary-nav-trigger:hover .box-menu-text {
     color: #FD0072;
 }
