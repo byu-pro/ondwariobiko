@@ -444,13 +444,13 @@ h5 {
 }
 
 b i:last-child {
-    color: #FD0072 !important;
+    color: #ffffff !important;
 }
 
 .box-intro h5 {
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #ffffff;
+    color: #FD0072;
     line-height: 1.7
 }
 
