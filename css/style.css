@@ -108,7 +108,17 @@ h5 {
     color: #FD0072;
 }
 
-
+h2{
+    color: #ffffff;
+}
+p{
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.5em;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 
 /* preloader
 ==================================================*/
