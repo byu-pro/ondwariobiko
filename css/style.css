@@ -79,6 +79,7 @@ a {
 
 .h-30 {
     height: 30px
+    color #ffffff
 }
 
 .h-10 {
@@ -950,7 +951,7 @@ footer img {
 
 .top-bar {
     color: #ffffff;
-    padding: 80px 0 80px;
+    padding: 40px 0 40px;
     background: -webkit-linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
     background: linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
     background-size: cover;
