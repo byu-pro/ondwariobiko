@@ -104,6 +104,10 @@ a {
     margin-top: 10px; /* adjust the value as per your requirements */
 }
 
+.container.main-container.contact-page {
+    margin-top: -30px; /* adjust as needed */
+  }
+  
 /* Target all icon elements and set the color to red */
 .icon {
     color: #FD0072;
@@ -1044,6 +1048,12 @@ footer img {
 /* contact page
 ==================================================*/
 
+
+.container.main-container.contact-page {
+    margin-top: -20px; /* adjust as needed */
+  }
+
+  
 .details-text i {
     margin-right: 10px;
 }
