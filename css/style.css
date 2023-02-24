@@ -101,7 +101,7 @@ a {
 }
 
 .contact-page {
-    margin-top: 15px; /* adjust the value as per your requirements */
+    margin-top: 10px; /* adjust the value as per your requirements */
 }
 
 /* Target all icon elements and set the color to red */
@@ -1049,7 +1049,7 @@ footer img {
 }
 
 .textarea-contact {
-    height: 200px;
+    height: 430px;
     width: 100%;
     border: solid 1px rgb(255, 255, 255);
     position: relative;
@@ -1168,6 +1168,17 @@ textarea:focus {
 .btn-box:focus {
     background: #FD0072;
     color: #fff;
+}
+
+.top-bar {
+    color: #ffffff;
+    padding: 5px 0 px;
+    background: -webkit-linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
+    background: linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    text-align: left;
 }
 
 
