@@ -100,6 +100,10 @@ a {
     font-size: 11px;
 }
 
+.contact-page {
+    margin-top: 15px; /* adjust the value as per your requirements */
+}
+
 /* Target all icon elements and set the color to red */
 .icon {
     color: #FD0072;
@@ -1047,7 +1051,7 @@ footer img {
 .textarea-contact {
     height: 200px;
     width: 100%;
-    border: solid 1px rgba(0, 0, 0, .1);
+    border: solid 1px rgb(255, 255, 255);
     position: relative;
 }
 
@@ -1060,7 +1064,7 @@ footer img {
     float: left;
     z-index: 2;
     font-size: 14px;
-    color: #9a9a9a;
+    color: #ffffff;
     resize: none;
 }
 
@@ -1072,7 +1076,7 @@ footer img {
     transform: translateY(-50%);
     font-size: 12px;
     text-transform: uppercase;
-    color: #cdcdcd;
+    color: #ffffff;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
     z-index: 1;
@@ -1081,7 +1085,7 @@ footer img {
 .input-contact {
     height: 40px;
     width: 100%;
-    border: solid 1px rgba(0, 0, 0, .1);
+    border: solid 1px rgb(255, 255, 255);
     position: relative;
     margin-bottom: 30px;
 }
@@ -1096,7 +1100,7 @@ footer img {
     background-color: transparent;
     z-index: 2;
     font-size: 14px;
-    color: #9a9a9a;
+    color: #ffffff;
 }
 
 .input-contact > span {
@@ -1107,7 +1111,7 @@ footer img {
     transform: translateY(-50%);
     font-size: 12px;
     text-transform: uppercase;
-    color: #cdcdcd;
+    color: #ffffff;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
     z-index: 1;
