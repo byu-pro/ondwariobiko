@@ -64,6 +64,15 @@ body {
     padding: 100px 0;
 }
 
+body.portfolio .main-container {
+    margin-top: 100px;
+  }
+  
+.portfolio-page .main-container {
+    margin-top: 20px; /* Add 20 pixels of margin to the top of the container on the portfolio page only */
+  }
+  
+
 .center {
     text-align: center;
 }
@@ -880,7 +889,11 @@ b i:last-child {
     padding-top: 55px;
 }
 
-
+.portfolio-page .main-container {
+    margin-top: 20px; /* Add 20 pixels of margin to the top of the container on the portfolio page only */
+  }
+  
+  
 /* footer
 ==================================================*/
 
