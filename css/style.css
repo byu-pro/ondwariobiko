@@ -146,8 +146,16 @@ html, body {
     margin: 0;
     padding: 0;
 }
-  
-  
+
+.ion-android-options {
+    color: #FD0072; /* Replace with the color code you want */
+}
+
+.service-box svg {
+    width: 50px;
+    height: 50px;
+    fill: #FD0072;
+  }
 /* typography
 ==================================================*/
 
@@ -1060,6 +1068,10 @@ body {
 
 .service-box h3 {
     margin-top: 0;
+}
+
+.ion-android-options {
+    color: #FD0072; /* Replace with the color code you want */
 }
 
 
