@@ -1052,6 +1052,18 @@ footer img {
 /* contact page
 ==================================================*/
 
+.main-container.contact-page {
+    margin-top: -100px; /* adjust as needed */
+  }
+
+.container.main-container.contact-page {
+    margin-top: -100px; /* adjust as needed */
+}
+
+.custom-class {
+    margin-top: -100px; /* adjust as needed */
+}
+  
 .details-text i {
     margin-right: 10px;
 }
