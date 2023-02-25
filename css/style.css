@@ -48,8 +48,14 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.8;
     color: #ffffff
+    
 }
-
+body {
+    margin-bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+  
 .no-padding {
     padding-left: 0;
     padding-right: 0;
@@ -136,6 +142,11 @@ a {
     color: #FD0072;
   }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+  
   
 /* typography
 ==================================================*/
@@ -924,7 +935,10 @@ footer img {
     margin: 0 auto;
 }
 
-
+body {
+    margin-bottom: 0;
+  }
+  
 /* backto top
 ==================================================*/
 
@@ -1190,7 +1204,10 @@ textarea:focus {
     color: #fff;
 }
 
-
+body {
+    margin-bottom: 0;
+  }
+  
 
 /* single project page */
 .cat-ul {
