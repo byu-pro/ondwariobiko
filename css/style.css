@@ -1052,32 +1052,19 @@ footer img {
 /* contact page
 ==================================================*/
 
-.main-container.contact-page {
-    margin-top: -100px; /* adjust as needed */
-  }
-
-.container.main-container.contact-page {
-    margin-top: -100px; /* adjust as needed */
-}
-  
-.custom-class {
-    margin-top: -100px; /* adjust as needed */
-  }
-  
-  
 .details-text i {
     margin-right: 10px;
 }
 
 .textarea-contact {
-    height: 100px;
+    height: 200px;
     width: 100%;
     border: solid 1px rgb(255, 255, 255);
     position: relative;
 }
 
 .textarea-contact textarea {
-    height: 50%;
+    height: 100%;
     width: 100%;
     border: 0;
     padding: 20px;
@@ -1091,7 +1078,7 @@ footer img {
 
 .textarea-contact > span {
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: 20px;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
