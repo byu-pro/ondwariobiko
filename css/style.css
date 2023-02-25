@@ -1053,13 +1053,17 @@ footer img {
 ==================================================*/
 
 .main-container.contact-page {
-    margin-top: -0px;
-  }
-  
-.container.main-container.contact-page {
-    margin-top: -5px; /* adjust as needed */
+    margin-top: -100px; /* adjust as needed */
   }
 
+.container.main-container.contact-page {
+    margin-top: -100px; /* adjust as needed */
+}
+  
+.custom-class {
+    margin-top: -100px; /* adjust as needed */
+  }
+  
   
 .details-text i {
     margin-right: 10px;
