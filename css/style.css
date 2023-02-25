@@ -101,11 +101,15 @@ a {
 }
 
 .contact-page {
-    margin-top: 10px; /* adjust the value as per your requirements */
+    margin-top: -0px; /* adjust the value as per your requirements */
 }
 
 .container.main-container.contact-page {
-    margin-top: -30px; /* adjust as needed */
+    margin-top: -0px; /* adjust as needed */
+  }
+
+.main-container.contact-page {
+    margin-top: -0px;
   }
   
 /* Target all icon elements and set the color to red */
@@ -1048,9 +1052,12 @@ footer img {
 /* contact page
 ==================================================*/
 
-
+.main-container.contact-page {
+    margin-top: -0px;
+  }
+  
 .container.main-container.contact-page {
-    margin-top: -20px; /* adjust as needed */
+    margin-top: -5px; /* adjust as needed */
   }
 
   
@@ -1066,7 +1073,7 @@ footer img {
 }
 
 .textarea-contact textarea {
-    height: 100%;
+    height: 50%;
     width: 100%;
     border: 0;
     padding: 20px;
@@ -1080,7 +1087,7 @@ footer img {
 
 .textarea-contact > span {
     position: absolute;
-    top: 20px;
+    top: 10px;
     left: 20px;
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
@@ -1180,16 +1187,6 @@ textarea:focus {
     color: #fff;
 }
 
-.top-bar {
-    color: #ffffff;
-    padding: 5px 0 px;
-    background: -webkit-linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
-    background: linear-gradient( rgb(0, 0, 0), rgb(0, 0, 0)), url();
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center center;
-    text-align: left;
-}
 
 
 /* single project page
