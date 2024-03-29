@@ -203,6 +203,14 @@ h1, h2, h3, h4, h5, h6, figure {
     display: none;
   }
 }
+/* CSS for mobile screens */
+@media (max-width: 768px) {
+  #fh5co-logo {
+      margin-top: -30px; /* Adjust this value as needed */
+      margin-left: 8px; /* Adjust this value as needed */
+  }
+}
+
 .fh5co-nav ul {
   padding: 0;
   margin: 1em 0 0 0;
