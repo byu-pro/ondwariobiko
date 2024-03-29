@@ -1,9 +1,12 @@
 @font-face {
-  font-family: 'icomoon';
-  src: url("../fonts/icomoon/icomoon.eot?srf3rx");
-  src: url("../fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
+  @font-face {
+    font-family: 'NeueHaasGrotesk';
+    src: url('https://use.typekit.net/jjw7hfh.css') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+       font-weight: 400;
+       font-style: normal;
 }
 /* =======================================================
 *
@@ -11,9 +14,9 @@
 *
 * ======================================================= */
 body {
-  font-family: "Open Sans", arial, sans-serif;
+  font-family: "neue-haas-grotesk-text", sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-style: normal;
   line-height: 1.7;
   color: #767676;
   background: rgba(232, 232, 232, 0.6);
@@ -94,7 +97,7 @@ p {
 
 h1, h2, h3, h4, h5, h6, figure {
   color: #000;
-  font-family: "Playfair Display", serif;
+  font-family: "neue-haas-grotesk-text", sans-serif;
   font-weight: 400;
   margin: 0 0 20px 0;
 }
@@ -140,8 +143,8 @@ h1, h2, h3, h4, h5, h6, figure {
   font-size: 30px;
   margin: 0;
   padding: 0;
-  font-weight: 400;
-  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-family: "neue-haas-grotesk-text", sans-serif;
 }
 .fh5co-nav #fh5co-logo a {
   margin-bottom: 0;
