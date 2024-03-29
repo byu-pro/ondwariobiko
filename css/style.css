@@ -80,13 +80,13 @@ body:after {
 }
 
 a {
-  color: #F95959;
+  color: #cc0053;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #F95959;
+  color: #cc0053;
   outline: none;
   text-decoration: none;
 }
@@ -104,7 +104,7 @@ h1, h2, h3, h4, h5, h6, figure {
 
 ::-webkit-selection {
   color: #fff;
-  background: #F95959;
+  background: #cc0053;
 }
 
 ::-moz-selection {
@@ -139,6 +139,19 @@ h1, h2, h3, h4, h5, h6, figure {
 .fh5co-nav .top-menu {
   padding: 0;
 }
+#fh5co-logo img {
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Maintain aspect ratio */
+  vertical-align: middle; /* Align the image vertically in the middle */
+  display: inline-block; /* Make it an inline-level element */
+}
+.col-sm-10.text-right.menu-1 {
+  margin-top: 30px;
+}
+
+.col-sm-10.text-right.menu-1 ul li {
+  margin-right: 10px;
+}
 .fh5co-nav #fh5co-logo {
   font-size: 30px;
   margin: 0;
@@ -154,7 +167,7 @@ h1, h2, h3, h4, h5, h6, figure {
   line-height: 32px;
 }
 .fh5co-nav #fh5co-logo a span {
-  color: #F95959;
+  color: #cc0053;
 }
 @media screen and (max-width: 768px) {
   .fh5co-nav .menu-1 {
@@ -266,7 +279,7 @@ h1, h2, h3, h4, h5, h6, figure {
   box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75);
 }
 .fh5co-nav ul li.active > a {
-  color: #F95959 !important;
+  color: #cc0053 !important;
   position: relative;
 }
 .fh5co-nav ul li.active > a:after {
@@ -451,8 +464,8 @@ h1, h2, h3, h4, h5, h6, figure {
   color: #fff;
   display: inline;
   display: inline;
-  background-color: #F95959;
-  box-shadow: 0.2em 0 0 #F95959, -0.2em 0 0 #F95959;
+  background-color: #cc0053;
+  box-shadow: 0.2em 0 0 #cc0053, -0.2em 0 0 #cc0053;
   padding: 0.1em 0em;
   box-decoration-break: clone;
 }
@@ -616,7 +629,7 @@ h1, h2, h3, h4, h5, h6, figure {
   top: .3em;
   left: 0;
   font-size: 18px;
-  color: #F95959;
+  color: #cc0053;
 }
 .contact-info li a {
   color: #000;
@@ -829,7 +842,7 @@ input[type="text"] {
   transform: rotate(-180deg);
 }
 #fh5co-offcanvas ul li.active > a {
-  color: #F95959;
+  color: #cc0053;
 }
 
 .gototop {
@@ -999,21 +1012,21 @@ input[type="text"] {
 }
 
 .btn-primary {
-  background: #F95959;
+  background: #cc0053;
   color: #fff;
-  border: 2px solid #F95959;
+  border: 2px solid #cc0053;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background: #fa7272 !important;
-  border-color: #fa7272 !important;
+  background: #cc0053 !important;
+  border-color: #cc0053 !important;
 }
 .btn-primary.btn-outline {
   background: transparent;
-  color: #F95959;
-  border: 2px solid #F95959;
+  color: #cc0053;
+  border: 2px solid #cc0053;
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #F95959;
+  background: #cc0053;
   color: #fff;
 }
 
@@ -1075,18 +1088,18 @@ input[type="text"] {
 }
 
 .btn-danger {
-  background: #d9534f;
+  background: #cc0053;
   color: #fff;
-  border: 2px solid #d9534f;
+  border: 2px solid #cc0053;
 }
 .btn-danger:hover, .btn-danger:focus, .btn-danger:active {
-  background: #d43f3a !important;
-  border-color: #d43f3a !important;
+  background: #cc0053 !important;
+  border-color: #cc0053 !important;
 }
 .btn-danger.btn-outline {
   background: transparent;
-  color: #d9534f;
-  border: 2px solid #d9534f;
+  color: #cc0053;
+  border: 2px solid #cc0053;
 }
 .btn-danger.btn-outline:hover, .btn-danger.btn-outline:focus, .btn-danger.btn-outline:active {
   background: #d9534f;
@@ -1143,7 +1156,7 @@ input[type="text"] {
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: #F95959;
+  border-color: #cc0053;
 }
 
 .row-pb-md {
