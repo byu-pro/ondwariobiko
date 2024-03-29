@@ -880,7 +880,7 @@ input[type="text"] {
   width: 50px;
   height: 50px;
   display: table;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.795);
   color: #000000;
   text-align: center;
   -webkit-border-radius: 4px;
