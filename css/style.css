@@ -880,8 +880,8 @@ input[type="text"] {
   width: 50px;
   height: 50px;
   display: table;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background: rgba(0, 0, 0, 0);
+  color: #000000;
   text-align: center;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1026,7 +1026,22 @@ input[type="text"] {
   box-shadow: none !important;
   outline: none !important;
 }
+.gototop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.gototop .js-gotop {
+  display: inline-block;
+}
+
+.gototop .js-gotop img {
+  width: 45px;
+  height: auto;
+  display: block; /* Added to center the image vertically */
+  margin: 0 auto; /* Added to center the image horizontally */
+}
 .btn-primary {
   background: #cc0053;
   color: #fff;
