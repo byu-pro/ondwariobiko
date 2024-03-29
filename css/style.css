@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6, figure {
 @media (max-width: 768px) {
   #fh5co-logo {
       margin-top: -30px; /* Adjust this value as needed */
-      margin-left: 8px; /* Adjust this value as needed */
+      margin-left: 3px; /* Adjust this value as needed */
   }
 }
 
