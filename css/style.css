@@ -148,7 +148,24 @@ h1, h2, h3, h4, h5, h6, figure {
 .col-sm-10.text-right.menu-1 {
   margin-top: 30px;
 }
+.fh5co-social-icons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.fh5co-social-icons li {
+  margin: 0 10px; /* Adjust the value to increase or decrease the spacing between icons */
+}
+
+.fh5co-social-icons li a img {
+  width: 30px; /* Set the desired width for the icons */
+  height: 30px; /* Set the desired height for the icons */
+
+}
 .col-sm-10.text-right.menu-1 ul li {
   margin-right: 10px;
 }
@@ -818,7 +835,6 @@ input[type="text"] {
   position: absolute;
   right: 0px;
   font-family: 'icomoon';
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
