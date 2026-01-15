@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ondwariobiko – Strategic Brand & Web Systems</title>
+    <!-- Favicon Integration -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #e5e5e5;
+            --muted: #666666;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --gutter: clamp(1rem, 5vw, 5rem);
+            --header-h: 70px;
+        }
+
+        @media (min-width: 1024px) { :root { --header-h: 120px; } }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .serif { font-family: var(--font-serif); font-weight: 400; }
+        
+        #cursor {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        /* Responsive Architectural Grid */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            padding: 0 var(--gutter);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        .grid-col { border-right: 1px solid var(--border); height: 100%; }
+        .grid-col:first-child { border-left: 1px solid var(--border); }
+
+        @media (max-width: 1023px) {
+            .grid-overlay { grid-template-columns: repeat(6, 1fr); }
+            .grid-col:nth-child(n+7) { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            .grid-overlay { grid-template-columns: repeat(4, 1fr); }
+            .grid-col:nth-child(n+5) { display: none; }
+        }
+
+        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .reveal-text span { display: inline-block; transform: translateY(115%); }
+
+        .btn-magnetic {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            background: transparent;
+            color: var(--fg);
+        }
+
+        .btn-magnetic:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* Work Section Logic */
+        .work-section { position: relative; width: 100%; }
+        
+        @media (min-width: 1024px) {
+            .horizontal-track {
+                display: flex;
+                flex-wrap: nowrap;
+                width: max-content;
+                height: 100vh;
+                will-change: transform;
+            }
+            .horizontal-item {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                flex-shrink: 0;
+                align-items: center;
+                justify-content: center;
+                padding: 0 var(--gutter);
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .horizontal-track { display: block; width: 100%; }
+            .horizontal-item { 
+                width: 100%; 
+                padding: clamp(3rem, 10vh, 6rem) var(--gutter);
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        .project-img-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16/9;
+            max-height: 50vh;
+            background: #0f0f0f;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            height: 100dvh;
+            background: var(--bg);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 var(--gutter);
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            overscroll-behavior: contain;
+        }
+
+        .mobile-nav-overlay.active { transform: translateY(0); }
+
+        .nav-link { position: relative; transition: opacity 0.3s; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; width: 0; height: 1px;
+            background: white;
+            transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-link:hover::after { width: 100%; }
+        
+        section { 
+            position: relative; 
+            width: 100%; 
+            padding: clamp(4rem, 15vw, 12rem) var(--gutter); 
+        }
+
+        .blur-header {
+            backdrop-filter: blur(20px);
+            background: rgba(8, 8, 8, 0.8) !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        @media (max-width: 1023px) {
+            #main-nav .mix-blend-difference {
+                mix-blend-mode: normal !important;
+                color: white;
+            }
+        }
+
+        .main-logo {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (min-width: 1024px) {
+            .main-logo { height: 32px; }
+        }
+
+        /* INVERTED THEME STYLES */
+        .inverted {
+            background-color: #f7f7f7 !important;
+            color: #080808 !important;
+        }
+        .inverted h2, .inverted .text-white, .inverted .serif {
+            color: #080808 !important;
+        }
+        .inverted .opacity-30, .inverted .opacity-20 {
+            opacity: 0.4;
+        }
+        .inverted .border-white\/5 {
+            border-color: rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+    <div id="cursor"></div>
+    <div class="noise"></div>
+
+    <!-- Architectural Grid -->
+    <div class="grid-overlay">
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="flex flex-col space-y-2 sm:space-y-6">
+            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Contact</a>
+        </div>
+        
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-8">
+            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Global</div>
+            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4 pr-1" onclick="toggleMenu()">[ Close ]</button>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
+        <div class="w-full px-[var(--gutter)] flex justify-between items-center">
+            <a href="#" class="mix-blend-difference hover:opacity-50 transition-opacity">
+                <!-- Logo Integration -->
+                <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
+            </a>
+            
+            <!-- Desktop Nav Updated to Placeholder Links -->
+            <div class="hidden lg:flex items-center space-x-14 text-[10px] uppercase tracking-[0.35em] font-semibold opacity-60 mix-blend-difference">
+                <a href="#" class="nav-link">Work</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Services</a>
+                <a href="#" class="nav-link">Insights</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            
+            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">
+                Menu
+            </button>
+            
+            <div class="hidden xl:block text-[10px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference">
+                Brand & Web Systems
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="min-h-[100vh] min-h-[100dvh] flex flex-col justify-end pt-[calc(var(--header-h)+8vh)] pb-12 sm:pb-20">
+        <div class="max-w-screen-2xl w-full mx-auto">
+            <h1 class="reveal-text serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] tracking-tighter mb-8 sm:mb-12">
+                <span>I design strategic brand</span><br>
+                <span>and web systems for businesses</span><br>
+                <span>that need clarity, credibility,</span><br>
+                <span>and long-term impact.</span>
+            </h1>
+
+            <div class="mb-10 sm:mb-16 overflow-hidden flex items-center gap-5 text-[10px] tracking-[0.4em] uppercase opacity-40 reveal-el">
+                <div class="w-8 sm:w-12 h-[1px] bg-white"></div>
+                Brand and web designer with 9+ years of experience, working with clients worldwide.
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 sm:gap-12 items-end">
+                <div class="lg:col-span-8 xl:col-span-6">
+                    <p class="text-xl sm:text-2xl lg:text-3xl leading-snug lg:leading-relaxed text-[#a1a1a1] font-light reveal-el">
+                        Helping companies communicate who they are, what they stand for, and why they matter through thoughtful branding and web design.
+                    </p>
+                </div>
+                <div class="lg:col-start-10 lg:col-span-3 flex flex-col sm:flex-row lg:flex-col gap-4 items-start lg:items-end">
+                    <a href="#work-trigger" class="btn-magnetic group w-full sm:w-auto">
+                        <span class="mr-4">View selected work</span>
+                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" class="group-hover:translate-x-1 transition-transform">
+                            <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                    </a>
+                    <a href="#contact" class="text-[10px] uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-opacity py-2 lg:pr-6 reveal-el">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO I WORK WITH (INVERTED) -->
+    <section id="who" class="inverted border-y border-black/5">
+        <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-24">
+            <div class="lg:col-span-4">
+                <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30">Who I Work With</h2>
+            </div>
+            <div class="lg:col-span-8">
+                <p class="serif text-[clamp(2rem,5.5vw,4.8rem)] leading-[1.05] text-black mb-8 sm:mb-14">
+                    I work with founders, growing businesses, and organizations who value clarity, strategic thinking, and brand credibility — not surface-level design or quick fixes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT I HELP WITH -->
+    <section id="about" class="border-b border-white/5">
+        <div class="max-w-screen-2xl mx-auto">
+            <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30 mb-12 sm:mb-24">What I Help With</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 sm:gap-16 lg:gap-24">
+                <div class="reveal-el">
+                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">01 / BRAND IDENTITY</span>
+                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Clarifying</h3>
+                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Clarifying brand identity through logo and visual systems.</p>
+                </div>
+                <div class="reveal-el">
+                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">02 / WEB SYSTEMS</span>
+                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Designing</h3>
+                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Designing websites that communicate trust and intent.</p>
+                </div>
+                <div class="reveal-el">
+                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">03 / CONTINUITY</span>
+                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Supporting</h3>
+                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Supporting long-term brand consistency across digital platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROOF TEASER (Selected Work) -->
+    <div id="work-trigger" class="work-section bg-[#050505]">
+        <div class="px-[var(--gutter)] pt-20 lg:pt-32 pb-10">
+            <div class="max-w-screen-2xl mx-auto">
+                <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30 mb-8">Selected Work</h2>
+                <p class="text-xl sm:text-2xl lg:text-3xl text-[#a1a1a1] max-w-3xl font-light">
+                    A focused selection of branding and web projects designed to bring structure, clarity, and confidence to growing businesses.
+                </p>
+            </div>
+        </div>
+
+        <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
+            <div class="horizontal-track" id="work">
+                <div class="horizontal-item">
+                    <div class="max-w-screen-2xl w-full">
+                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 01</span>
+                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Nexus Systems</h3>
+                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Digital Infrastructure</p>
+                        <div class="project-img-wrapper">
+                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Architecture</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal-item">
+                    <div class="max-w-screen-2xl w-full">
+                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 02</span>
+                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Lumina Core</h3>
+                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Visual Identity</p>
+                        <div class="project-img-wrapper">
+                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Identity</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="horizontal-item">
+                    <div class="max-w-screen-2xl w-full">
+                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 03</span>
+                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Clarion Brand</h3>
+                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Thoughtful Branding</p>
+                        <div class="project-img-wrapper">
+                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Strategy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESIGN PHILOSOPHY (INVERTED) -->
+    <section class="inverted border-t border-black/10">
+        <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
+            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-12 sm:mb-20">How I Approach Design</h2>
+            <p class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.95] tracking-tight mb-12 sm:mb-20 max-w-6xl text-black">
+                I approach design as a strategic tool — not decoration.
+            </p>
+            <div class="w-full max-w-4xl border-t border-black/10 pt-12 sm:pt-16">
+                 <p class="text-xl sm:text-2xl lg:text-3xl leading-relaxed text-[#444] font-light">
+                    Every decision is shaped by context, purpose, and long-term impact.
+                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <footer id="contact" class="pb-16 lg:pb-32 pt-20 lg:pt-48 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
+            <div class="mb-24 lg:mb-48">
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-12">Interested in Working Together?</h2>
+                <p class="text-xl sm:text-3xl lg:text-4xl text-[#a1a1a1] max-w-3xl mb-12 sm:mb-20 font-light leading-relaxed">
+                    If you’re looking for a thoughtful, structured approach to branding and web design, I’m open to conversations about new projects.
+                </p>
+                <div class="flex flex-col items-start gap-4">
+                    <a href="mailto:ondwariobiko@gmail.com" class="text-2xl sm:text-4xl lg:text-6xl underline underline-offset-[12px] sm:underline-offset-[24px] decoration-white/10 hover:decoration-white transition-all duration-500 break-all serif inline-block">
+                        Get in touch
+                    </a>
+                    <div class="mt-8 flex flex-col gap-2">
+                        <span class="text-[10px] uppercase tracking-[0.4em] opacity-30">Direct Reach</span>
+                        <a href="mailto:ondwariobiko@gmail.com" class="text-base sm:text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
+                        <a href="tel:+254702255575" class="text-base sm:text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row justify-between pt-10 sm:pt-24 border-t border-white/5 gap-10 text-[10px] uppercase tracking-[0.4em] opacity-30">
+                <div class="order-2 lg:order-1">© 2026 ondwariobiko</div>
+                <div class="flex flex-wrap gap-8 sm:gap-16 order-1 lg:order-2">
+                    <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition-colors">Behance</a>
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                </div>
+                <div class="lg:text-right uppercase order-3">Nairobi / Worldwide</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-nav');
+            menu.classList.toggle('active');
+            
+            const isActive = menu.classList.contains('active');
+            if (isActive) {
+                lenis.stop();
+                document.body.style.overflow = 'hidden';
+            } else {
+                lenis.start();
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Initialize Lenis
+        const lenis = new Lenis({ lerp: 0.1 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+        requestAnimationFrame(raf);
+
+        // Custom Cursor (Desktop Only)
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "none" });
+            });
+            document.querySelectorAll('a, button, .serif').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15 }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+            });
+        }
+
+        // GSAP Implementation
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Mask Reveal
+        gsap.to(".reveal-text span", {
+            y: 0, duration: 1.8, ease: "expo.out", stagger: 0.1, delay: 0.5
+        });
+
+        // Responsive Scroll Logic (Resolved)
+        let mm = gsap.matchMedia();
+        mm.add("(min-width: 1024px)", () => {
+            const track = document.getElementById("work");
+            const pinWrapper = document.getElementById("work-pin-wrapper");
+            let sections = gsap.utils.toArray(".horizontal-item");
+            
+            gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: pinWrapper,
+                    pin: true,
+                    scrub: 1,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                    end: () => "+=" + (track.scrollWidth - window.innerWidth)
+                }
+            });
+        });
+
+        // Universal Intersection Reveals
+        document.querySelectorAll('.reveal-el, section h2, .project-img-wrapper, p').forEach(el => {
+            gsap.from(el, {
+                opacity: 0, 
+                y: 30, 
+                duration: 1.5, 
+                ease: "power3.out",
+                scrollTrigger: { 
+                    trigger: el, 
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        // Persistent Nav Blur and Height Adjust on Scroll
+        ScrollTrigger.create({
+            start: "top -40",
+            onEnter: () => {
+                const nav = document.getElementById('main-nav');
+                nav.classList.add('blur-header');
+                gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 80, duration: 0.5, ease: "expo.out" });
+            },
+            onLeaveBack: () => {
+                const nav = document.getElementById('main-nav');
+                nav.classList.remove('blur-header');
+                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.5, ease: "expo.out" });
+            }
+        });
+
+        window.addEventListener('resize', () => ScrollTrigger.refresh());
+    </script>
+</body>
+</html>
