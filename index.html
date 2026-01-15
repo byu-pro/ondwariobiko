@@ -84,7 +84,6 @@
             transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
         }
 
-        /* Scroll Progress */
         #progress-bar {
             position: fixed;
             top: 0; left: 0; width: 0%; height: 2px;
@@ -93,7 +92,6 @@
             mix-blend-mode: difference;
         }
 
-        /* Grid System */
         .grid-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -146,7 +144,6 @@
         .btn-magnetic:hover { color: black; border-color: white; }
         .btn-magnetic:hover::before { width: 300%; height: 300%; }
 
-        /* Work Section Horizontal */
         @media (min-width: 1024px) {
             .horizontal-track {
                 display: flex;
@@ -173,7 +170,6 @@
             }
         }
 
-        /* Project Wrapper */
         .project-img-wrapper {
             width: 100%;
             max-width: 1100px;
@@ -224,7 +220,6 @@
             transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
         }
 
-        /* Mobile Nav Overlay Fix - Strictly Hidden by Default */
         .mobile-nav-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100dvh;
@@ -267,7 +262,6 @@
         .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
-        /* Inverted Mode Refinement */
         .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
         .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
         .inverted .border-white\/5 { border-color: rgba(0,0,0,0.06); }
@@ -281,7 +275,6 @@
             font-weight: 600;
         }
 
-        /* Live Status */
         .live-status {
             display: flex;
             align-items: center;
@@ -301,6 +294,12 @@
         .reveal-up { opacity: 0; transform: translateY(60px); }
         .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.8s ease; }
         .scale-up.active { transform: scale(1); opacity: 1; }
+
+        /* Impact Point Styling */
+        .impact-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .impact-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .impact-dot { width: 4px; height: 4px; background: currentColor; border-radius: 50%; margin-top: 0.75rem; flex-shrink: 0; opacity: 0.3; }
+        .impact-text { font-weight: 300; line-height: 1.6; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
@@ -308,7 +307,6 @@
     <div id="cursor"></div>
     <div class="noise"></div>
 
-    <!-- Architectural Grid - TYPO FIXED -->
     <div class="grid-overlay">
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
@@ -341,7 +339,6 @@
         </div>
     </nav>
 
-    <!-- MOBILE OVERLAY - Structured to remain hidden unless active -->
     <div class="mobile-nav-overlay" id="mobile-nav">
         <div class="flex flex-col space-y-2">
             <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
@@ -389,7 +386,7 @@
         </div>
     </section>
 
-    <!-- WHO I WORK WITH (INVERTED) -->
+    <!-- INDEX 01: MENTAL MODEL -->
     <section id="who" class="inverted border-y border-black/5">
         <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10">
             <div class="lg:col-span-4">
@@ -398,38 +395,68 @@
             </div>
             <div class="lg:col-span-8">
                 <p class="serif text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] text-black mb-14 reveal-up">
-                    I work with founders, growing businesses, and organizations who value clarity, strategic thinking, and brand credibility — not surface-level design or quick fixes.
+                    I work with founders and teams in tech, ecommerce, and service brands who value clarity, strategic thinking, and long-term credibility.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- WHAT I HELP WITH -->
+    <!-- INDEX 02: CAPABILITIES (Refined for Impact & Scannability) -->
     <section id="about" class="border-b border-white/5">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 02</span>
             <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-24 reveal-up">Capabilities</h2>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-20">
+                <!-- Brand Identity -->
                 <div class="reveal-up">
                     <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
-                    <h3 class="text-2xl font-medium mb-6">Clarifying</h3>
-                    <p class="text-lg text-[#777] leading-relaxed font-light">Clarifying brand identity through logo and visual systems that scale with your growth.</p>
+                    <h3 class="text-2xl font-medium mb-10">Identity</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Translate complex business strategy into high-fidelity visual identity systems.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Build instant audience trust and market recognition through rigorous design standards.</p>
+                        </div>
+                    </div>
                 </div>
+                <!-- Web Systems -->
                 <div class="reveal-up">
                     <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
-                    <h3 class="text-2xl font-medium mb-6">Designing</h3>
-                    <p class="text-lg text-[#777] leading-relaxed font-light">Designing websites that communicate trust and intent, built for performance and longevity.</p>
+                    <h3 class="text-2xl font-medium mb-10">Systems</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Architect digital platforms that convert business objectives into seamless user journeys.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Deliver high-performance web systems optimized for longevity, accessibility, and speed.</p>
+                        </div>
+                    </div>
                 </div>
+                <!-- Continuity -->
                 <div class="reveal-up">
                     <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
-                    <h3 class="text-2xl font-medium mb-6">Supporting</h3>
-                    <p class="text-lg text-[#777] leading-relaxed font-light">Supporting long-term brand consistency across digital platforms for coherent messaging.</p>
+                    <h3 class="text-2xl font-medium mb-10">Growth</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Sustain brand authority through cohesive standards across every digital touchpoint.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Scale visual communication systems that adapt as the organization grows in complexity.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SELECTED WORK -->
+    <!-- INDEX 03: SELECTED WORK -->
     <div id="work-trigger" class="work-section bg-[#050505]">
         <div class="px-[var(--gutter)] pt-32 pb-16">
             <div class="max-w-screen-2xl mx-auto">
@@ -447,8 +474,8 @@
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Aquapet Kenya</h3>
-                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Aquapet Kenya</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
                             <div class="project-hover-overlay">
@@ -462,8 +489,8 @@
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Fast Kat Connects</h3>
-                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Fast Kat Connects</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/fastkat.jpg" alt="Fast Kat" class="project-img">
                             <div class="project-hover-overlay">
@@ -477,8 +504,8 @@
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Ocean Line</h3>
-                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ocean Line</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/oceanline.jpg" alt="Ocean Line" class="project-img">
                             <div class="project-hover-overlay">
@@ -492,8 +519,8 @@
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Ikon Trailers</h3>
-                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ikon Trailers</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/ikontrailers.jpg" alt="Ikon Trailers" class="project-img">
                             <div class="project-hover-overlay">
@@ -507,7 +534,7 @@
         </div>
     </div>
 
-    <!-- DESIGN PHILOSOPHY -->
+    <!-- INDEX 04: PRINCIPLES -->
     <section class="inverted border-t border-black/5">
         <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
             <span class="section-index mb-10">INDEX 04</span>
@@ -523,7 +550,7 @@
         </div>
     </section>
 
-    <!-- CLOSING CTA -->
+    <!-- INDEX 05: COLLABORATIONS -->
     <footer id="contact" class="pb-20 pt-40 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
             <div class="mb-48">
@@ -536,7 +563,24 @@
                     <a href="mailto:ondwariobiko@gmail.com" class="text-3xl sm:text-5xl lg:text-7xl underline underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
                         Send an inquiry
                     </a>
-                    <div class="mt-16 flex flex-col gap-3">
+
+                    <!-- Credibility & Trust Block -->
+                    <div class="mt-32 pt-16 border-t border-white/5 grid lg:grid-cols-2 gap-20 w-full">
+                        <div>
+                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
+                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                                Partnering with founders in Nairobi, London, and Berlin to transform technical complexity into clear, high-trust brand systems.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">The Mandate</span>
+                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                                A rigorous blend of business strategy and high-fidelity design, ensuring every pixel serves a commercial purpose and enduring brand equity.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-24 flex flex-col gap-3">
                         <span class="text-[9px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
                         <a href="mailto:ondwariobiko@gmail.com" class="text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
                         <a href="tel:+254702255575" class="text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
@@ -557,7 +601,6 @@
     </footer>
 
     <script>
-        // Update Local Time
         function updateTime() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
@@ -566,7 +609,6 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Toggle Mobile Menu
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
             menu.classList.toggle('active');
@@ -574,12 +616,10 @@
             if (isActive) lenis.stop(); else lenis.start();
         }
 
-        // Initialize Lenis
         const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
-        // Advanced Magnetic Cursor & Interactions
         const cursor = document.getElementById('cursor');
         if (window.matchMedia("(pointer: fine)").matches) {
             cursor.style.display = 'block';
@@ -601,7 +641,6 @@
                 });
             });
 
-            // Magnetic Nav Links
             document.querySelectorAll('.nav-magnetic-item').forEach(el => {
                 el.addEventListener('mousemove', (e) => {
                     const rect = el.getBoundingClientRect();
@@ -615,24 +654,20 @@
             });
         }
 
-        // GSAP Implementation
         gsap.registerPlugin(ScrollTrigger);
 
-        // Page Progress
         gsap.to("#progress-bar", {
             width: "100%",
             ease: "none",
             scrollTrigger: { scrub: 0.3 }
         });
 
-        // Entrance Timeline
         const mainTl = gsap.timeline({ defaults: { ease: "expo.out", duration: 2 } });
         mainTl.to(".reveal-text span", { y: 0, stagger: 0.1, delay: 0.5 })
               .to("#hero-cred", { opacity: 1, y: 0, duration: 1.5 }, "-=1.4")
               .to("#hero-sub", { opacity: 1, y: 0, duration: 1.5 }, "-=1.3")
               .to("#hero-cta", { opacity: 1, y: 0, duration: 1.5 }, "-=1.2");
 
-        // Horizontal Scroll
         let mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
             const track = document.getElementById("work");
@@ -652,7 +687,6 @@
             });
         });
 
-        // Intersection Reveals
         document.querySelectorAll('.reveal-up').forEach(el => {
             gsap.to(el, {
                 opacity: 1, y: 0, duration: 1.8, ease: "expo.out",
@@ -667,7 +701,6 @@
             });
         });
 
-        // Sticky Nav Logic
         ScrollTrigger.create({
             start: "top -40",
             onEnter: () => {
