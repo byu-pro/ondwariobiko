@@ -36,7 +36,23 @@
             padding: 0; 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Prevent potential scroll conflicts */
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
         }
 
         body {
@@ -592,7 +608,6 @@
         }
         setInterval(updateTime, 1000); updateTime();
 
-        // Reverted to original toggle logic as requested
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
             if (!menu) return;
@@ -606,18 +621,18 @@
         }
 
         const lenis = new Lenis({ 
-            lerp: 0.1, 
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothTouch: true, // Improved for mobile responsiveness
-            wheelMultiplier: 1,
-            touchMultiplier: 1.5,
-            normalizeWheel: true,
+            smoothTouch: false, // Critical: Disable virtual touch scrolling to fix jumping on mobile
+            touchMultiplier: 2,
             infinite: false,
         });
 
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+        function raf(time) { 
+            lenis.raf(time); 
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
 
         const cursor = document.getElementById('cursor');
@@ -655,8 +670,12 @@
         }
 
         gsap.registerPlugin(ScrollTrigger);
+        
+        // Sync Lenis with GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
         gsap.ticker.lagSmoothing(0);
 
         window.addEventListener('load', () => {
@@ -689,7 +708,11 @@
                     xPercent: -100 * (sections.length - 1),
                     ease: "none",
                     scrollTrigger: {
-                        trigger: pinWrapper, pin: true, scrub: 0.8, invalidateOnRefresh: true, force3D: true,
+                        trigger: pinWrapper, 
+                        pin: true, 
+                        scrub: 1, 
+                        invalidateOnRefresh: true, 
+                        force3D: true,
                         end: () => "+=" + (track.scrollWidth - window.innerWidth)
                     }
                 });
@@ -700,9 +723,13 @@
             gsap.to(el, {
                 opacity: 1, 
                 y: 0, 
-                duration: window.innerWidth < 1024 ? 1.2 : 1.8, // Faster response on mobile
-                ease: "expo.out",
-                scrollTrigger: { trigger: el, start: "top 96%", toggleActions: "play none none none" }
+                duration: window.innerWidth < 1024 ? 1 : 1.5,
+                ease: "power3.out",
+                scrollTrigger: { 
+                    trigger: el, 
+                    start: "top 92%", 
+                    toggleActions: "play none none none" 
+                }
             });
         });
 
@@ -728,7 +755,14 @@
             }
         });
 
-        window.addEventListener('resize', () => ScrollTrigger.refresh());
+        // Use a debounce for resize to prevent scroll jumping on mobile browser UI changes
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 250);
+        });
     </script>
 </body>
 </html>

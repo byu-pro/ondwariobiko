@@ -36,7 +36,23 @@
             padding: 0; 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Essential Lenis Fixes for Mobile Stability */
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
         }
 
         body {
@@ -462,19 +478,25 @@
         }
 
         const lenis = new Lenis({ 
-            lerp: 0.1, 
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true, 
-            force3D: true,
-            smoothTouch: true, // Optimized for mobile premium feel
-            touchMultiplier: 1.5,
-            normalizeWheel: true
+            smoothTouch: false, // Critical: Disable virtual touch scrolling to fix jumping on mobile
+            touchMultiplier: 2,
+            infinite: false,
         });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+
+        function raf(time) { 
+            lenis.raf(time); 
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
 
         gsap.registerPlugin(ScrollTrigger);
         lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.add((time)=>{ 
+            lenis.raf(time * 1000); 
+        });
         gsap.ticker.lagSmoothing(0);
 
         window.addEventListener('load', () => {
@@ -503,11 +525,11 @@
             gsap.to(el, { 
                 opacity: 1, 
                 y: 0, 
-                duration: window.innerWidth < 1024 ? 1.2 : 1.8, // Snappier on mobile
-                ease: "expo.out", 
+                duration: window.innerWidth < 1024 ? 1 : 1.5, // Snappier on mobile
+                ease: "power3.out", 
                 scrollTrigger: { 
                     trigger: el, 
-                    start: "top 96%",
+                    start: "top 92%",
                     toggleActions: "play none none none" 
                 } 
             });
@@ -541,7 +563,14 @@
             });
         }
 
-        window.addEventListener('resize', () => ScrollTrigger.refresh());
+        // Optimized resize logic
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 250);
+        });
     </script>
 </body>
 </html>
