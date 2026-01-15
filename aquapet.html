@@ -24,9 +24,9 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1.25rem, 5vw, 6rem);
-            --header-h: 70px;
-            --radius: 2rem;
+            --gutter: clamp(1rem, 5vw, 6rem);
+            --header-h: 60px;
+            --radius: clamp(0.75rem, 2vw, 2rem);
         }
 
         @media (min-width: 1024px) { :root { --header-h: 120px; } }
@@ -39,10 +39,10 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; /* Entrance transition trigger */
+            opacity: 0;
+            width: 100%;
         }
 
-        /* Responsive Transition Curtain */
         #page-transition-mask {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100dvh;
@@ -80,16 +80,17 @@
 
         .grid-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: grid; grid-template-columns: repeat(12, 1fr);
-            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.3;
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
         }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
         .grid-col { border-right: 1px solid var(--border); height: 100%; }
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
         .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
 
-        section { position: relative; width: 100%; padding: clamp(4rem, 12vw, 15rem) var(--gutter); }
+        section { position: relative; width: 100%; padding: clamp(3.5rem, 12vw, 15rem) var(--gutter); }
 
         .blur-header {
             backdrop-filter: blur(25px);
@@ -97,97 +98,96 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
+        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 768px) { .main-logo { height: 22px; } }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
         .section-index {
-            font-size: 9px; letter-spacing: 0.4em; opacity: 0.3;
-            margin-bottom: 2.5rem; display: block; font-weight: 600;
+            font-size: 7px; letter-spacing: 0.4em; opacity: 0.3;
+            margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
         }
 
-        /* Metadata Responsive Grid */
         .case-header-meta {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 2rem; border-top: 1px solid var(--border);
-            padding-top: 2.5rem; margin-top: 5rem;
+            display: grid; 
+            grid-template-columns: 1fr;
+            gap: 1.5rem; border-top: 1px solid var(--border);
+            padding-top: 2rem; margin-top: 3rem;
         }
-        @media (min-width: 1024px) { .case-header-meta { grid-template-columns: repeat(5, 1fr); } }
+        @media (min-width: 480px) { .case-header-meta { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 768px) { .case-header-meta { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .case-header-meta { grid-template-columns: repeat(5, 1fr); margin-top: 5rem; padding-top: 2.5rem; } }
 
         .meta-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.4em; opacity: 0.3; margin-bottom: 0.5rem; display: block; }
-        .meta-value { font-size: 14px; font-weight: 400; color: #bbb; }
-        .meta-value a { color: var(--fg); text-decoration: none; transition: opacity 0.3s; }
+        .meta-value { font-size: 13px; font-weight: 400; color: #bbb; line-height: 1.4; }
+        .meta-value a { color: var(--fg); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+        .meta-value a:hover { border-color: var(--fg); }
 
-        /* Full Width Bleed */
         .case-image-full-bleed {
             width: 100%; background: #111; overflow: hidden;
-            margin: 0; border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            will-change: transform;
+            position: relative;
         }
-        .case-image-full-bleed img, .case-image-full-bleed video { width: 100%; height: 100%; object-fit: cover; }
+        .case-image-full-bleed.hero { aspect-ratio: 4/5; margin-top: 4rem; }
+        @media (min-width: 768px) { .case-image-full-bleed.hero { aspect-ratio: 16/9; margin-top: 8rem; } }
 
-        .content-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5em; margin-bottom: 1.5rem; display: block; opacity: 0.4; }
-        .content-heading-large { font-size: clamp(2.2rem, 6vw, 6rem); line-height: 1; margin-bottom: 3.5rem; letter-spacing: -0.02em; color: var(--fg); }
-        .content-body-text { font-size: clamp(1.05rem, 1.5vw, 1.3rem); line-height: 1.6; font-weight: 300; color: #999; }
+        .case-image-full-bleed img, .case-image-full-bleed video { 
+            width: 100%; height: 100%; object-fit: cover; 
+            position: absolute; top: 0; left: 0;
+        }
+
+        .content-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.5em; margin-bottom: 1.25rem; display: block; opacity: 0.4; }
+        .content-heading-large { font-size: clamp(1.75rem, 8vw, 6rem); line-height: 1.1; margin-bottom: 2rem; letter-spacing: -0.02em; color: var(--fg); }
+        @media (min-width: 1024px) { .content-heading-large { line-height: 1; margin-bottom: 3.5rem; } }
+        
+        .content-body-text { font-size: clamp(1rem, 1.4vw, 1.3rem); line-height: 1.6; font-weight: 300; color: #999; }
 
         .live-btn {
             display: inline-flex; align-items: center; gap: 12px;
-            margin-top: 3.5rem; padding: 1.1rem 2.5rem;
+            margin-top: 2rem; padding: 0.85rem 1.75rem;
             border: 1px solid var(--border); border-radius: 999px;
-            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em;
+            font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em;
             color: var(--fg); transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
+        @media (min-width: 1024px) { .live-btn { margin-top: 3.5rem; padding: 1.1rem 2.5rem; font-size: 0.65rem; } }
         .live-btn:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 
-        .reveal-up { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
-
-        .back-link {
-            display: inline-flex; align-items: center; gap: 12px;
-            font-size: 9px; text-transform: uppercase; letter-spacing: 0.4em;
-            opacity: 0.4; transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .back-link:hover { opacity: 1; transform: translateX(-8px); }
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
 
         .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
         .inverted h1, .inverted h2, .inverted h3, .inverted p, .inverted span { color: #080808 !important; }
 
-        /* Multi-Image Gallery Grid (Responsive) */
         .case-gallery-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem; margin: 5rem 0;
+            display: grid; grid-template-columns: 1fr;
+            gap: 1rem; margin: 2.5rem 0;
         }
-        @media (max-width: 640px) {
-            .case-gallery-grid { grid-template-columns: 1fr; }
-            .gallery-wide, .gallery-square, .gallery-portrait { grid-column: span 1; }
+        @media (min-width: 640px) { 
+            .case-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin: 5rem 0; }
+            .gallery-wide { grid-column: span 2; }
         }
-        .gallery-wide { grid-column: span 2; aspect-ratio: 21/9; }
-        .gallery-square { grid-column: span 1; aspect-ratio: 1/1; }
-        .gallery-portrait { grid-column: span 1; aspect-ratio: 4/5; }
+        
+        .gallery-wide { aspect-ratio: 4/3; }
+        @media (min-width: 768px) { .gallery-wide { aspect-ratio: 21/9; } }
+        .gallery-square { aspect-ratio: 1/1; }
+        .gallery-portrait { aspect-ratio: 4/5; }
         
         .media-container {
             width: 100%; height: 100%; background: #0c0c0c;
             overflow: hidden; border: 1px solid var(--border);
-            border-radius: var(--radius); will-change: transform;
+            border-radius: var(--radius); position: relative;
         }
         .media-container img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: absolute; top: 0; left: 0;
         }
 
         .sketch-section { 
             background: #0c0c0c; border-radius: var(--radius); 
-            padding: clamp(2rem, 8vw, 6rem); margin: 6rem 0; 
+            padding: 1.5rem; margin: 3rem 0; 
             border: 1px solid var(--border); 
         }
-
-        /* Sync Navigation Links & Mobile Overlay with Index.html */
-        .nav-link { position: relative; transition: opacity 0.3s; }
-        .nav-link::after {
-            content: ''; position: absolute;
-            bottom: -4px; left: 0; width: 0; height: 1px;
-            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .nav-link:hover::after { width: 100%; }
+        @media (min-width: 768px) { .sketch-section { padding: 3rem; margin: 4rem 0; } }
+        @media (min-width: 1024px) { .sketch-section { padding: clamp(2rem, 8vw, 6rem); margin: 6rem 0; } }
 
         .mobile-nav-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
@@ -202,25 +202,22 @@
             visibility: visible;
             pointer-events: auto;
         }
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; }
+        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
-        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 9px; letter-spacing: 0.2em; }
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Sophisticated Page Transition Curtain -->
     <div id="page-transition-mask"></div>
-
     <div id="cursor"></div>
     <div class="noise"></div>
 
     <div class="grid-overlay">
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
-    <!-- Synchronized Navigation -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
             <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6">
@@ -239,7 +236,7 @@
                 <a href="#" class="nav-link page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
             
             <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
@@ -247,25 +244,23 @@
         </div>
     </nav>
 
-    <!-- Synchronized Mobile Overlay -->
     <div class="mobile-nav-overlay" id="mobile-nav">
-        <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
+        <div class="flex flex-col space-y-4">
+            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
-        <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
-            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
-            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4" onclick="toggleMenu()">[ Close ]</button>
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
+            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
         </div>
     </div>
 
-    <!-- HEADER -->
-    <header class="pt-40 lg:pt-60 px-[var(--gutter)]">
+    <header class="pt-28 md:pt-40 lg:pt-60 px-[var(--gutter)]">
         <div class="max-w-screen-2xl mx-auto">
-            <h1 class="reveal-text serif text-[clamp(3rem,10vw,11rem)] leading-[0.85] tracking-tighter mb-12">
+            <h1 class="reveal-text serif text-[clamp(2.5rem,10vw,11rem)] leading-[0.95] tracking-tighter mb-8 md:mb-12">
                 <span>Aquapet Kenya</span>
             </h1>
             
@@ -279,16 +274,14 @@
         </div>
     </header>
 
-    <!-- ASSET 1: MAIN HERO IMAGE - BLEED -->
-    <div class="case-image-full-bleed reveal-up" style="aspect-ratio: 16/9; margin-top: 8rem;">
+    <div class="case-image-full-bleed hero reveal-up">
         <img src="images/aquapet-hero.jpg" alt="Aquapet Kenya Identity Showcase">
     </div>
 
-    <!-- INDEX 01: SUMMARY -->
     <section>
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 01 / SUMMARY</span>
-            <div class="grid lg:grid-cols-12 gap-10 lg:gap-24">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-24">
                 <div class="lg:col-span-12">
                     <p class="serif content-heading-large reveal-up">
                         Redefining professional aquatic distribution through a visual system that establishes trust and market authority.
@@ -306,21 +299,20 @@
         </div>
     </section>
 
-    <!-- INDEX 02: ANALYSIS -->
     <section class="border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 02 / ANALYSIS</span>
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+            <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-24">
                 <div class="lg:col-span-5">
                     <span class="content-label">01 / The Environment</span>
-                    <h3 class="serif text-3xl lg:text-4xl mb-8 italic">The technical gap.</h3>
+                    <h3 class="serif text-2xl md:text-3xl lg:text-4xl mb-6 md:mb-8 italic">The technical gap.</h3>
                     <p class="content-body-text">
                         Aquapet had built a reputation for excellence, but their legacy identity had remained static while their business pivoted toward premium global distribution.
                     </p>
                 </div>
                 <div class="lg:col-start-7 lg:col-span-6">
                     <span class="content-label">02 / The Real Problem</span>
-                    <h3 class="serif text-3xl lg:text-4xl mb-8 italic">Perception as a barrier.</h3>
+                    <h3 class="serif text-2xl md:text-3xl lg:text-4xl mb-6 md:mb-8 italic">Perception as a barrier.</h3>
                     <p class="content-body-text">
                         The challenge was a disconnect between their <strong>technical capability</strong> and their <strong>perceived value</strong>. This gap hindered their ability to secure large-scale commercial contracts.
                     </p>
@@ -329,22 +321,21 @@
         </div>
     </section>
 
-    <!-- INDEX 03: STRATEGY -->
     <section class="inverted">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 03 / STRATEGY</span>
-            <div class="grid lg:grid-cols-12 gap-10 lg:gap-24">
-                <div class="lg:col-span-8">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-24">
+                <div class="lg:col-span-9">
                     <h2 class="serif content-heading-large reveal-up">The mission was "Precision Vitality."</h2>
                 </div>
-                <div class="lg:col-span-12 grid lg:grid-cols-12 gap-10 items-end mt-12">
+                <div class="lg:col-span-12 grid md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 items-start mt-6 md:mt-12">
                     <div class="lg:col-span-5">
                         <p class="content-body-text">
                             We engineered a system focused on <strong>clarity through reduction</strong>. Allowing Aquapet's core values—integrity and precision—to lead the conversation. 
                         </p>
                     </div>
-                    <div class="lg:col-start-7 lg:col-span-6 lg:border-l border-black/10 lg:pl-16 mt-10 lg:mt-0">
-                        <span class="content-label mb-6 block">The Logic</span>
+                    <div class="lg:col-start-7 lg:col-span-6 md:border-l border-black/10 md:pl-10 lg:pl-16">
+                        <span class="content-label mb-4 md:mb-6 block">The Logic</span>
                         <p class="content-body-text font-medium">
                             The new mark was designed for extreme scalability, ensuring the brand remains legible and authoritative in every environment.
                         </p>
@@ -354,20 +345,19 @@
         </div>
     </section>
 
-    <!-- PROCESS: LOGO SKETCH -->
     <section class="!py-0">
         <div class="max-w-screen-2xl mx-auto">
             <div class="sketch-section reveal-up">
-                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="grid md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 items-center">
                     <div class="lg:col-span-4">
                         <span class="content-label">The Genesis</span>
-                        <h3 class="serif text-3xl lg:text-4xl text-white mb-8 italic">From graphite to geometry.</h3>
-                        <p class="text-base text-[#777] leading-relaxed font-light">
+                        <h3 class="serif text-2xl md:text-3xl lg:text-4xl text-white mb-6 md:mb-8 italic">From graphite to geometry.</h3>
+                        <p class="text-sm md:text-base text-[#777] leading-relaxed font-light">
                             Every curve was refined to balance organic life with industrial precision.
                         </p>
                     </div>
                     <div class="lg:col-span-8">
-                        <div class="media-container aspect-[3/2]">
+                        <div class="media-container aspect-[4/3] md:aspect-[3/2]">
                             <img src="images/aquapet-sketch.jpg" alt="Logo Sketch Process">
                         </div>
                     </div>
@@ -376,15 +366,13 @@
         </div>
     </section>
 
-    <!-- ASSET 2: BRAND REEL VIDEO - BLEED -->
     <div class="case-image-full-bleed reveal-up" style="aspect-ratio: 16/9;">
         <video autoplay loop muted playsinline poster="images/aquapet-video-poster.jpg">
             <source src="video/aquapet-brand-reel.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- INDEX 04: VISUAL LANGUAGE GALLERY - CURVED -->
-    <section class="!py-0 mt-20">
+    <section class="!pb-0 mt-10 md:mt-20">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 04 / VISUAL LANGUAGE</span>
             <div class="case-gallery-grid">
@@ -397,12 +385,11 @@
         </div>
     </section>
 
-    <!-- INDEX 05: RESULTS -->
     <section class="border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 05 / RESULTS</span>
-            <div class="grid lg:grid-cols-12 gap-10 lg:gap-24">
-                <div class="lg:col-span-8">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-24">
+                <div class="lg:col-span-9">
                     <h2 class="serif content-heading-large reveal-up">Established Market Authority.</h2>
                 </div>
                 <div class="lg:col-start-6 lg:col-span-7">
@@ -414,15 +401,14 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="pt-32 pb-16 border-t border-white/5">
+    <footer class="pt-20 md:pt-32 pb-12 md:pb-16 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] text-center">
-            <h2 class="text-[9px] tracking-[0.6em] uppercase opacity-30 mb-14">Next Project</h2>
-            <a href="fast-kat.html" class="serif text-[clamp(2.5rem,8vw,11rem)] text-white font-light leading-none hover:italic transition-all duration-700 block mb-32 page-nav-link">Fast Kat Connects</a>
+            <h2 class="text-[8px] tracking-[0.6em] uppercase opacity-30 mb-8 md:mb-14">Next Project</h2>
+            <a href="fast-kat.html" class="serif text-[clamp(2.2rem,8vw,10rem)] text-white font-light leading-none hover:italic transition-all duration-700 block mb-20 md:mb-32 page-nav-link">Fast Kat Connects</a>
             
-            <div class="flex flex-col lg:flex-row justify-between pt-16 border-t border-white/5 gap-10 text-[9px] uppercase tracking-[0.4em] opacity-30 text-left">
+            <div class="flex flex-col lg:flex-row justify-between pt-12 md:pt-16 border-t border-white/5 gap-8 md:gap-10 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30 text-left">
                 <div>© 2026 ondwariobiko — Strategic Brand Systems</div>
-                <div class="flex flex-wrap gap-12">
+                <div class="flex flex-wrap gap-x-10 gap-y-4">
                     <a href="index.html" class="hover:text-white page-nav-link">Home</a>
                     <a href="mailto:ondwariobiko@gmail.com" class="hover:text-white">Contact</a>
                 </div>
@@ -458,7 +444,6 @@
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
 
-        // Entrance
         window.addEventListener('load', () => {
             gsap.timeline()
                 .to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
@@ -466,7 +451,6 @@
                 .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4");
         });
 
-        // Exit Transition
         document.querySelectorAll('.page-nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 const dest = link.getAttribute('href');
@@ -481,21 +465,20 @@
             gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 95%" } });
         });
 
-        // Synchronized Header Logic with Index.html
         ScrollTrigger.create({
             start: "top -40",
             onEnter: () => {
                 const nav = document.getElementById('main-nav');
                 if (nav) {
                     nav.classList.add('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6, ease: "expo.out" });
                 }
             },
             onLeaveBack: () => {
                 const nav = document.getElementById('main-nav');
                 if (nav) {
                     nav.classList.remove('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6, ease: "expo.out" });
                 }
             }
         });

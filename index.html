@@ -24,8 +24,9 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1rem, 5vw, 5rem);
-            --header-h: 70px;
+            --gutter: clamp(1rem, 5vw, 6rem);
+            --header-h: 60px;
+            --radius: clamp(0.75rem, 2vw, 2rem);
         }
 
         @media (min-width: 1024px) { :root { --header-h: 120px; } }
@@ -38,10 +39,10 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; /* Hidden for entrance transition */
+            opacity: 0; 
+            width: 100%;
         }
 
-        /* Sophisticated Page Transition Curtain */
         #page-transition-mask {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -61,19 +62,7 @@
             animation: noise-move 0.2s steps(2) infinite;
         }
 
-        @keyframes noise-move {
-            0% { transform: translate(0,0); }
-            10% { transform: translate(-1%,-1%); }
-            20% { transform: translate(1%,1%); }
-            30% { transform: translate(-2%,1%); }
-            40% { transform: translate(1%,-2%); }
-            50% { transform: translate(-1%,1%); }
-            60% { transform: translate(-2%,-2%); }
-            70% { transform: translate(1%,1%); }
-            80% { transform: translate(-1%,-1%); }
-            90% { transform: translate(1%,-2%); }
-            100% { transform: translate(0,0); }
-        }
+        @keyframes noise-move { 0% { transform: translate(0,0); } 100% { transform: translate(1%,1%); } }
 
         .serif { font-family: var(--font-serif); font-weight: 400; }
         
@@ -98,22 +87,13 @@
         }
 
         .grid-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            padding: 0 var(--gutter);
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.3;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
         }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
         .grid-col { border-right: 1px solid var(--border); height: 100%; }
         .grid-col:first-child { border-left: 1px solid var(--border); }
-
-        @media (max-width: 1023px) {
-            .grid-overlay { grid-template-columns: repeat(6, 1fr); }
-            .grid-col:nth-child(n+7) { display: none; }
-        }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
         .reveal-text span { display: inline-block; transform: translateY(115%); }
@@ -122,10 +102,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1.25rem 3rem;
+            padding: 1rem 2.5rem;
             border: 1px solid var(--border);
             border-radius: 999px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
@@ -134,6 +114,7 @@
             position: relative;
             overflow: hidden;
         }
+        @media (min-width: 1024px) { .btn-magnetic { padding: 1.25rem 3rem; font-size: 0.7rem; } }
 
         .btn-magnetic::before {
             content: '';
@@ -170,7 +151,7 @@
 
         @media (max-width: 1023px) {
             .horizontal-item { 
-                padding: clamp(4rem, 10vh, 8rem) var(--gutter);
+                padding: clamp(3.5rem, 10vh, 8rem) var(--gutter);
                 border-bottom: 1px solid var(--border);
             }
         }
@@ -188,6 +169,7 @@
             cursor: pointer;
             display: block;
             will-change: transform;
+            border-radius: var(--radius);
         }
 
         .project-img {
@@ -228,16 +210,10 @@
         }
 
         .mobile-nav-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100dvh;
-            background: var(--bg);
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 var(--gutter);
-            transform: translateY(-100%);
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: var(--bg); z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 var(--gutter);
+            transform: translateY(-100%); transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
             visibility: hidden;
             pointer-events: none;
         }
@@ -247,18 +223,19 @@
             visibility: visible;
             pointer-events: auto;
         }
+        
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; }
+        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
         .nav-link { position: relative; transition: opacity 0.3s; }
         .nav-link::after {
-            content: '';
-            position: absolute;
+            content: ''; position: absolute;
             bottom: -4px; left: 0; width: 0; height: 1px;
-            background: white;
-            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .nav-link:hover::after { width: 100%; }
         
-        section { position: relative; width: 100%; padding: clamp(6rem, 15vw, 15rem) var(--gutter); }
+        section { position: relative; width: 100%; padding: clamp(4rem, 15vw, 15rem) var(--gutter); }
 
         .blur-header {
             backdrop-filter: blur(25px);
@@ -266,7 +243,8 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
+        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 768px) { .main-logo { height: 22px; } }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
         .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
@@ -274,31 +252,15 @@
         .inverted .border-white\/5 { border-color: rgba(0,0,0,0.06); }
 
         .section-index {
-            font-size: 10px;
-            letter-spacing: 0.3em;
-            opacity: 0.2;
-            margin-bottom: 2rem;
-            display: block;
-            font-weight: 600;
+            font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
+            margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
         }
 
-        .live-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.5;
-            font-size: 9px;
-            letter-spacing: 0.2em;
-        }
-        .live-dot {
-            width: 4px; height: 4px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .reveal-up { opacity: 0; transform: translateY(60px); }
+        .reveal-up { opacity: 0; transform: translateY(40px); }
         .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.8s ease; }
         .scale-up.active { transform: scale(1); opacity: 1; }
 
@@ -310,17 +272,13 @@
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Sophisticated Page Transition Curtain -->
     <div id="page-transition-mask"></div>
-
     <div id="progress-bar"></div>
     <div id="cursor"></div>
     <div class="noise"></div>
 
     <div class="grid-overlay">
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
@@ -341,7 +299,7 @@
                 <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
             
             <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
@@ -350,37 +308,37 @@
     </nav>
 
     <div class="mobile-nav-overlay" id="mobile-nav">
-        <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
+        <div class="flex flex-col space-y-4">
+            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
-        <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
-            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
-            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4" onclick="toggleMenu()">[ Close ]</button>
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
+            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
         </div>
     </div>
 
     <!-- HERO SECTION -->
-    <section class="min-h-screen flex flex-col justify-end pt-32 pb-20">
+    <section class="min-h-screen flex flex-col justify-end pt-28 pb-16 md:pb-20">
         <div class="max-w-screen-2xl w-full mx-auto">
-            <h1 class="reveal-text serif text-[clamp(2.8rem,9vw,10.5rem)] leading-[0.88] tracking-tighter mb-12">
+            <h1 class="reveal-text serif text-[clamp(2.5rem,9vw,10.5rem)] leading-[0.92] tracking-tighter mb-8 md:mb-12">
                 <span>I design strategic brand</span><br>
                 <span>and web systems for businesses</span><br>
                 <span>that need clarity, credibility,</span><br>
                 <span>and long-term impact.</span>
             </h1>
 
-            <div id="hero-cred" class="mb-14 overflow-hidden flex items-center gap-6 text-[10px] tracking-[0.5em] uppercase opacity-0 translate-y-6">
-                <div class="w-12 h-[1px] bg-white opacity-20"></div>
+            <div id="hero-cred" class="mb-10 md:mb-14 overflow-hidden flex items-center gap-6 text-[9px] md:text-[10px] tracking-[0.5em] uppercase opacity-0 translate-y-6">
+                <div class="w-8 md:w-12 h-[1px] bg-white opacity-20"></div>
                 Strategy-First Creative Partner based in Nairobi
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-12 items-end">
+            <div class="grid lg:grid-cols-12 gap-10 md:gap-12 items-end">
                 <div class="lg:col-span-8 xl:col-span-6">
-                    <p id="hero-sub" class="text-xl sm:text-2xl lg:text-3xl leading-snug text-[#999] font-light opacity-0 translate-y-6 max-w-2xl">
+                    <p id="hero-sub" class="text-lg md:text-xl lg:text-3xl leading-snug text-[#999] font-light opacity-0 translate-y-6 max-w-2xl">
                         Helping companies communicate who they are, what they stand for, and why they matter through thoughtful branding and web design.
                     </p>
                 </div>
@@ -401,10 +359,10 @@
         <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10">
             <div class="lg:col-span-4">
                 <span class="section-index">INDEX 01</span>
-                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
+                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
             </div>
             <div class="lg:col-span-8">
-                <p class="serif text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] text-black mb-14 reveal-up">
+                <p class="serif text-[clamp(1.85rem,5.5vw,5rem)] leading-[1.1] text-black mb-14 reveal-up">
                     I work with founders and teams in tech, ecommerce, and service brands who value clarity, strategic thinking, and long-term credibility.
                 </p>
             </div>
@@ -415,12 +373,12 @@
     <section id="about" class="border-b border-white/5">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 02</span>
-            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-24 reveal-up">Capabilities</h2>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-20">
+            <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-16 md:mb-24 reveal-up">Capabilities</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-20">
                 <!-- Brand Identity -->
                 <div class="reveal-up">
-                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
-                    <h3 class="text-2xl font-medium mb-10">Identity</h3>
+                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
+                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Identity</h3>
                     <div class="impact-list">
                         <div class="impact-item">
                             <div class="impact-dot"></div>
@@ -434,8 +392,8 @@
                 </div>
                 <!-- Web Systems -->
                 <div class="reveal-up">
-                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
-                    <h3 class="text-2xl font-medium mb-10">Systems</h3>
+                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
+                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Systems</h3>
                     <div class="impact-list">
                         <div class="impact-item">
                             <div class="impact-dot"></div>
@@ -449,8 +407,8 @@
                 </div>
                 <!-- Continuity -->
                 <div class="reveal-up">
-                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
-                    <h3 class="text-2xl font-medium mb-10">Growth</h3>
+                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
+                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Growth</h3>
                     <div class="impact-list">
                         <div class="impact-item">
                             <div class="impact-dot"></div>
@@ -468,11 +426,11 @@
 
     <!-- INDEX 03: SELECTED WORK -->
     <div id="work-trigger" class="work-section bg-[#050505]">
-        <div class="px-[var(--gutter)] pt-32 pb-16">
+        <div class="px-[var(--gutter)] pt-24 md:pt-32 pb-16">
             <div class="max-w-screen-2xl mx-auto">
                 <span class="section-index">INDEX 03</span>
-                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Proof of Work</h2>
-                <p class="serif text-[clamp(2rem,4vw,4rem)] text-[#eee] max-w-4xl font-light reveal-up leading-tight">
+                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Proof of Work</h2>
+                <p class="serif text-[clamp(1.75rem,4vw,4rem)] text-[#eee] max-w-4xl font-light reveal-up leading-tight">
                     A selection of branding and web projects designed to bring structure, clarity, and confidence to global businesses.
                 </p>
             </div>
@@ -483,11 +441,11 @@
                 <!-- Project 01 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
+                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
                         <a href="aquapet.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
+                            <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
                         </a>
-                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
+                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
                         <a href="aquapet.html" class="project-img-wrapper group scale-up page-nav-link">
                             <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
                             <div class="project-hover-overlay">
@@ -500,9 +458,9 @@
                 <!-- Project 02 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Fast Kat Connects</h3>
-                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
+                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
+                        <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic">Fast Kat Connects</h3>
+                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/fastkat.jpg" alt="Fast Kat" class="project-img">
                             <div class="project-hover-overlay">
@@ -515,9 +473,9 @@
                 <!-- Project 03 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ocean Line</h3>
-                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
+                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
+                        <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic">Ocean Line</h3>
+                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/oceanline.jpg" alt="Ocean Line" class="project-img">
                             <div class="project-hover-overlay">
@@ -530,9 +488,9 @@
                 <!-- Project 04 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ikon Trailers</h3>
-                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
+                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
+                        <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic">Ikon Trailers</h3>
+                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
                         <div class="project-img-wrapper group scale-up">
                             <img src="images/ikontrailers.jpg" alt="Ikon Trailers" class="project-img">
                             <div class="project-hover-overlay">
@@ -550,12 +508,12 @@
     <section class="inverted border-t border-black/5">
         <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
             <span class="section-index mb-10">INDEX 04</span>
-            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 mb-16 reveal-up">Principles</h2>
-            <p class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.92] tracking-tight mb-20 max-w-6xl text-black reveal-up">
+            <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 mb-12 md:mb-16 reveal-up">Principles</h2>
+            <p class="serif text-[clamp(2rem,7vw,8rem)] leading-[1.1] md:leading-[0.92] tracking-tight mb-12 md:mb-20 max-w-6xl text-black reveal-up">
                 I approach design as a strategic tool — not decoration.
             </p>
-            <div class="w-full max-w-4xl border-t border-black/10 pt-16 reveal-up">
-                 <p class="text-xl sm:text-2xl lg:text-3xl leading-relaxed text-[#555] font-light">
+            <div class="w-full max-w-4xl border-t border-black/10 pt-12 md:pt-16 reveal-up">
+                 <p class="text-lg md:text-2xl lg:text-3xl leading-relaxed text-[#555] font-light">
                     Every decision is shaped by context, purpose, and long-term impact. If it doesn't solve a problem, it's just noise.
                  </p>
             </div>
@@ -563,45 +521,45 @@
     </section>
 
     <!-- INDEX 05: COLLABORATIONS -->
-    <footer id="contact" class="pb-20 pt-40 border-t border-white/5">
+    <footer id="contact" class="pb-16 pt-32 md:pt-40 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
-            <div class="mb-48">
+            <div class="mb-24 md:mb-48">
                 <span class="section-index">INDEX 05</span>
-                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-14 reveal-up">Collaborations</h2>
-                <p class="serif text-[clamp(2rem,4.5vw,5rem)] text-[#ccc] max-w-5xl mb-24 font-light leading-[1.1] reveal-up">
+                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 md:mb-14 reveal-up">Collaborations</h2>
+                <p class="serif text-[clamp(1.75rem,4.5vw,5rem)] text-[#ccc] max-w-5xl mb-16 md:mb-24 font-light leading-[1.1] reveal-up">
                     Looking for a thoughtful, structured approach to your next brand system? I’m open to conversations about new projects.
                 </p>
                 <div class="flex flex-col items-start gap-6 reveal-up">
-                    <a href="mailto:ondwariobiko@gmail.com" class="text-3xl sm:text-5xl lg:text-7xl underline underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
+                    <a href="mailto:ondwariobiko@gmail.com" class="text-2xl sm:text-5xl lg:text-7xl underline underline-offset-[12px] md:underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
                         Send an inquiry
                     </a>
 
-                    <div class="mt-32 pt-16 border-t border-white/5 grid lg:grid-cols-2 gap-20 w-full">
+                    <div class="mt-20 md:mt-32 pt-12 md:pt-16 border-t border-white/5 grid md:grid-cols-2 gap-12 md:gap-20 w-full">
                         <div>
-                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
-                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                            <span class="text-[8px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
+                            <p class="text-base md:text-lg text-[#888] leading-relaxed font-light max-w-md">
                                 Partnering with founders in Nairobi, London, and Berlin to transform technical complexity into clear, high-trust brand systems.
                             </p>
                         </div>
                         <div>
-                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">The Mandate</span>
-                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                            <span class="text-[8px] uppercase tracking-[0.5em] opacity-30 mb-6 block">The Mandate</span>
+                            <p class="text-base md:text-lg text-[#888] leading-relaxed font-light max-w-md">
                                 A rigorous blend of business strategy and high-fidelity design, ensuring every pixel serves a commercial purpose and enduring brand equity.
                             </p>
                         </div>
                     </div>
 
-                    <div class="mt-24 flex flex-col gap-3">
-                        <span class="text-[9px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
-                        <a href="mailto:ondwariobiko@gmail.com" class="text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
-                        <a href="tel:+254702255575" class="text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
+                    <div class="mt-16 md:mt-24 flex flex-col gap-3">
+                        <span class="text-[8px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
+                        <a href="mailto:ondwariobiko@gmail.com" class="text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
+                        <a href="tel:+254702255575" class="text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col lg:flex-row justify-between pt-16 border-t border-white/5 gap-12 text-[10px] uppercase tracking-[0.4em] opacity-30">
+            <div class="flex flex-col lg:flex-row justify-between pt-12 md:pt-16 border-t border-white/5 gap-8 md:gap-12 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
                 <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
-                <div class="flex flex-wrap gap-12 order-1 lg:order-2">
+                <div class="flex flex-wrap gap-x-10 gap-y-4 order-1 lg:order-2">
                     <a href="#" class="hover:text-white transition-colors nav-magnetic-item">LinkedIn</a>
                     <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Behance</a>
                     <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Instagram</a>
@@ -618,8 +576,7 @@
             const localTimeEl = document.getElementById('local-time');
             if (localTimeEl) localTimeEl.textContent = timeStr;
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateTime, 1000); updateTime();
 
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
@@ -683,79 +640,41 @@
         }
 
         gsap.registerPlugin(ScrollTrigger);
-
-        // Synchronize Lenis and ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
         gsap.ticker.lagSmoothing(0);
 
-        // Entrance Transition Logic
         window.addEventListener('load', () => {
             const tl = gsap.timeline();
-            tl.to("#page-transition-mask", {
-                yPercent: -100,
-                duration: 1.2,
-                ease: "expo.inOut"
-            })
-            .to("body", {
-                opacity: 1,
-                duration: 0.1
-            }, "-=0.8")
-            .to(".reveal-text span", { 
-                y: 0, 
-                stagger: 0.08, 
-                duration: 1.5, 
-                ease: "expo.out" 
-            }, "-=0.4")
-            .to("#hero-cred, #hero-sub, #hero-cta", { 
-                opacity: 1, 
-                y: 0, 
-                stagger: 0.1, 
-                duration: 1.2, 
-                ease: "expo.out" 
-            }, "-=1");
+            tl.to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
+            .to("body", { opacity: 1, duration: 0.1 }, "-=0.8")
+            .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4")
+            .to("#hero-cred, #hero-sub, #hero-cta", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1");
         });
 
-        // Sophisticated Exit Transition Hook
         document.querySelectorAll('.page-nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 const destination = link.getAttribute('href');
                 if (destination && destination !== '#' && !destination.includes('mailto:')) {
                     e.preventDefault();
-                    gsap.to("#page-transition-mask", {
-                        yPercent: 0,
-                        duration: 0.8,
-                        ease: "expo.inOut",
-                        onComplete: () => {
-                            window.location.href = destination;
-                        }
-                    });
+                    gsap.to("#page-transition-mask", { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => { window.location.href = destination; } });
                 }
             });
         });
 
-        gsap.to("#progress-bar", {
-            width: "100%",
-            ease: "none",
-            scrollTrigger: { scrub: 0.3 }
-        });
+        gsap.to("#progress-bar", { width: "100%", ease: "none", scrollTrigger: { scrub: 0.3 } });
 
         let mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
             const track = document.getElementById("work");
             const pinWrapper = document.getElementById("work-pin-wrapper");
             let sections = gsap.utils.toArray(".horizontal-item");
-            
             if (track && pinWrapper && sections.length > 0) {
                 gsap.to(sections, {
                     xPercent: -100 * (sections.length - 1),
                     ease: "none",
                     scrollTrigger: {
-                        trigger: pinWrapper,
-                        pin: true,
-                        scrub: 0.8,
-                        invalidateOnRefresh: true,
-                        force3D: true,
+                        trigger: pinWrapper, pin: true, scrub: 0.8, invalidateOnRefresh: true, force3D: true,
                         end: () => "+=" + (track.scrollWidth - window.innerWidth)
                     }
                 });
@@ -770,10 +689,7 @@
         });
 
         document.querySelectorAll('.scale-up').forEach(el => {
-            ScrollTrigger.create({
-                trigger: el, start: "top 95%",
-                onEnter: () => el.classList.add('active')
-            });
+            ScrollTrigger.create({ trigger: el, start: "top 95%", onEnter: () => el.classList.add('active') });
         });
 
         ScrollTrigger.create({
@@ -782,14 +698,14 @@
                 const nav = document.getElementById('main-nav');
                 if (nav) {
                     nav.classList.add('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6, ease: "expo.out" });
                 }
             },
             onLeaveBack: () => {
                 const nav = document.getElementById('main-nav');
                 if (nav) {
                     nav.classList.remove('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6, ease: "expo.out" });
                 }
             }
         });

@@ -25,8 +25,9 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1.25rem, 5vw, 10rem);
-            --header-h: 70px;
+            --gutter: clamp(1rem, 5vw, 6rem);
+            --header-h: 60px;
+            --radius: clamp(0.75rem, 2vw, 2rem);
         }
 
         @media (min-width: 1024px) { :root { --header-h: 120px; } }
@@ -39,7 +40,8 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; /* Entrance Transition */
+            opacity: 0; 
+            width: 100%;
         }
 
         /* Sophisticated Page Transition Curtain */
@@ -81,9 +83,10 @@
 
         .grid-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: grid; grid-template-columns: repeat(12, 1fr);
-            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.3;
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
         }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
         .grid-col { border-right: 1px solid var(--border); height: 100%; }
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
@@ -98,16 +101,17 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .main-logo { height: 20px; width: auto; transition: transform 0.5s ease; }
+        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 768px) { .main-logo { height: 22px; } }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
         /* Project Entry Logic (Responsive) */
         .project-entry {
             border-top: 1px solid var(--border);
-            padding: clamp(3rem, 8vw, 5rem) 0;
+            padding: clamp(2.5rem, 8vw, 5rem) 0;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
             will-change: transform;
         }
 
@@ -123,18 +127,20 @@
 
         .project-title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 5vw, 5rem);
+            font-size: clamp(2.2rem, 5vw, 5rem);
             line-height: 0.95;
             color: var(--fg);
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             transition: color 0.4s ease;
             display: inline-block;
         }
         
-        .project-entry:hover .project-title { font-style: italic; }
+        @media (hover: hover) {
+            .project-entry:hover .project-title { font-style: italic; }
+        }
 
         .meta-label {
-            font-size: clamp(8px, 1.2vw, 10px);
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 0.4em;
             opacity: 0.3;
@@ -145,12 +151,12 @@
             color: #888;
             font-weight: 300;
             line-height: 1.5;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             max-width: 500px;
         }
 
         .case-study-link {
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 0.3em;
             color: var(--fg);
@@ -168,15 +174,21 @@
             background: #111;
             overflow: hidden;
             border: 1px solid var(--border);
-            border-radius: 4px;
-            opacity: 0.5;
+            border-radius: var(--radius);
+            opacity: 0.4;
             transition: opacity 0.6s ease, transform 0.6s ease;
             display: block;
             will-change: transform;
+            position: relative;
         }
-        @media (max-width: 1023px) { .thumbnail-restrained { max-width: 100%; } }
+        @media (max-width: 1023px) { 
+            .thumbnail-restrained { max-width: 100%; opacity: 0.7; } 
+        }
         .project-entry:hover .thumbnail-restrained { opacity: 1; transform: scale(1.02); }
-        .thumbnail-restrained img { width: 100%; height: 100%; object-fit: cover; }
+        .thumbnail-restrained img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            position: absolute; top: 0; left: 0;
+        }
 
         /* Navigation Links */
         .nav-link { position: relative; transition: opacity 0.3s; }
@@ -188,38 +200,40 @@
         .nav-link:hover::after { width: 100%; }
         .nav-link.active::after { width: 100%; opacity: 0.4; }
 
-        /* Mobile Nav */
+        /* Mobile Nav Overlay */
         .mobile-nav-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: var(--bg); z-index: 200; display: flex; flex-direction: column;
             justify-content: center; padding: 0 var(--gutter);
-            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(-100%); transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
             visibility: hidden;
+            pointer-events: none;
         }
-        .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; }
+        .mobile-nav-overlay.active { 
+            transform: translateY(0); 
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; }
+        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
         .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
-        .reveal-up { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Transition Curtain -->
     <div id="page-transition-mask"></div>
-
     <div id="cursor"></div>
     <div class="noise"></div>
 
     <div class="grid-overlay">
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
     <!-- Navigation -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
-            <!-- LOGO SPECIFICATION: 400 x 80px -->
             <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6 page-nav-link">
                 <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
             </a>
@@ -236,9 +250,9 @@
                 <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-4" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
             
-            <div class="hidden xl:block text-[8px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
             </div>
         </div>
@@ -246,26 +260,26 @@
 
     <!-- Mobile Overlay -->
     <div class="mobile-nav-overlay" id="mobile-nav">
-        <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
+        <div class="flex flex-col space-y-4">
+            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
-        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
             <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
             <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
         </div>
     </div>
 
     <!-- HEADER -->
-    <header class="pt-40 lg:pt-60 px-[var(--gutter)]">
+    <header class="pt-32 md:pt-40 lg:pt-60 px-[var(--gutter)]">
         <div class="max-w-screen-2xl mx-auto">
-            <h1 class="reveal-text serif text-[clamp(3.5rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-8">
+            <h1 class="reveal-text serif text-[clamp(3rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-6 md:mb-8">
                 <span>Selected Work.</span>
             </h1>
-            <p class="text-lg sm:text-xl lg:text-2xl text-[#888] font-light max-w-2xl reveal-up">
+            <p class="text-base md:text-xl lg:text-2xl text-[#888] font-light max-w-2xl reveal-up leading-relaxed">
                 A curated selection of branding and web projects focused on clarity, structure, and long-term impact.
             </p>
         </div>
@@ -276,7 +290,6 @@
         <div class="max-w-screen-2xl mx-auto">
             
             <!-- PROJECT 01: AQUAPET KENYA -->
-            <!-- THUMBNAIL SPECIFICATION: 800 x 500px -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
                     <span class="meta-label">01 / Logistics</span>
@@ -298,7 +311,6 @@
             </article>
 
             <!-- PROJECT 02: FAST KAT CONNECTS -->
-            <!-- THUMBNAIL SPECIFICATION: 800 x 500px -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
                     <span class="meta-label">02 / Distribution</span>
@@ -320,7 +332,6 @@
             </article>
 
             <!-- PROJECT 03: OCEAN LINE -->
-            <!-- THUMBNAIL SPECIFICATION: 800 x 500px -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
                     <span class="meta-label">03 / Maritime</span>
@@ -342,7 +353,6 @@
             </article>
 
             <!-- PROJECT 04: IKON TRAILERS -->
-            <!-- THUMBNAIL SPECIFICATION: 800 x 500px -->
             <article class="project-entry reveal-up" style="border-bottom: 1px solid var(--border);">
                 <div class="entry-metadata">
                     <span class="meta-label">04 / Industrial</span>
@@ -367,19 +377,19 @@
     </section>
 
     <!-- FOOTER CTA -->
-    <footer class="pb-16 pt-32 border-t border-white/5">
+    <footer class="pb-12 md:pb-16 pt-24 md:pt-32 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
                 <div>
-                    <p class="text-[9px] uppercase tracking-[0.4em] opacity-30 mb-8 max-w-sm leading-relaxed">
+                    <p class="text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30 mb-6 md:mb-8 max-w-sm leading-relaxed">
                         Each project explores the context, constraints, decisions, and outcomes behind the work.
                     </p>
-                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-[clamp(2rem,5vw,4rem)] text-white font-light leading-tight hover:italic transition-all">
+                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-[clamp(1.75rem,5vw,4rem)] text-white font-light leading-tight hover:italic transition-all duration-500">
                         Start a flagship project →
                     </a>
                 </div>
-                <div class="flex flex-col justify-end text-[9px] uppercase tracking-[0.4em] opacity-30 text-left lg:text-right">
-                    <div class="mb-4">© 2026 ondwariobiko</div>
+                <div class="flex flex-col justify-end text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30 text-left lg:text-right">
+                    <div class="mb-2 md:mb-4">© 2026 ondwariobiko</div>
                     <div>Strategic Brand Systems</div>
                 </div>
             </div>
@@ -389,14 +399,21 @@
     <script>
         function updateTime() {
             const timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
-            document.getElementById('local-time').textContent = timeStr;
+            const localTimeEl = document.getElementById('local-time');
+            if (localTimeEl) localTimeEl.textContent = timeStr;
         }
         setInterval(updateTime, 1000); updateTime();
 
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
+            if (!menu) return;
             menu.classList.toggle('active');
-            if (menu.classList.contains('active')) lenis.stop(); else lenis.start();
+            const isActive = menu.classList.contains('active');
+            if (isActive) {
+                if (typeof lenis !== 'undefined') lenis.stop();
+            } else {
+                if (typeof lenis !== 'undefined') lenis.start();
+            }
         }
 
         const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, force3D: true });
@@ -432,17 +449,29 @@
 
         ScrollTrigger.create({
             start: "top -40",
-            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
-            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
+            onEnter: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.add('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6, ease: "expo.out" });
+                }
+            },
+            onLeaveBack: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.remove('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6, ease: "expo.out" });
+                }
+            }
         });
 
         const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(pointer: fine)").matches) {
+        if (window.matchMedia("(pointer: fine)").matches && cursor) {
             cursor.style.display = 'block';
-            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" }));
             document.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15 }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
             });
         }
     </script>
