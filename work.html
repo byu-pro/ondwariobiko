@@ -39,6 +39,17 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            opacity: 0; /* Hidden for curtain entrance */
+        }
+
+        /* Sophisticated Page Transition Curtain */
+        #page-transition-mask {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateY(0);
         }
 
         .noise {
@@ -64,7 +75,7 @@
             z-index: 10000;
             mix-blend-mode: difference;
             display: none;
-            transition: width 0.3s, height 0.3s;
+            transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
         }
 
         .grid-overlay {
@@ -129,6 +140,7 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+            will-change: transform;
         }
 
         @media (min-width: 1024px) {
@@ -148,6 +160,7 @@
             color: var(--fg);
             margin-bottom: 1rem;
             transition: color 0.4s ease;
+            display: inline-block;
         }
         
         .project-entry:hover .project-title {
@@ -194,6 +207,7 @@
             opacity: 0.5;
             transition: opacity 0.6s ease, transform 0.6s ease;
             display: block;
+            will-change: transform;
         }
         .project-entry:hover .thumbnail-restrained { opacity: 1; transform: scale(1.02); }
         .thumbnail-restrained img { width: 100%; height: 100%; object-fit: cover; }
@@ -218,6 +232,10 @@
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
+    
+    <!-- Sophisticated Page Transition Curtain -->
+    <div id="page-transition-mask"></div>
+
     <div id="cursor"></div>
     <div class="noise"></div>
 
@@ -231,7 +249,7 @@
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
             <!-- LOGO SPECIFICATION: 400 x 80px -->
-            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6">
+            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6 page-nav-link">
                 <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
             </a>
             
@@ -240,11 +258,11 @@
                     <div class="live-dot"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
-                <a href="work.html" class="nav-link nav-magnetic-item active">Work</a>
-                <a href="#" class="nav-link nav-magnetic-item">About</a>
-                <a href="#" class="nav-link nav-magnetic-item">Services</a>
-                <a href="#" class="nav-link nav-magnetic-item">Insights</a>
-                <a href="#" class="nav-link nav-magnetic-item">Contact</a>
+                <a href="work.html" class="nav-link nav-magnetic-item active page-nav-link">Work</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">About</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Services</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Insights</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
             <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
@@ -258,11 +276,11 @@
     <!-- Mobile Overlay -->
     <div class="mobile-nav-overlay" id="mobile-nav">
         <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Contact</a>
+            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
         <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
             <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
@@ -293,14 +311,16 @@
                     <span class="meta-label">01 / Logistics</span>
                 </div>
                 <div class="entry-main">
-                    <h2 class="project-title">Aquapet Kenya</h2>
+                    <a href="aquapet.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Aquapet Kenya</h2>
+                    </a>
                     <p class="project-focus">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
-                    <a href="aquapet.html" class="case-study-link nav-magnetic-item">
+                    <a href="aquapet.html" class="case-study-link nav-magnetic-item page-nav-link">
                         → View case study
                     </a>
                 </div>
                 <div class="entry-visual hidden lg:flex">
-                    <a href="aquapet.html" class="thumbnail-restrained">
+                    <a href="aquapet.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/aquapet.jpg" alt="Aquapet Kenya Thumbnail (800x500px)">
                     </a>
                 </div>
@@ -313,14 +333,16 @@
                     <span class="meta-label">02 / Distribution</span>
                 </div>
                 <div class="entry-main">
-                    <h2 class="project-title">Fast Kat Connects</h2>
+                    <a href="fast-kat.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Fast Kat Connects</h2>
+                    </a>
                     <p class="project-focus">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
-                    <a href="fast-kat.html" class="case-study-link nav-magnetic-item">
+                    <a href="fast-kat.html" class="case-study-link nav-magnetic-item page-nav-link">
                         → View case study
                     </a>
                 </div>
                 <div class="entry-visual hidden lg:flex">
-                    <a href="fast-kat.html" class="thumbnail-restrained">
+                    <a href="fast-kat.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/fastkat.jpg" alt="Fast Kat Connects Thumbnail (800x500px)">
                     </a>
                 </div>
@@ -333,14 +355,16 @@
                     <span class="meta-label">03 / Maritime</span>
                 </div>
                 <div class="entry-main">
-                    <h2 class="project-title">Ocean Line</h2>
+                    <a href="ocean-line.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Ocean Line</h2>
+                    </a>
                     <p class="project-focus">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
-                    <a href="ocean-line.html" class="case-study-link nav-magnetic-item">
+                    <a href="ocean-line.html" class="case-study-link nav-magnetic-item page-nav-link">
                         → View case study
                     </a>
                 </div>
                 <div class="entry-visual hidden lg:flex">
-                    <a href="ocean-line.html" class="thumbnail-restrained">
+                    <a href="ocean-line.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/oceanline.jpg" alt="Ocean Line Thumbnail (800x500px)">
                     </a>
                 </div>
@@ -353,14 +377,16 @@
                     <span class="meta-label">04 / Industrial</span>
                 </div>
                 <div class="entry-main">
-                    <h2 class="project-title">Ikon Trailers</h2>
+                    <a href="ikon-trailers.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Ikon Trailers</h2>
+                    </a>
                     <p class="project-focus">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
-                    <a href="ikon-trailers.html" class="case-study-link nav-magnetic-item">
+                    <a href="ikon-trailers.html" class="case-study-link nav-magnetic-item page-nav-link">
                         → View case study
                     </a>
                 </div>
                 <div class="entry-visual hidden lg:flex">
-                    <a href="ikon-trailers.html" class="thumbnail-restrained">
+                    <a href="ikon-trailers.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/ikontrailers.jpg" alt="Ikon Trailers Thumbnail (800x500px)">
                     </a>
                 </div>
@@ -369,7 +395,7 @@
         </div>
     </section>
 
-    <!-- FOOTER NAVIGATION (Updated to Contact Link) -->
+    <!-- FOOTER NAVIGATION -->
     <footer class="pb-20 pt-40 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
@@ -377,8 +403,7 @@
                     <p class="text-[10px] uppercase tracking-[0.4em] opacity-30 mb-8 max-w-sm leading-relaxed">
                         Each project explores the context, constraints, decisions, and outcomes behind the work.
                     </p>
-                    <!-- Link updated to lead to your contact email -->
-                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-4xl text-white font-light leading-tight hover:italic transition-all">
+                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-4xl text-white font-light leading-tight hover:italic transition-all page-nav-link">
                         Start a flagship project →
                     </a>
                 </div>
@@ -406,7 +431,12 @@
             if (isActive) lenis.stop(); else lenis.start();
         }
 
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+        const lenis = new Lenis({ 
+            lerp: 0.1, 
+            smoothWheel: true,
+            force3D: true
+        });
+
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
@@ -414,12 +444,12 @@
         if (window.matchMedia("(pointer: fine)").matches) {
             cursor.style.display = 'block';
             document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15 });
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" });
             });
 
             document.querySelectorAll('.nav-magnetic-item, a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.2 }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
             });
             
             document.querySelectorAll('.nav-magnetic-item').forEach(el => {
@@ -436,10 +466,47 @@
         }
 
         gsap.registerPlugin(ScrollTrigger);
-        gsap.to(".reveal-text span", { y: 0, duration: 1.8, ease: "expo.out", stagger: 0.1, delay: 0.5 });
+
+        // Entrance Transition Logic
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#page-transition-mask", {
+                yPercent: -100,
+                duration: 1.2,
+                ease: "expo.inOut"
+            })
+            .to("body", {
+                opacity: 1,
+                duration: 0.1
+            }, "-=0.8")
+            .to(".reveal-text span", { 
+                y: 0, 
+                stagger: 0.08, 
+                duration: 1.5, 
+                ease: "expo.out" 
+            }, "-=0.4");
+        });
+
+        // Exit Transition Logic
+        document.querySelectorAll('.page-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const destination = link.getAttribute('href');
+                if (destination && destination !== '#' && !destination.includes('mailto:') && !destination.includes('tel:')) {
+                    e.preventDefault();
+                    gsap.to("#page-transition-mask", {
+                        yPercent: 0,
+                        duration: 0.8,
+                        ease: "expo.inOut",
+                        onComplete: () => {
+                            window.location.href = destination;
+                        }
+                    });
+                }
+            });
+        });
         
         document.querySelectorAll('.reveal-up').forEach(el => {
-            gsap.to(el, { opacity: 1, y: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 90%" } });
+            gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" } });
         });
 
         ScrollTrigger.create({

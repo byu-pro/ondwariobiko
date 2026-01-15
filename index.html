@@ -30,12 +30,7 @@
 
         @media (min-width: 1024px) { :root { --header-h: 120px; } }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
@@ -43,9 +38,19 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            opacity: 0; /* Hidden for entrance transition */
         }
 
-        /* Enhanced Noise Motion */
+        /* Sophisticated Page Transition Curtain */
+        #page-transition-mask {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateY(0);
+        }
+
         .noise {
             position: fixed;
             top: -50%; left: -50%; width: 200%; height: 200%;
@@ -182,6 +187,7 @@
             margin-top: 1.5rem;
             cursor: pointer;
             display: block;
+            will-change: transform;
         }
 
         .project-img {
@@ -296,7 +302,6 @@
         .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.8s ease; }
         .scale-up.active { transform: scale(1); opacity: 1; }
 
-        /* Impact Point Styling */
         .impact-list { display: flex; flex-direction: column; gap: 1.5rem; }
         .impact-item { display: flex; gap: 1rem; align-items: flex-start; }
         .impact-dot { width: 4px; height: 4px; background: currentColor; border-radius: 50%; margin-top: 0.75rem; flex-shrink: 0; opacity: 0.3; }
@@ -304,6 +309,10 @@
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
+    
+    <!-- Sophisticated Page Transition Curtain -->
+    <div id="page-transition-mask"></div>
+
     <div id="progress-bar"></div>
     <div id="cursor"></div>
     <div class="noise"></div>
@@ -325,11 +334,11 @@
                     <div class="live-dot"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
-                <a href="work.html" class="nav-link nav-magnetic-item">Work</a>
-                <a href="#" class="nav-link nav-magnetic-item">About</a>
-                <a href="#" class="nav-link nav-magnetic-item">Services</a>
-                <a href="#" class="nav-link nav-magnetic-item">Insights</a>
-                <a href="#" class="nav-link nav-magnetic-item">Contact</a>
+                <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">About</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Services</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Insights</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
             <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
@@ -342,11 +351,11 @@
 
     <div class="mobile-nav-overlay" id="mobile-nav">
         <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Contact</a>
+            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
         <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
             <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
@@ -471,16 +480,15 @@
 
         <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
             <div class="horizontal-track" id="work">
-                <!-- Project 01: Aquapet Kenya (Linked to Case Study) -->
+                <!-- Project 01 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
-                        <a href="aquapet.html" class="block group">
+                        <a href="aquapet.html" class="block group page-nav-link">
                             <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
                         </a>
                         <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
-                        
-                        <a href="aquapet.html" class="project-img-wrapper group scale-up">
+                        <a href="aquapet.html" class="project-img-wrapper group scale-up page-nav-link">
                             <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
                             <div class="project-hover-overlay">
                                 <span class="project-inner-label">View Case Study</span>
@@ -625,7 +633,18 @@
             }
         }
 
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+        const lenis = new Lenis({ 
+            lerp: 0.1, 
+            smoothWheel: true,
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothTouch: false,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+            normalizeWheel: true,
+            infinite: false,
+        });
+
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
@@ -633,11 +652,11 @@
         if (window.matchMedia("(pointer: fine)").matches && cursor) {
             cursor.style.display = 'block';
             document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" });
             });
             
             document.querySelectorAll('a, button, .serif').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.2, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15, mixBlendMode: 'difference' }));
                 el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
             });
 
@@ -665,17 +684,61 @@
 
         gsap.registerPlugin(ScrollTrigger);
 
+        // Synchronize Lenis and ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // Entrance Transition Logic
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to("#page-transition-mask", {
+                yPercent: -100,
+                duration: 1.2,
+                ease: "expo.inOut"
+            })
+            .to("body", {
+                opacity: 1,
+                duration: 0.1
+            }, "-=0.8")
+            .to(".reveal-text span", { 
+                y: 0, 
+                stagger: 0.08, 
+                duration: 1.5, 
+                ease: "expo.out" 
+            }, "-=0.4")
+            .to("#hero-cred, #hero-sub, #hero-cta", { 
+                opacity: 1, 
+                y: 0, 
+                stagger: 0.1, 
+                duration: 1.2, 
+                ease: "expo.out" 
+            }, "-=1");
+        });
+
+        // Sophisticated Exit Transition Hook
+        document.querySelectorAll('.page-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const destination = link.getAttribute('href');
+                if (destination && destination !== '#' && !destination.includes('mailto:')) {
+                    e.preventDefault();
+                    gsap.to("#page-transition-mask", {
+                        yPercent: 0,
+                        duration: 0.8,
+                        ease: "expo.inOut",
+                        onComplete: () => {
+                            window.location.href = destination;
+                        }
+                    });
+                }
+            });
+        });
+
         gsap.to("#progress-bar", {
             width: "100%",
             ease: "none",
             scrollTrigger: { scrub: 0.3 }
         });
-
-        const mainTl = gsap.timeline({ defaults: { ease: "expo.out", duration: 2 } });
-        mainTl.to(".reveal-text span", { y: 0, stagger: 0.1, delay: 0.5 })
-              .to("#hero-cred", { opacity: 1, y: 0, duration: 1.5 }, "-=1.4")
-              .to("#hero-sub", { opacity: 1, y: 0, duration: 1.5 }, "-=1.3")
-              .to("#hero-cta", { opacity: 1, y: 0, duration: 1.5 }, "-=1.2");
 
         let mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
@@ -690,8 +753,9 @@
                     scrollTrigger: {
                         trigger: pinWrapper,
                         pin: true,
-                        scrub: 1,
+                        scrub: 0.8,
                         invalidateOnRefresh: true,
+                        force3D: true,
                         end: () => "+=" + (track.scrollWidth - window.innerWidth)
                     }
                 });
