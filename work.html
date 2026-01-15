@@ -32,7 +32,13 @@
 
         @media (min-width: 1024px) { :root { --header-h: 120px; } }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            -webkit-overflow-scrolling: touch;
+        }
 
         body {
             background-color: var(--bg);
@@ -91,7 +97,12 @@
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
+        .reveal-text span { 
+            display: inline-block; 
+            transform: translateY(115%); 
+            will-change: transform; 
+            backface-visibility: hidden;
+        }
 
         section { position: relative; width: 100%; padding: clamp(4rem, 10vw, 12rem) var(--gutter); }
 
@@ -112,7 +123,8 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.5rem;
-            will-change: transform;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
         }
 
         @media (min-width: 1024px) {
@@ -133,6 +145,7 @@
             margin-bottom: 0.75rem;
             transition: color 0.4s ease;
             display: inline-block;
+            will-change: transform;
         }
         
         @media (hover: hover) {
@@ -180,6 +193,7 @@
             display: block;
             will-change: transform;
             position: relative;
+            backface-visibility: hidden;
         }
         @media (max-width: 1023px) { 
             .thumbnail-restrained { max-width: 100%; opacity: 0.7; } 
@@ -188,6 +202,8 @@
         .thumbnail-restrained img { 
             width: 100%; height: 100%; object-fit: cover; 
             position: absolute; top: 0; left: 0;
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
         /* Navigation Links */
@@ -205,16 +221,18 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: var(--bg); z-index: 200; display: flex; flex-direction: column;
             justify-content: center; padding: 0 var(--gutter);
-            transform: translateY(-100%); transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
             visibility: hidden;
             pointer-events: none;
+            will-change: transform;
+            backface-visibility: hidden;
         }
         .mobile-nav-overlay.active { 
             transform: translateY(0); 
             visibility: visible;
             pointer-events: auto;
         }
-        .mobile-nav-link { font-size: 12vw; line-height: 1.1; }
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
         @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
         .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
@@ -250,7 +268,7 @@
                 <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4 active:scale-95 transition-transform" onclick="toggleMenu()">Menu</button>
             
             <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
@@ -416,13 +434,21 @@
             }
         }
 
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, force3D: true });
+        const lenis = new Lenis({ 
+            lerp: 0.1, 
+            smoothWheel: true, 
+            force3D: true,
+            smoothTouch: true,
+            touchMultiplier: 1.5,
+            normalizeWheel: true
+        });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
         gsap.registerPlugin(ScrollTrigger);
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
 
         // Entrance
         window.addEventListener('load', () => {
@@ -438,13 +464,28 @@
                 const dest = link.getAttribute('href');
                 if (dest && dest !== '#' && !dest.includes('mailto:')) {
                     e.preventDefault();
-                    gsap.to("#page-transition-mask", { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => window.location.href = dest });
+                    gsap.to("#page-transition-mask", { 
+                        yPercent: 0, 
+                        duration: 0.8, 
+                        ease: "expo.inOut", 
+                        onComplete: () => window.location.href = dest 
+                    });
                 }
             });
         });
 
         document.querySelectorAll('.reveal-up').forEach(el => {
-            gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 95%" } });
+            gsap.to(el, { 
+                opacity: 1, 
+                y: 0, 
+                duration: window.innerWidth < 1024 ? 1.2 : 1.8, // Faster on mobile
+                ease: "expo.out", 
+                scrollTrigger: { 
+                    trigger: el, 
+                    start: "top 96%",
+                    toggleActions: "play none none none" 
+                } 
+            });
         });
 
         ScrollTrigger.create({
@@ -474,6 +515,8 @@
                 el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
             });
         }
+
+        window.addEventListener('resize', () => ScrollTrigger.refresh());
     </script>
 </body>
 </html>
