@@ -181,6 +181,7 @@
             border: 1px solid var(--border);
             margin-top: 1.5rem;
             cursor: pointer;
+            display: block;
         }
 
         .project-img {
@@ -401,7 +402,7 @@
         </div>
     </section>
 
-    <!-- INDEX 02: CAPABILITIES (Refined for Impact & Scannability) -->
+    <!-- INDEX 02: CAPABILITIES -->
     <section id="about" class="border-b border-white/5">
         <div class="max-w-screen-2xl mx-auto">
             <span class="section-index">INDEX 02</span>
@@ -470,19 +471,22 @@
 
         <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
             <div class="horizontal-track" id="work">
-                <!-- Project 01 -->
+                <!-- Project 01: Aquapet Kenya (Linked to Case Study) -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
                         <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
-                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Aquapet Kenya</h3>
+                        <a href="aquapet.html" class="block group">
+                            <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
+                        </a>
                         <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
-                        <div class="project-img-wrapper group scale-up">
+                        
+                        <a href="aquapet.html" class="project-img-wrapper group scale-up">
                             <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
                             <div class="project-hover-overlay">
                                 <span class="project-inner-label">View Case Study</span>
                             </div>
                             <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Aquatic</div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <!-- Project 02 -->
@@ -564,7 +568,6 @@
                         Send an inquiry
                     </a>
 
-                    <!-- Credibility & Trust Block -->
                     <div class="mt-32 pt-16 border-t border-white/5 grid lg:grid-cols-2 gap-20 w-full">
                         <div>
                             <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
@@ -604,16 +607,22 @@
         function updateTime() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
-            document.getElementById('local-time').textContent = timeStr;
+            const localTimeEl = document.getElementById('local-time');
+            if (localTimeEl) localTimeEl.textContent = timeStr;
         }
         setInterval(updateTime, 1000);
         updateTime();
 
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
+            if (!menu) return;
             menu.classList.toggle('active');
             const isActive = menu.classList.contains('active');
-            if (isActive) lenis.stop(); else lenis.start();
+            if (isActive) {
+                if (typeof lenis !== 'undefined') lenis.stop();
+            } else {
+                if (typeof lenis !== 'undefined') lenis.start();
+            }
         }
 
         const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
@@ -621,7 +630,7 @@
         requestAnimationFrame(raf);
 
         const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(pointer: fine)").matches) {
+        if (window.matchMedia("(pointer: fine)").matches && cursor) {
             cursor.style.display = 'block';
             document.addEventListener('mousemove', (e) => {
                 gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
@@ -674,17 +683,19 @@
             const pinWrapper = document.getElementById("work-pin-wrapper");
             let sections = gsap.utils.toArray(".horizontal-item");
             
-            gsap.to(sections, {
-                xPercent: -100 * (sections.length - 1),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: pinWrapper,
-                    pin: true,
-                    scrub: 1,
-                    invalidateOnRefresh: true,
-                    end: () => "+=" + (track.scrollWidth - window.innerWidth)
-                }
-            });
+            if (track && pinWrapper && sections.length > 0) {
+                gsap.to(sections, {
+                    xPercent: -100 * (sections.length - 1),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: pinWrapper,
+                        pin: true,
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                        end: () => "+=" + (track.scrollWidth - window.innerWidth)
+                    }
+                });
+            }
         });
 
         document.querySelectorAll('.reveal-up').forEach(el => {
@@ -705,13 +716,17 @@
             start: "top -40",
             onEnter: () => {
                 const nav = document.getElementById('main-nav');
-                nav.classList.add('blur-header');
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
+                if (nav) {
+                    nav.classList.add('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
+                }
             },
             onLeaveBack: () => {
                 const nav = document.getElementById('main-nav');
-                nav.classList.remove('blur-header');
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
+                if (nav) {
+                    nav.classList.remove('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
+                }
             }
         });
 
