@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ondwariobiko – Strategic Brand & Web Systems</title>
-    <!-- Favicon Integration - Respecting the images folder -->
+    <!-- Favicon Integration -->
     <link rel="icon" type="image/png" href="images/favicon.png">
     
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     
     <style>
         :root {
@@ -45,13 +45,29 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Enhanced Noise Motion */
         .noise {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: -50%; left: -50%; width: 200%; height: 200%;
             z-index: 10;
             pointer-events: none;
-            opacity: 0.03;
+            opacity: 0.04;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            animation: noise-move 0.2s steps(2) infinite;
+        }
+
+        @keyframes noise-move {
+            0% { transform: translate(0,0); }
+            10% { transform: translate(-1%,-1%); }
+            20% { transform: translate(1%,1%); }
+            30% { transform: translate(-2%,1%); }
+            40% { transform: translate(1%,-2%); }
+            50% { transform: translate(-1%,1%); }
+            60% { transform: translate(-2%,-2%); }
+            70% { transform: translate(1%,1%); }
+            80% { transform: translate(-1%,-1%); }
+            90% { transform: translate(1%,-2%); }
+            100% { transform: translate(0,0); }
         }
 
         .serif { font-family: var(--font-serif); font-weight: 400; }
@@ -65,9 +81,19 @@
             z-index: 10000;
             mix-blend-mode: difference;
             display: none;
+            transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
         }
 
-        /* Responsive Architectural Grid */
+        /* Scroll Progress */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 2px;
+            background: white;
+            z-index: 201;
+            mix-blend-mode: difference;
+        }
+
+        /* Grid System */
         .grid-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -86,11 +112,6 @@
             .grid-col:nth-child(n+7) { display: none; }
         }
 
-        @media (max-width: 640px) {
-            .grid-overlay { grid-template-columns: repeat(4, 1fr); }
-            .grid-col:nth-child(n+5) { display: none; }
-        }
-
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
         .reveal-text span { display: inline-block; transform: translateY(115%); }
 
@@ -98,26 +119,34 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem 2.5rem;
+            padding: 1.25rem 3rem;
             border: 1px solid var(--border);
             border-radius: 999px;
             font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            letter-spacing: 0.2em;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
             background: transparent;
             color: var(--fg);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-magnetic:hover {
+        .btn-magnetic::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%; width: 0; height: 0;
             background: white;
-            color: black;
-            border-color: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: -1;
         }
 
-        /* Work Section Logic */
-        .work-section { position: relative; width: 100%; }
-        
+        .btn-magnetic:hover { color: black; border-color: white; }
+        .btn-magnetic:hover::before { width: 300%; height: 300%; }
+
+        /* Work Section Horizontal */
         @media (min-width: 1024px) {
             .horizontal-track {
                 display: flex;
@@ -138,30 +167,67 @@
         }
 
         @media (max-width: 1023px) {
-            .horizontal-track { display: block; width: 100%; }
             .horizontal-item { 
-                width: 100%; 
-                padding: clamp(3rem, 10vh, 6rem) var(--gutter);
+                padding: clamp(4rem, 10vh, 8rem) var(--gutter);
                 border-bottom: 1px solid var(--border);
             }
         }
 
+        /* Project Wrapper */
         .project-img-wrapper {
             width: 100%;
             max-width: 1100px;
             aspect-ratio: 16/9;
-            max-height: 50vh;
+            max-height: 55vh;
             background: #0f0f0f;
             overflow: hidden;
             position: relative;
             border: 1px solid var(--border);
             margin-top: 1.5rem;
+            cursor: pointer;
         }
 
+        .project-img {
+            width: 100%;
+            height: 110%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .project-hover-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 10;
+        }
+
+        @media (hover: hover) {
+            .project-img-wrapper:hover .project-hover-overlay { opacity: 1; }
+            .project-img-wrapper:hover .project-inner-label { transform: translateY(0); opacity: 1; }
+            .project-img-wrapper:hover .project-img { filter: grayscale(0%); transform: scale(1.05); }
+        }
+
+        .project-inner-label {
+            font-family: var(--font-serif);
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            color: white;
+            font-style: italic;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
+        }
+
+        /* Mobile Nav Overlay Fix - Strictly Hidden by Default */
         .mobile-nav-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            height: 100dvh;
+            top: 0; left: 0; width: 100%; height: 100dvh;
             background: var(--bg);
             z-index: 200;
             display: flex;
@@ -169,11 +235,16 @@
             justify-content: center;
             padding: 0 var(--gutter);
             transform: translateY(-100%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            overscroll-behavior: contain;
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            visibility: hidden;
+            pointer-events: none;
         }
 
-        .mobile-nav-overlay.active { transform: translateY(0); }
+        .mobile-nav-overlay.active { 
+            transform: translateY(0); 
+            visibility: visible;
+            pointer-events: auto;
+        }
 
         .nav-link { position: relative; transition: opacity 0.3s; }
         .nav-link::after {
@@ -181,139 +252,137 @@
             position: absolute;
             bottom: -4px; left: 0; width: 0; height: 1px;
             background: white;
-            transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .nav-link:hover::after { width: 100%; }
         
-        section { 
-            position: relative; 
-            width: 100%; 
-            padding: clamp(4rem, 15vw, 12rem) var(--gutter); 
-        }
+        section { position: relative; width: 100%; padding: clamp(6rem, 15vw, 15rem) var(--gutter); }
 
         .blur-header {
-            backdrop-filter: blur(20px);
-            background: rgba(8, 8, 8, 0.8) !important;
+            backdrop-filter: blur(25px);
+            background: rgba(8, 8, 8, 0.7) !important;
             border-bottom: 1px solid var(--border);
         }
 
-        @media (max-width: 1023px) {
-            #main-nav .mix-blend-difference {
-                mix-blend-mode: normal !important;
-                color: white;
-            }
+        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 1024px) { .main-logo { height: 32px; } }
+
+        /* Inverted Mode Refinement */
+        .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
+        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
+        .inverted .border-white\/5 { border-color: rgba(0,0,0,0.06); }
+
+        .section-index {
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            opacity: 0.2;
+            margin-bottom: 2rem;
+            display: block;
+            font-weight: 600;
         }
 
-        .main-logo {
-            height: 24px;
-            width: auto;
-            object-fit: contain;
+        /* Live Status */
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+            font-size: 9px;
+            letter-spacing: 0.2em;
         }
+        .live-dot {
+            width: 4px; height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        @media (min-width: 1024px) {
-            .main-logo { height: 32px; }
-        }
-
-        /* INVERTED THEME STYLES */
-        .inverted {
-            background-color: #f7f7f7 !important;
-            color: #080808 !important;
-        }
-        .inverted h2, .inverted .text-white, .inverted .serif {
-            color: #080808 !important;
-        }
-        .inverted .opacity-30, .inverted .opacity-20 {
-            opacity: 0.4;
-        }
-        .inverted .border-white\/5 {
-            border-color: rgba(0,0,0,0.1);
-        }
+        .reveal-up { opacity: 0; transform: translateY(60px); }
+        .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.8s ease; }
+        .scale-up.active { transform: scale(1); opacity: 1; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
+    <div id="progress-bar"></div>
     <div id="cursor"></div>
     <div class="noise"></div>
 
-    <!-- Architectural Grid -->
+    <!-- Architectural Grid - TYPO FIXED -->
     <div class="grid-overlay">
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
-    <!-- Mobile Navigation Overlay -->
-    <div class="mobile-nav-overlay" id="mobile-nav">
-        <div class="flex flex-col space-y-2 sm:space-y-6">
-            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[15vw] sm:text-[10vw] md:text-7xl hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Contact</a>
-        </div>
-        
-        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-8">
-            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Global</div>
-            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4 pr-1" onclick="toggleMenu()">[ Close ]</button>
-        </div>
-    </div>
-
-    <!-- Main Navigation Header -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
-            <!-- Logo links to index.html sitewide -->
-            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity">
-                <!-- Logo Integration - Respecting the images folder -->
+            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6">
                 <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
             </a>
             
-            <div class="hidden lg:flex items-center space-x-14 text-[10px] uppercase tracking-[0.35em] font-semibold opacity-60 mix-blend-difference">
-                <a href="#" class="nav-link">Work</a>
-                <a href="#" class="nav-link">About</a>
-                <a href="#" class="nav-link">Services</a>
-                <a href="#" class="nav-link">Insights</a>
-                <a href="#" class="nav-link">Contact</a>
+            <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
+                <div class="live-status mr-4">
+                    <div class="live-dot"></div>
+                    NRB — <span id="local-time">00:00:00</span>
+                </div>
+                <a href="#" class="nav-link nav-magnetic-item">Work</a>
+                <a href="#" class="nav-link nav-magnetic-item">About</a>
+                <a href="#" class="nav-link nav-magnetic-item">Services</a>
+                <a href="#" class="nav-link nav-magnetic-item">Insights</a>
+                <a href="#" class="nav-link nav-magnetic-item">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">
-                Menu
-            </button>
+            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
             
-            <div class="hidden xl:block text-[10px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference">
-                Brand & Web Systems
+            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+                Independent Practice<br>Strategic Brand Systems
             </div>
         </div>
     </nav>
 
+    <!-- MOBILE OVERLAY - Structured to remain hidden unless active -->
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="flex flex-col space-y-2">
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1" onclick="toggleMenu()">Contact</a>
+        </div>
+        <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
+            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4" onclick="toggleMenu()">[ Close ]</button>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
-    <section class="min-h-[100vh] min-h-[100dvh] flex flex-col justify-end pt-[calc(var(--header-h)+8vh)] pb-12 sm:pb-20">
+    <section class="min-h-screen flex flex-col justify-end pt-32 pb-20">
         <div class="max-w-screen-2xl w-full mx-auto">
-            <h1 class="reveal-text serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] tracking-tighter mb-8 sm:mb-12">
+            <h1 class="reveal-text serif text-[clamp(2.8rem,9vw,10.5rem)] leading-[0.88] tracking-tighter mb-12">
                 <span>I design strategic brand</span><br>
                 <span>and web systems for businesses</span><br>
                 <span>that need clarity, credibility,</span><br>
                 <span>and long-term impact.</span>
             </h1>
 
-            <div class="mb-10 sm:mb-16 overflow-hidden flex items-center gap-5 text-[10px] tracking-[0.4em] uppercase opacity-40 reveal-el">
-                <div class="w-8 sm:w-12 h-[1px] bg-white"></div>
-                Brand and web designer with 9+ years of experience, working with clients worldwide.
+            <div id="hero-cred" class="mb-14 overflow-hidden flex items-center gap-6 text-[10px] tracking-[0.5em] uppercase opacity-0 translate-y-6">
+                <div class="w-12 h-[1px] bg-white opacity-20"></div>
+                Strategy-First Creative Partner based in Nairobi
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 sm:gap-12 items-end">
+            <div class="grid lg:grid-cols-12 gap-12 items-end">
                 <div class="lg:col-span-8 xl:col-span-6">
-                    <p class="text-xl sm:text-2xl lg:text-3xl leading-snug lg:leading-relaxed text-[#a1a1a1] font-light reveal-el">
+                    <p id="hero-sub" class="text-xl sm:text-2xl lg:text-3xl leading-snug text-[#999] font-light opacity-0 translate-y-6 max-w-2xl">
                         Helping companies communicate who they are, what they stand for, and why they matter through thoughtful branding and web design.
                     </p>
                 </div>
-                <div class="lg:col-start-10 lg:col-span-3 flex flex-col sm:flex-row lg:flex-col gap-4 items-start lg:items-end">
-                    <a href="#work-trigger" class="btn-magnetic group w-full sm:w-auto">
-                        <span class="mr-4">View selected work</span>
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" class="group-hover:translate-x-1 transition-transform">
+                <div id="hero-cta" class="lg:col-start-10 lg:col-span-3 flex flex-col gap-6 items-start lg:items-end opacity-0 translate-y-6">
+                    <a href="#work-trigger" class="btn-magnetic group">
+                        <span>View selected work</span>
+                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" class="ml-4 group-hover:translate-x-1 transition-transform">
                             <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" stroke-width="1.5" />
                         </svg>
-                    </a>
-                    <a href="#" class="text-[10px] uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-opacity py-2 lg:pr-6 reveal-el">
-                        Contact
                     </a>
                 </div>
             </div>
@@ -322,12 +391,13 @@
 
     <!-- WHO I WORK WITH (INVERTED) -->
     <section id="who" class="inverted border-y border-black/5">
-        <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-24">
+        <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10">
             <div class="lg:col-span-4">
-                <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30">Who I Work With</h2>
+                <span class="section-index">INDEX 01</span>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
             </div>
             <div class="lg:col-span-8">
-                <p class="serif text-[clamp(2rem,5.5vw,4.8rem)] leading-[1.05] text-black mb-8 sm:mb-14">
+                <p class="serif text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] text-black mb-14 reveal-up">
                     I work with founders, growing businesses, and organizations who value clarity, strategic thinking, and brand credibility — not surface-level design or quick fixes.
                 </p>
             </div>
@@ -337,77 +407,99 @@
     <!-- WHAT I HELP WITH -->
     <section id="about" class="border-b border-white/5">
         <div class="max-w-screen-2xl mx-auto">
-            <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30 mb-12 sm:mb-24">What I Help With</h2>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 sm:gap-16 lg:gap-24">
-                <div class="reveal-el">
-                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">01 / BRAND IDENTITY</span>
-                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Clarifying</h3>
-                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Clarifying brand identity through logo and visual systems.</p>
+            <span class="section-index">INDEX 02</span>
+            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-24 reveal-up">Capabilities</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-20">
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
+                    <h3 class="text-2xl font-medium mb-6">Clarifying</h3>
+                    <p class="text-lg text-[#777] leading-relaxed font-light">Clarifying brand identity through logo and visual systems that scale with your growth.</p>
                 </div>
-                <div class="reveal-el">
-                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">02 / WEB SYSTEMS</span>
-                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Designing</h3>
-                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Designing websites that communicate trust and intent.</p>
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
+                    <h3 class="text-2xl font-medium mb-6">Designing</h3>
+                    <p class="text-lg text-[#777] leading-relaxed font-light">Designing websites that communicate trust and intent, built for performance and longevity.</p>
                 </div>
-                <div class="reveal-el">
-                    <span class="block text-[10px] font-mono opacity-20 mb-4 sm:mb-6 tracking-widest">03 / CONTINUITY</span>
-                    <h3 class="text-2xl lg:text-3xl font-medium mb-4">Supporting</h3>
-                    <p class="text-base lg:text-lg text-[#888] leading-relaxed font-light">Supporting long-term brand consistency across digital platforms.</p>
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
+                    <h3 class="text-2xl font-medium mb-6">Supporting</h3>
+                    <p class="text-lg text-[#777] leading-relaxed font-light">Supporting long-term brand consistency across digital platforms for coherent messaging.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PROOF TEASER (Selected Work) -->
+    <!-- SELECTED WORK -->
     <div id="work-trigger" class="work-section bg-[#050505]">
-        <div class="px-[var(--gutter)] pt-20 lg:pt-32 pb-10">
+        <div class="px-[var(--gutter)] pt-32 pb-16">
             <div class="max-w-screen-2xl mx-auto">
-                <h2 class="text-[10px] tracking-[0.4em] uppercase opacity-30 mb-8">Selected Work</h2>
-                <p class="text-xl sm:text-2xl lg:text-3xl text-[#a1a1a1] max-w-3xl font-light">
-                    A focused selection of branding and web projects designed to bring structure, clarity, and confidence to growing businesses.
+                <span class="section-index">INDEX 03</span>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Proof of Work</h2>
+                <p class="serif text-[clamp(2rem,4vw,4rem)] text-[#eee] max-w-4xl font-light reveal-up leading-tight">
+                    A selection of branding and web projects designed to bring structure, clarity, and confidence to global businesses.
                 </p>
             </div>
         </div>
 
         <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
             <div class="horizontal-track" id="work">
+                <!-- Project 01 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 01</span>
-                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Aquapet Kenya</h3>
-                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Strategic Brand Identity</p>
-                        <div class="project-img-wrapper">
-                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Clarity</div>
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Aquapet Kenya</h3>
+                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <div class="project-img-wrapper group scale-up">
+                            <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Aquatic</div>
                         </div>
                     </div>
                 </div>
+                <!-- Project 02 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 02</span>
-                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Fast Kat Connects</h3>
-                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Visual Communication</p>
-                        <div class="project-img-wrapper">
-                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Logistics</div>
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Fast Kat Connects</h3>
+                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <div class="project-img-wrapper group scale-up">
+                            <img src="images/fastkat.jpg" alt="Fast Kat" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Velocity</div>
                         </div>
                     </div>
                 </div>
+                <!-- Project 03 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 03</span>
-                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Ocean Line</h3>
-                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Web Ecosystems</p>
-                        <div class="project-img-wrapper">
-                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Impact</div>
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Ocean Line</h3>
+                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <div class="project-img-wrapper group scale-up">
+                            <img src="images/oceanline.jpg" alt="Ocean Line" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Maritime</div>
                         </div>
                     </div>
                 </div>
+                <!-- Project 04 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[10px] font-mono opacity-20 mb-4 lg:mb-6 block uppercase tracking-widest">Project 04</span>
-                        <h3 class="serif text-[clamp(2.5rem,8vw,8.5rem)] leading-[0.9] mb-4 sm:mb-6 italic">Ikon Trailers</h3>
-                        <p class="text-[10px] sm:text-xs text-[#666] max-w-sm mb-6 font-light uppercase tracking-widest">Industrial Branding</p>
-                        <div class="project-img-wrapper">
-                            <div class="absolute inset-0 flex items-center justify-center text-3xl sm:text-8xl serif opacity-5 tracking-tighter uppercase italic">Consistency</div>
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-8 italic">Ikon Trailers</h3>
+                        <p class="text-[10px] text-[#666] max-w-sm mb-10 font-light uppercase tracking-[0.3em]">Logo & Full Brand Identity System</p>
+                        <div class="project-img-wrapper group scale-up">
+                            <img src="images/ikontrailers.jpg" alt="Ikon Trailers" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Industrial</div>
                         </div>
                     </div>
                 </div>
@@ -415,96 +507,132 @@
         </div>
     </div>
 
-    <!-- DESIGN PHILOSOPHY (INVERTED) -->
-    <section class="inverted border-t border-black/10">
+    <!-- DESIGN PHILOSOPHY -->
+    <section class="inverted border-t border-black/5">
         <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
-            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-12 sm:mb-20">How I Approach Design</h2>
-            <p class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.95] tracking-tight mb-12 sm:mb-20 max-w-6xl text-black">
+            <span class="section-index mb-10">INDEX 04</span>
+            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 mb-16 reveal-up">Principles</h2>
+            <p class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.92] tracking-tight mb-20 max-w-6xl text-black reveal-up">
                 I approach design as a strategic tool — not decoration.
             </p>
-            <div class="w-full max-w-4xl border-t border-black/10 pt-12 sm:pt-16">
-                 <p class="text-xl sm:text-2xl lg:text-3xl leading-relaxed text-[#444] font-light">
-                    Every decision is shaped by context, purpose, and long-term impact.
+            <div class="w-full max-w-4xl border-t border-black/10 pt-16 reveal-up">
+                 <p class="text-xl sm:text-2xl lg:text-3xl leading-relaxed text-[#555] font-light">
+                    Every decision is shaped by context, purpose, and long-term impact. If it doesn't solve a problem, it's just noise.
                  </p>
             </div>
         </div>
     </section>
 
     <!-- CLOSING CTA -->
-    <footer id="contact" class="pb-16 lg:pb-32 pt-20 lg:pt-48 border-t border-white/5">
+    <footer id="contact" class="pb-20 pt-40 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
-            <div class="mb-24 lg:mb-48">
-                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-12">Interested in Working Together?</h2>
-                <p class="text-xl sm:text-3xl lg:text-4xl text-[#a1a1a1] max-w-3xl mb-12 sm:mb-20 font-light leading-relaxed">
-                    If you’re looking for a thoughtful, structured approach to branding and web design, I’m open to conversations about new projects.
+            <div class="mb-48">
+                <span class="section-index">INDEX 05</span>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-14 reveal-up">Collaborations</h2>
+                <p class="serif text-[clamp(2rem,4.5vw,5rem)] text-[#ccc] max-w-5xl mb-24 font-light leading-[1.1] reveal-up">
+                    Looking for a thoughtful, structured approach to your next brand system? I’m open to conversations about new projects.
                 </p>
-                <div class="flex flex-col items-start gap-4">
-                    <a href="mailto:ondwariobiko@gmail.com" class="text-2xl sm:text-4xl lg:text-6xl underline underline-offset-[12px] sm:underline-offset-[24px] decoration-white/10 hover:decoration-white transition-all duration-500 break-all serif inline-block">
-                        Get in touch
+                <div class="flex flex-col items-start gap-6 reveal-up">
+                    <a href="mailto:ondwariobiko@gmail.com" class="text-3xl sm:text-5xl lg:text-7xl underline underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
+                        Send an inquiry
                     </a>
-                    <div class="mt-8 flex flex-col gap-2">
-                        <span class="text-[10px] uppercase tracking-[0.4em] opacity-30">Direct Reach</span>
-                        <a href="mailto:ondwariobiko@gmail.com" class="text-base sm:text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
-                        <a href="tel:+254702255575" class="text-base sm:text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
+                    <div class="mt-16 flex flex-col gap-3">
+                        <span class="text-[9px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
+                        <a href="mailto:ondwariobiko@gmail.com" class="text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
+                        <a href="tel:+254702255575" class="text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col lg:flex-row justify-between pt-10 sm:pt-24 border-t border-white/5 gap-10 text-[10px] uppercase tracking-[0.4em] opacity-30">
-                <div class="order-2 lg:order-1">© 2026 ondwariobiko</div>
-                <div class="flex flex-wrap gap-8 sm:gap-16 order-1 lg:order-2">
-                    <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-                    <a href="#" class="hover:text-white transition-colors">Behance</a>
-                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+            <div class="flex flex-col lg:flex-row justify-between pt-16 border-t border-white/5 gap-12 text-[10px] uppercase tracking-[0.4em] opacity-30">
+                <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
+                <div class="flex flex-wrap gap-12 order-1 lg:order-2">
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Behance</a>
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Instagram</a>
                 </div>
-                <div class="lg:text-right uppercase order-3">Nairobi / Worldwide</div>
+                <div class="order-3">Based in Nairobi — Serving Worldwide</div>
             </div>
         </div>
     </footer>
 
     <script>
+        // Update Local Time
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
+            document.getElementById('local-time').textContent = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
         // Toggle Mobile Menu
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
             menu.classList.toggle('active');
-            
             const isActive = menu.classList.contains('active');
-            if (isActive) {
-                lenis.stop();
-                document.body.style.overflow = 'hidden';
-            } else {
-                lenis.start();
-                document.body.style.overflow = '';
-            }
+            if (isActive) lenis.stop(); else lenis.start();
         }
 
         // Initialize Lenis
-        const lenis = new Lenis({ lerp: 0.1 });
+        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
-        // Custom Cursor (Desktop Only)
+        // Advanced Magnetic Cursor & Interactions
         const cursor = document.getElementById('cursor');
         if (window.matchMedia("(pointer: fine)").matches) {
             cursor.style.display = 'block';
             document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "none" });
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
             });
+            
             document.querySelectorAll('a, button, .serif').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15 }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.2, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
+            });
+
+            document.querySelectorAll('.project-img-wrapper').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(cursor, { width: 80, height: 80, backgroundColor: 'white', opacity: 1, mixBlendMode: 'difference', borderRadius: '50%' });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(cursor, { width: 10, height: 10, backgroundColor: 'white', mixBlendMode: 'difference' });
+                });
+            });
+
+            // Magnetic Nav Links
+            document.querySelectorAll('.nav-magnetic-item').forEach(el => {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+                });
             });
         }
 
         // GSAP Implementation
         gsap.registerPlugin(ScrollTrigger);
 
-        // Hero Mask Reveal
-        gsap.to(".reveal-text span", {
-            y: 0, duration: 1.8, ease: "expo.out", stagger: 0.1, delay: 0.5
+        // Page Progress
+        gsap.to("#progress-bar", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: { scrub: 0.3 }
         });
 
-        // Responsive Scroll Logic (Resolved)
+        // Entrance Timeline
+        const mainTl = gsap.timeline({ defaults: { ease: "expo.out", duration: 2 } });
+        mainTl.to(".reveal-text span", { y: 0, stagger: 0.1, delay: 0.5 })
+              .to("#hero-cred", { opacity: 1, y: 0, duration: 1.5 }, "-=1.4")
+              .to("#hero-sub", { opacity: 1, y: 0, duration: 1.5 }, "-=1.3")
+              .to("#hero-cta", { opacity: 1, y: 0, duration: 1.5 }, "-=1.2");
+
+        // Horizontal Scroll
         let mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
             const track = document.getElementById("work");
@@ -518,41 +646,39 @@
                     trigger: pinWrapper,
                     pin: true,
                     scrub: 1,
-                    anticipatePin: 1,
                     invalidateOnRefresh: true,
                     end: () => "+=" + (track.scrollWidth - window.innerWidth)
                 }
             });
         });
 
-        // Universal Intersection Reveals
-        document.querySelectorAll('.reveal-el, section h2, .project-img-wrapper, p').forEach(el => {
-            gsap.from(el, {
-                opacity: 0, 
-                y: 30, 
-                duration: 1.5, 
-                ease: "power3.out",
-                scrollTrigger: { 
-                    trigger: el, 
-                    start: "top 90%",
-                    toggleActions: "play none none none"
-                }
+        // Intersection Reveals
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 1.8, ease: "expo.out",
+                scrollTrigger: { trigger: el, start: "top 94%", toggleActions: "play none none none" }
             });
         });
 
-        // Persistent Nav Blur and Height Adjust on Scroll (Resolved with adequate spacing)
+        document.querySelectorAll('.scale-up').forEach(el => {
+            ScrollTrigger.create({
+                trigger: el, start: "top 95%",
+                onEnter: () => el.classList.add('active')
+            });
+        });
+
+        // Sticky Nav Logic
         ScrollTrigger.create({
             start: "top -40",
             onEnter: () => {
                 const nav = document.getElementById('main-nav');
                 nav.classList.add('blur-header');
-                // Increased sticky heights to provide more adequate spacing: 90px on desktop, 70px on mobile
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.5, ease: "expo.out" });
+                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
             },
             onLeaveBack: () => {
                 const nav = document.getElementById('main-nav');
                 nav.classList.remove('blur-header');
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.5, ease: "expo.out" });
+                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
             }
         });
 
