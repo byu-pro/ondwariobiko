@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Work – ondwariobiko Strategic Brand Systems</title>
     
     <!-- FAVICON SPECIFICATION: 32 x 32px (PNG) -->
@@ -25,7 +25,7 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(2rem, 8vw, 10rem);
+            --gutter: clamp(1.25rem, 5vw, 10rem);
             --header-h: 70px;
         }
 
@@ -39,17 +39,18 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; /* Hidden for curtain entrance */
+            opacity: 0; /* Entrance Transition */
         }
 
         /* Sophisticated Page Transition Curtain */
         #page-transition-mask {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 100%; height: 100dvh;
             background: #000;
             z-index: 9999;
             pointer-events: none;
             transform: translateY(0);
+            will-change: transform;
         }
 
         .noise {
@@ -87,7 +88,7 @@
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { display: inline-block; transform: translateY(115%); }
+        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
 
         section { position: relative; width: 100%; padding: clamp(4rem, 10vw, 12rem) var(--gutter); }
 
@@ -97,46 +98,13 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
+        .main-logo { height: 20px; width: auto; transition: transform 0.5s ease; }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
-        /* Navigation Links */
-        .nav-link { position: relative; transition: opacity 0.3s; }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px; left: 0; width: 0; height: 1px;
-            background: white;
-            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link.active::after { width: 100%; opacity: 0.4; }
-
-        /* Mobile Nav Overlay */
-        .mobile-nav-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100dvh;
-            background: var(--bg);
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 var(--gutter);
-            transform: translateY(-100%);
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .mobile-nav-overlay.active { 
-            transform: translateY(0); 
-            visibility: visible;
-            pointer-events: auto;
-        }
-
-        /* Project Entry Logic */
+        /* Project Entry Logic (Responsive) */
         .project-entry {
             border-top: 1px solid var(--border);
-            padding: 5rem 0;
+            padding: clamp(3rem, 8vw, 5rem) 0;
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
@@ -155,43 +123,40 @@
 
         .project-title {
             font-family: var(--font-serif);
-            font-size: clamp(2.5rem, 4vw, 5rem);
-            line-height: 0.9;
+            font-size: clamp(2rem, 5vw, 5rem);
+            line-height: 0.95;
             color: var(--fg);
             margin-bottom: 1rem;
             transition: color 0.4s ease;
             display: inline-block;
         }
         
-        .project-entry:hover .project-title {
-            font-style: italic;
-        }
+        .project-entry:hover .project-title { font-style: italic; }
 
         .meta-label {
-            font-size: 10px;
+            font-size: clamp(8px, 1.2vw, 10px);
             text-transform: uppercase;
             letter-spacing: 0.4em;
             opacity: 0.3;
         }
 
         .project-focus {
-            font-size: 1.15rem;
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
             color: #888;
             font-weight: 300;
             line-height: 1.5;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             max-width: 500px;
         }
 
         .case-study-link {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.3em;
-            text-decoration: none;
             color: var(--fg);
             display: inline-flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             transition: opacity 0.3s ease;
         }
         .case-study-link:hover { opacity: 0.6; }
@@ -209,31 +174,37 @@
             display: block;
             will-change: transform;
         }
+        @media (max-width: 1023px) { .thumbnail-restrained { max-width: 100%; } }
         .project-entry:hover .thumbnail-restrained { opacity: 1; transform: scale(1.02); }
         .thumbnail-restrained img { width: 100%; height: 100%; object-fit: cover; }
 
-        .live-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.5;
-            font-size: 9px;
-            letter-spacing: 0.2em;
+        /* Navigation Links */
+        .nav-link { position: relative; transition: opacity 0.3s; }
+        .nav-link::after {
+            content: ''; position: absolute;
+            bottom: -4px; left: 0; width: 0; height: 1px;
+            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .live-dot {
-            width: 4px; height: 4px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active::after { width: 100%; opacity: 0.4; }
 
-        .reveal-up { opacity: 0; transform: translateY(40px); }
+        /* Mobile Nav */
+        .mobile-nav-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: var(--bg); z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 var(--gutter);
+            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            visibility: hidden;
+        }
+        .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; }
+
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .reveal-up { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Sophisticated Page Transition Curtain -->
+    <!-- Transition Curtain -->
     <div id="page-transition-mask"></div>
 
     <div id="cursor"></div>
@@ -245,7 +216,7 @@
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
-    <!-- Navigation (Identical to index.html) -->
+    <!-- Navigation -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
             <!-- LOGO SPECIFICATION: 400 x 80px -->
@@ -255,7 +226,7 @@
             
             <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
                 <div class="live-status mr-4">
-                    <div class="live-dot"></div>
+                    <div class="w-1 h-1 bg-green-400 rounded-full"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
                 <a href="work.html" class="nav-link nav-magnetic-item active page-nav-link">Work</a>
@@ -265,9 +236,9 @@
                 <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-4" onclick="toggleMenu()">Menu</button>
             
-            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+            <div class="hidden xl:block text-[8px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
             </div>
         </div>
@@ -276,25 +247,25 @@
     <!-- Mobile Overlay -->
     <div class="mobile-nav-overlay" id="mobile-nav">
         <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
+            <a href="work.html" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
-        <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
-            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
-            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4" onclick="toggleMenu()">[ Close ]</button>
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
+            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
         </div>
     </div>
 
     <!-- HEADER -->
     <header class="pt-40 lg:pt-60 px-[var(--gutter)]">
         <div class="max-w-screen-2xl mx-auto">
-            <h1 class="reveal-text serif text-[clamp(4rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-8">
+            <h1 class="reveal-text serif text-[clamp(3.5rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-8">
                 <span>Selected Work.</span>
             </h1>
-            <p class="text-xl sm:text-2xl text-[#888] font-light max-w-2xl reveal-up">
+            <p class="text-lg sm:text-xl lg:text-2xl text-[#888] font-light max-w-2xl reveal-up">
                 A curated selection of branding and web projects focused on clarity, structure, and long-term impact.
             </p>
         </div>
@@ -314,14 +285,14 @@
                     <a href="aquapet.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Aquapet Kenya</h2>
                     </a>
-                    <p class="project-focus">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
-                    <a href="aquapet.html" class="case-study-link nav-magnetic-item page-nav-link">
+                    <p class="project-focus">Positioned the brand for market leadership through a cohesive visual ecosystem.</p>
+                    <a href="aquapet.html" class="case-study-link page-nav-link">
                         → View case study
                     </a>
                 </div>
-                <div class="entry-visual hidden lg:flex">
+                <div class="entry-visual">
                     <a href="aquapet.html" class="thumbnail-restrained page-nav-link">
-                        <img src="images/aquapet.jpg" alt="Aquapet Kenya Thumbnail (800x500px)">
+                        <img src="images/aquapet.jpg" alt="Aquapet Kenya">
                     </a>
                 </div>
             </article>
@@ -336,14 +307,14 @@
                     <a href="fast-kat.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Fast Kat Connects</h2>
                     </a>
-                    <p class="project-focus">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
-                    <a href="fast-kat.html" class="case-study-link nav-magnetic-item page-nav-link">
+                    <p class="project-focus">Streamlined brand perception to secure high-value B2B partnerships.</p>
+                    <a href="fast-kat.html" class="case-study-link page-nav-link">
                         → View case study
                     </a>
                 </div>
-                <div class="entry-visual hidden lg:flex">
+                <div class="entry-visual">
                     <a href="fast-kat.html" class="thumbnail-restrained page-nav-link">
-                        <img src="images/fastkat.jpg" alt="Fast Kat Connects Thumbnail (800x500px)">
+                        <img src="images/fastkat.jpg" alt="Fast Kat Connects">
                     </a>
                 </div>
             </article>
@@ -358,14 +329,14 @@
                     <a href="ocean-line.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Ocean Line</h2>
                     </a>
-                    <p class="project-focus">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
-                    <a href="ocean-line.html" class="case-study-link nav-magnetic-item page-nav-link">
+                    <p class="project-focus">Architected identity to drive global authority in freight systems.</p>
+                    <a href="ocean-line.html" class="case-study-link page-nav-link">
                         → View case study
                     </a>
                 </div>
-                <div class="entry-visual hidden lg:flex">
+                <div class="entry-visual">
                     <a href="ocean-line.html" class="thumbnail-restrained page-nav-link">
-                        <img src="images/oceanline.jpg" alt="Ocean Line Thumbnail (800x500px)">
+                        <img src="images/oceanline.jpg" alt="Ocean Line">
                     </a>
                 </div>
             </article>
@@ -380,14 +351,14 @@
                     <a href="ikon-trailers.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Ikon Trailers</h2>
                     </a>
-                    <p class="project-focus">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
-                    <a href="ikon-trailers.html" class="case-study-link nav-magnetic-item page-nav-link">
+                    <p class="project-focus">Engineered a robust system to increase recognition across dealer networks.</p>
+                    <a href="ikon-trailers.html" class="case-study-link page-nav-link">
                         → View case study
                     </a>
                 </div>
-                <div class="entry-visual hidden lg:flex">
+                <div class="entry-visual">
                     <a href="ikon-trailers.html" class="thumbnail-restrained page-nav-link">
-                        <img src="images/ikontrailers.jpg" alt="Ikon Trailers Thumbnail (800x500px)">
+                        <img src="images/ikontrailers.jpg" alt="Ikon Trailers">
                     </a>
                 </div>
             </article>
@@ -395,19 +366,19 @@
         </div>
     </section>
 
-    <!-- FOOTER NAVIGATION -->
-    <footer class="pb-20 pt-40 border-t border-white/5">
+    <!-- FOOTER CTA -->
+    <footer class="pb-16 pt-32 border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12">
                 <div>
-                    <p class="text-[10px] uppercase tracking-[0.4em] opacity-30 mb-8 max-w-sm leading-relaxed">
+                    <p class="text-[9px] uppercase tracking-[0.4em] opacity-30 mb-8 max-w-sm leading-relaxed">
                         Each project explores the context, constraints, decisions, and outcomes behind the work.
                     </p>
-                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-4xl text-white font-light leading-tight hover:italic transition-all page-nav-link">
+                    <a href="mailto:ondwariobiko@gmail.com" class="serif text-[clamp(2rem,5vw,4rem)] text-white font-light leading-tight hover:italic transition-all">
                         Start a flagship project →
                     </a>
                 </div>
-                <div class="flex flex-col justify-end text-[10px] uppercase tracking-[0.4em] opacity-30 text-left lg:text-right">
+                <div class="flex flex-col justify-end text-[9px] uppercase tracking-[0.4em] opacity-30 text-left lg:text-right">
                     <div class="mb-4">© 2026 ondwariobiko</div>
                     <div>Strategic Brand Systems</div>
                 </div>
@@ -417,111 +388,63 @@
 
     <script>
         function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
+            const timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
             document.getElementById('local-time').textContent = timeStr;
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateTime, 1000); updateTime();
 
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
             menu.classList.toggle('active');
-            const isActive = menu.classList.contains('active');
-            if (isActive) lenis.stop(); else lenis.start();
+            if (menu.classList.contains('active')) lenis.stop(); else lenis.start();
         }
 
-        const lenis = new Lenis({ 
-            lerp: 0.1, 
-            smoothWheel: true,
-            force3D: true
-        });
-
+        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, force3D: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
-        const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(pointer: fine)").matches) {
-            cursor.style.display = 'block';
-            document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" });
-            });
-
-            document.querySelectorAll('.nav-magnetic-item, a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15, mixBlendMode: 'difference' }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
-            });
-            
-            document.querySelectorAll('.nav-magnetic-item').forEach(el => {
-                el.addEventListener('mousemove', (e) => {
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-                });
-            });
-        }
-
         gsap.registerPlugin(ScrollTrigger);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
 
-        // Entrance Transition Logic
+        // Entrance
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to("#page-transition-mask", {
-                yPercent: -100,
-                duration: 1.2,
-                ease: "expo.inOut"
-            })
-            .to("body", {
-                opacity: 1,
-                duration: 0.1
-            }, "-=0.8")
-            .to(".reveal-text span", { 
-                y: 0, 
-                stagger: 0.08, 
-                duration: 1.5, 
-                ease: "expo.out" 
-            }, "-=0.4");
+            gsap.timeline()
+                .to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
+                .to("body", { opacity: 1, duration: 0.1 }, "-=0.8")
+                .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4");
         });
 
-        // Exit Transition Logic
+        // Exit Transition
         document.querySelectorAll('.page-nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
-                const destination = link.getAttribute('href');
-                if (destination && destination !== '#' && !destination.includes('mailto:') && !destination.includes('tel:')) {
+                const dest = link.getAttribute('href');
+                if (dest && dest !== '#' && !dest.includes('mailto:')) {
                     e.preventDefault();
-                    gsap.to("#page-transition-mask", {
-                        yPercent: 0,
-                        duration: 0.8,
-                        ease: "expo.inOut",
-                        onComplete: () => {
-                            window.location.href = destination;
-                        }
-                    });
+                    gsap.to("#page-transition-mask", { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => window.location.href = dest });
                 }
             });
         });
-        
+
         document.querySelectorAll('.reveal-up').forEach(el => {
-            gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" } });
+            gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 95%" } });
         });
 
         ScrollTrigger.create({
             start: "top -40",
-            onEnter: () => {
-                const nav = document.getElementById('main-nav');
-                nav.classList.add('blur-header');
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
-            },
-            onLeaveBack: () => {
-                const nav = document.getElementById('main-nav');
-                nav.classList.remove('blur-header');
-                gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
-            }
+            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
+            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
         });
+
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15 }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+            });
+        }
     </script>
 </body>
 </html>
