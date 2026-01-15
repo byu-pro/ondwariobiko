@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ondwariobiko – Strategic Brand & Web Systems</title>
     <!-- Favicon Integration -->
     <link rel="icon" type="image/png" href="images/favicon.png">
@@ -24,7 +24,7 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1.25rem, 5vw, 5rem);
+            --gutter: clamp(1rem, 5vw, 5rem);
             --header-h: 70px;
         }
 
@@ -38,18 +38,17 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; /* Entrance Transition */
+            opacity: 0; /* Hidden for entrance transition */
         }
 
-        /* Responsive Mask Reveal */
+        /* Sophisticated Page Transition Curtain */
         #page-transition-mask {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100dvh;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: #000;
             z-index: 9999;
             pointer-events: none;
             transform: translateY(0);
-            will-change: transform;
         }
 
         .noise {
@@ -64,7 +63,16 @@
 
         @keyframes noise-move {
             0% { transform: translate(0,0); }
-            100% { transform: translate(1%,1%); }
+            10% { transform: translate(-1%,-1%); }
+            20% { transform: translate(1%,1%); }
+            30% { transform: translate(-2%,1%); }
+            40% { transform: translate(1%,-2%); }
+            50% { transform: translate(-1%,1%); }
+            60% { transform: translate(-2%,-2%); }
+            70% { transform: translate(1%,1%); }
+            80% { transform: translate(-1%,-1%); }
+            90% { transform: translate(1%,-2%); }
+            100% { transform: translate(0,0); }
         }
 
         .serif { font-family: var(--font-serif); font-weight: 400; }
@@ -78,7 +86,15 @@
             z-index: 10000;
             mix-blend-mode: difference;
             display: none;
-            transition: width 0.3s, height 0.3s;
+            transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 2px;
+            background: white;
+            z-index: 201;
+            mix-blend-mode: difference;
         }
 
         .grid-overlay {
@@ -100,22 +116,38 @@
         }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
+        .reveal-text span { display: inline-block; transform: translateY(115%); }
 
         .btn-magnetic {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1.15rem 2.5rem;
+            padding: 1.25rem 3rem;
             border: 1px solid var(--border);
             border-radius: 999px;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
             transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
             background: transparent;
             color: var(--fg);
+            position: relative;
+            overflow: hidden;
         }
+
+        .btn-magnetic::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%; width: 0; height: 0;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-magnetic:hover { color: black; border-color: white; }
+        .btn-magnetic:hover::before { width: 300%; height: 300%; }
 
         @media (min-width: 1024px) {
             .horizontal-track {
@@ -136,42 +168,65 @@
             }
         }
 
-        /* Mobile Layout Logic */
         @media (max-width: 1023px) {
             .horizontal-item { 
-                padding: 4rem 0;
+                padding: clamp(4rem, 10vh, 8rem) var(--gutter);
                 border-bottom: 1px solid var(--border);
-                width: 100%;
             }
-            .horizontal-item:last-child { border-bottom: none; }
         }
 
         .project-img-wrapper {
             width: 100%;
             max-width: 1100px;
             aspect-ratio: 16/9;
+            max-height: 55vh;
             background: #0f0f0f;
             overflow: hidden;
             position: relative;
             border: 1px solid var(--border);
             margin-top: 1.5rem;
+            cursor: pointer;
             display: block;
             will-change: transform;
         }
 
         .project-img {
             width: 100%;
-            height: 100%;
+            height: 110%;
             object-fit: cover;
             filter: grayscale(100%);
             transition: filter 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        @media (hover: hover) {
-            .project-img-wrapper:hover .project-img { filter: grayscale(0%); transform: scale(1.04); }
+        .project-hover-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 10;
         }
 
-        /* Responsive Navigation */
+        @media (hover: hover) {
+            .project-img-wrapper:hover .project-hover-overlay { opacity: 1; }
+            .project-img-wrapper:hover .project-inner-label { transform: translateY(0); opacity: 1; }
+            .project-img-wrapper:hover .project-img { filter: grayscale(0%); transform: scale(1.05); }
+        }
+
+        .project-inner-label {
+            font-family: var(--font-serif);
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            color: white;
+            font-style: italic;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
+        }
+
         .mobile-nav-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100dvh;
@@ -182,13 +237,28 @@
             justify-content: center;
             padding: 0 var(--gutter);
             transform: translateY(-100%);
-            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
             visibility: hidden;
+            pointer-events: none;
         }
 
-        .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; }
+        .mobile-nav-overlay.active { 
+            transform: translateY(0); 
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .nav-link { position: relative; transition: opacity 0.3s; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; width: 0; height: 1px;
+            background: white;
+            transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-link:hover::after { width: 100%; }
         
-        section { position: relative; width: 100%; padding: clamp(4rem, 12vw, 15rem) var(--gutter); }
+        section { position: relative; width: 100%; padding: clamp(6rem, 15vw, 15rem) var(--gutter); }
 
         .blur-header {
             backdrop-filter: blur(25px);
@@ -196,17 +266,18 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .main-logo { height: 20px; width: auto; transition: transform 0.5s ease; }
+        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
         .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
-        .inverted h2, .inverted .serif { color: #080808 !important; }
+        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
+        .inverted .border-white\/5 { border-color: rgba(0,0,0,0.06); }
 
         .section-index {
-            font-size: 9px;
+            font-size: 10px;
             letter-spacing: 0.3em;
             opacity: 0.2;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: block;
             font-weight: 600;
         }
@@ -216,20 +287,33 @@
             align-items: center;
             gap: 8px;
             opacity: 0.5;
-            font-size: 8px;
+            font-size: 9px;
             letter-spacing: 0.2em;
         }
-        
-        .reveal-up { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
-        .scale-up { transform: scale(0.97); opacity: 0; transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.5s ease; }
+        .live-dot {
+            width: 4px; height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .reveal-up { opacity: 0; transform: translateY(60px); }
+        .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.8s ease; }
         .scale-up.active { transform: scale(1); opacity: 1; }
+
+        .impact-list { display: flex; flex-direction: column; gap: 1.5rem; }
+        .impact-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .impact-dot { width: 4px; height: 4px; background: currentColor; border-radius: 50%; margin-top: 0.75rem; flex-shrink: 0; opacity: 0.3; }
+        .impact-text { font-weight: 300; line-height: 1.6; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Transition Curtain -->
+    <!-- Sophisticated Page Transition Curtain -->
     <div id="page-transition-mask"></div>
 
+    <div id="progress-bar"></div>
     <div id="cursor"></div>
     <div class="noise"></div>
 
@@ -239,7 +323,6 @@
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
     </div>
 
-    <!-- Navigation -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
         <div class="w-full px-[var(--gutter)] flex justify-between items-center">
             <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6">
@@ -248,19 +331,19 @@
             
             <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
                 <div class="live-status mr-4">
-                    <div class="w-1 h-1 bg-green-400 rounded-full"></div>
+                    <div class="live-dot"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
-                <a href="work.html" class="nav-link page-nav-link">Work</a>
-                <a href="#" class="nav-link page-nav-link">About</a>
-                <a href="#" class="nav-link page-nav-link">Services</a>
-                <a href="#" class="nav-link page-nav-link">Insights</a>
-                <a href="#" class="nav-link page-nav-link">Contact</a>
+                <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">About</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Services</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Insights</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
-            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-4" onclick="toggleMenu()">Menu</button>
+            <button class="lg:hidden text-[10px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2" onclick="toggleMenu()">Menu</button>
             
-            <div class="hidden xl:block text-[8px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
                 Independent Practice<br>Strategic Brand Systems
             </div>
         </div>
@@ -268,104 +351,194 @@
 
     <div class="mobile-nav-overlay" id="mobile-nav">
         <div class="flex flex-col space-y-2">
-            <a href="work.html" class="serif text-[14vw] hover:italic transition-all leading-none page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none page-nav-link" onclick="toggleMenu()">Insights</a>
-            <a href="#" class="serif text-[14vw] hover:italic transition-all leading-none page-nav-link" onclick="toggleMenu()">Contact</a>
+            <a href="work.html" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif text-[16vw] hover:italic transition-all leading-none py-1 page-nav-link" onclick="toggleMenu()">Contact</a>
         </div>
-        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
-            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
-            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
+        <div class="absolute bottom-12 left-0 right-0 px-[var(--gutter)] flex justify-between items-end border-t border-white/5 pt-10">
+            <div class="text-[10px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[10px] uppercase tracking-[0.5em] font-bold py-4" onclick="toggleMenu()">[ Close ]</button>
         </div>
     </div>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex flex-col justify-end pt-32 pb-16">
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col justify-end pt-32 pb-20">
         <div class="max-w-screen-2xl w-full mx-auto">
-            <h1 class="reveal-text serif text-[clamp(2.4rem,8.5vw,10rem)] leading-[0.9] tracking-tighter mb-10">
+            <h1 class="reveal-text serif text-[clamp(2.8rem,9vw,10.5rem)] leading-[0.88] tracking-tighter mb-12">
                 <span>I design strategic brand</span><br>
                 <span>and web systems for businesses</span><br>
                 <span>that need clarity, credibility,</span><br>
                 <span>and long-term impact.</span>
             </h1>
 
-            <div id="hero-meta" class="grid lg:grid-cols-12 gap-10 items-end">
-                <div class="lg:col-span-8 xl:col-span-7">
-                    <p class="text-lg sm:text-xl lg:text-2xl leading-snug text-[#999] font-light max-w-2xl reveal-up">
+            <div id="hero-cred" class="mb-14 overflow-hidden flex items-center gap-6 text-[10px] tracking-[0.5em] uppercase opacity-0 translate-y-6">
+                <div class="w-12 h-[1px] bg-white opacity-20"></div>
+                Strategy-First Creative Partner based in Nairobi
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 items-end">
+                <div class="lg:col-span-8 xl:col-span-6">
+                    <p id="hero-sub" class="text-xl sm:text-2xl lg:text-3xl leading-snug text-[#999] font-light opacity-0 translate-y-6 max-w-2xl">
                         Helping companies communicate who they are, what they stand for, and why they matter through thoughtful branding and web design.
                     </p>
                 </div>
-                <div class="lg:col-start-10 lg:col-span-3 flex flex-col items-start lg:items-end reveal-up">
-                    <a href="#work-trigger" class="btn-magnetic">
+                <div id="hero-cta" class="lg:col-start-10 lg:col-span-3 flex flex-col gap-6 items-start lg:items-end opacity-0 translate-y-6">
+                    <a href="#work-trigger" class="btn-magnetic group">
                         <span>View selected work</span>
+                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" class="ml-4 group-hover:translate-x-1 transition-transform">
+                            <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MENTAL MODEL -->
-    <section class="inverted border-y border-black/5">
+    <!-- INDEX 01: MENTAL MODEL -->
+    <section id="who" class="inverted border-y border-black/5">
         <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10">
             <div class="lg:col-span-4">
                 <span class="section-index">INDEX 01</span>
-                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
             </div>
             <div class="lg:col-span-8">
-                <p class="serif text-[clamp(1.8rem,5vw,4.5rem)] leading-[1.05] text-black reveal-up">
+                <p class="serif text-[clamp(2rem,5.5vw,5rem)] leading-[1.02] text-black mb-14 reveal-up">
                     I work with founders and teams in tech, ecommerce, and service brands who value clarity, strategic thinking, and long-term credibility.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- WORK -->
-    <div id="work-trigger" class="bg-[#050505] overflow-x-hidden">
-        <div class="px-[var(--gutter)] pt-24 pb-12">
+    <!-- INDEX 02: CAPABILITIES -->
+    <section id="about" class="border-b border-white/5">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 02</span>
+            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-24 reveal-up">Capabilities</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-20">
+                <!-- Brand Identity -->
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
+                    <h3 class="text-2xl font-medium mb-10">Identity</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Translate complex business strategy into high-fidelity visual identity systems.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Build instant audience trust and market recognition through rigorous design standards.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Web Systems -->
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
+                    <h3 class="text-2xl font-medium mb-10">Systems</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Architect digital platforms that convert business objectives into seamless user journeys.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Deliver high-performance web systems optimized for longevity, accessibility, and speed.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Continuity -->
+                <div class="reveal-up">
+                    <span class="block text-[9px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
+                    <h3 class="text-2xl font-medium mb-10">Growth</h3>
+                    <div class="impact-list">
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Sustain brand authority through cohesive standards across every digital touchpoint.</p>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-dot"></div>
+                            <p class="impact-text text-lg text-[#777]">Scale visual communication systems that adapt as the organization grows in complexity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX 03: SELECTED WORK -->
+    <div id="work-trigger" class="work-section bg-[#050505]">
+        <div class="px-[var(--gutter)] pt-32 pb-16">
             <div class="max-w-screen-2xl mx-auto">
-                <span class="section-index">INDEX 02</span>
-                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-8 reveal-up">Proof of Work</h2>
-                <p class="serif text-[clamp(1.8rem,3.5vw,3.5rem)] text-[#eee] max-w-3xl reveal-up leading-tight">
-                    Branding and web systems engineered to bring structure, clarity, and confidence.
+                <span class="section-index">INDEX 03</span>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Proof of Work</h2>
+                <p class="serif text-[clamp(2rem,4vw,4rem)] text-[#eee] max-w-4xl font-light reveal-up leading-tight">
+                    A selection of branding and web projects designed to bring structure, clarity, and confidence to global businesses.
                 </p>
             </div>
         </div>
 
-        <div class="lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden" id="work-pin-wrapper">
+        <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
             <div class="horizontal-track" id="work">
                 <!-- Project 01 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
                         <a href="aquapet.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.9] mb-4 italic transition-opacity group-hover:opacity-70">Aquapet Kenya</h3>
+                            <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
                         </a>
-                        <p class="text-base sm:text-lg text-[#888] max-w-xl mb-8 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive visual ecosystem.</p>
-                        <a href="aquapet.html" class="project-img-wrapper scale-up page-nav-link">
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Positioned the brand for market leadership through a cohesive and trusted visual ecosystem.</p>
+                        <a href="aquapet.html" class="project-img-wrapper group scale-up page-nav-link">
                             <img src="images/aquapet.jpg" alt="Aquapet" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Aquatic</div>
                         </a>
                     </div>
                 </div>
                 <!-- Project 02 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
-                        <h3 class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.9] mb-4 italic">Fast Kat Connects</h3>
-                        <p class="text-base sm:text-lg text-[#888] max-w-xl mb-8 font-light leading-relaxed">Streamlined brand perception to secure high-value B2B partnerships.</p>
-                        <div class="project-img-wrapper scale-up">
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Fast Kat Connects</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Helped streamline brand perception to secure and scale high-value B2B logistics partnerships.</p>
+                        <div class="project-img-wrapper group scale-up">
                             <img src="images/fastkat.jpg" alt="Fast Kat" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Velocity</div>
                         </div>
                     </div>
                 </div>
                 <!-- Project 03 -->
                 <div class="horizontal-item">
                     <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
-                        <h3 class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.9] mb-4 italic">Ocean Line</h3>
-                        <p class="text-base sm:text-lg text-[#888] max-w-xl mb-8 font-light leading-relaxed">Architected identity to drive global authority in freight systems.</p>
-                        <div class="project-img-wrapper scale-up">
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ocean Line</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Architected a high-performance brand identity to drive global authority in maritime freight.</p>
+                        <div class="project-img-wrapper group scale-up">
                             <img src="images/oceanline.jpg" alt="Ocean Line" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Maritime</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Project 04 -->
+                <div class="horizontal-item">
+                    <div class="max-w-screen-2xl w-full">
+                        <span class="text-[9px] font-mono opacity-20 mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
+                        <h3 class="serif text-[clamp(3rem,8.5vw,9.5rem)] leading-[0.85] mb-4 italic">Ikon Trailers</h3>
+                        <p class="text-lg sm:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Engineered a robust industrial system to increase recognition across a growing dealer network.</p>
+                        <div class="project-img-wrapper group scale-up">
+                            <img src="images/ikontrailers.jpg" alt="Ikon Trailers" class="project-img">
+                            <div class="project-hover-overlay">
+                                <span class="project-inner-label">View Case Study</span>
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Industrial</div>
                         </div>
                     </div>
                 </div>
@@ -373,107 +546,255 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer id="contact" class="pb-16 pt-32 border-t border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] text-center lg:text-left">
-            <h2 class="serif text-[clamp(2rem,6vw,7rem)] text-[#ccc] mb-20 font-light leading-[1.05] reveal-up">
-                Looking for a structured approach to your next brand system?
-            </h2>
-            <a href="mailto:ondwariobiko@gmail.com" class="text-2xl sm:text-5xl lg:text-6xl underline underline-offset-[16px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 serif inline-block reveal-up">
-                Send an inquiry
-            </a>
-            
-            <div class="flex flex-col lg:flex-row justify-between pt-24 mt-24 border-t border-white/5 gap-8 text-[9px] uppercase tracking-[0.4em] opacity-30">
-                <div>© 2026 ondwariobiko — Registered Practice</div>
-                <div class="flex justify-center gap-10">
-                    <a href="#" class="hover:text-white">LinkedIn</a>
-                    <a href="#" class="hover:text-white">Behance</a>
+    <!-- INDEX 04: PRINCIPLES -->
+    <section class="inverted border-t border-black/5">
+        <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
+            <span class="section-index mb-10">INDEX 04</span>
+            <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-40 mb-16 reveal-up">Principles</h2>
+            <p class="serif text-[clamp(2.5rem,7vw,8rem)] leading-[0.92] tracking-tight mb-20 max-w-6xl text-black reveal-up">
+                I approach design as a strategic tool — not decoration.
+            </p>
+            <div class="w-full max-w-4xl border-t border-black/10 pt-16 reveal-up">
+                 <p class="text-xl sm:text-2xl lg:text-3xl leading-relaxed text-[#555] font-light">
+                    Every decision is shaped by context, purpose, and long-term impact. If it doesn't solve a problem, it's just noise.
+                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX 05: COLLABORATIONS -->
+    <footer id="contact" class="pb-20 pt-40 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
+            <div class="mb-48">
+                <span class="section-index">INDEX 05</span>
+                <h2 class="text-[10px] tracking-[0.5em] uppercase opacity-30 mb-14 reveal-up">Collaborations</h2>
+                <p class="serif text-[clamp(2rem,4.5vw,5rem)] text-[#ccc] max-w-5xl mb-24 font-light leading-[1.1] reveal-up">
+                    Looking for a thoughtful, structured approach to your next brand system? I’m open to conversations about new projects.
+                </p>
+                <div class="flex flex-col items-start gap-6 reveal-up">
+                    <a href="mailto:ondwariobiko@gmail.com" class="text-3xl sm:text-5xl lg:text-7xl underline underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
+                        Send an inquiry
+                    </a>
+
+                    <div class="mt-32 pt-16 border-t border-white/5 grid lg:grid-cols-2 gap-20 w-full">
+                        <div>
+                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
+                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                                Partnering with founders in Nairobi, London, and Berlin to transform technical complexity into clear, high-trust brand systems.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase tracking-[0.5em] opacity-30 mb-6 block">The Mandate</span>
+                            <p class="text-lg text-[#888] leading-relaxed font-light max-w-md">
+                                A rigorous blend of business strategy and high-fidelity design, ensuring every pixel serves a commercial purpose and enduring brand equity.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-24 flex flex-col gap-3">
+                        <span class="text-[9px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
+                        <a href="mailto:ondwariobiko@gmail.com" class="text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
+                        <a href="tel:+254702255575" class="text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
+                    </div>
                 </div>
-                <div>Nairobi — Serving Worldwide</div>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row justify-between pt-16 border-t border-white/5 gap-12 text-[10px] uppercase tracking-[0.4em] opacity-30">
+                <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
+                <div class="flex flex-wrap gap-12 order-1 lg:order-2">
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Behance</a>
+                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Instagram</a>
+                </div>
+                <div class="order-3">Based in Nairobi — Serving Worldwide</div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Performance Optimized Time
         function updateTime() {
-            const timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
-            document.getElementById('local-time').textContent = timeStr;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
+            const localTimeEl = document.getElementById('local-time');
+            if (localTimeEl) localTimeEl.textContent = timeStr;
         }
-        setInterval(updateTime, 1000); updateTime();
+        setInterval(updateTime, 1000);
+        updateTime();
 
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
+            if (!menu) return;
             menu.classList.toggle('active');
-            if (menu.classList.contains('active')) lenis.stop(); else lenis.start();
+            const isActive = menu.classList.contains('active');
+            if (isActive) {
+                if (typeof lenis !== 'undefined') lenis.stop();
+            } else {
+                if (typeof lenis !== 'undefined') lenis.start();
+            }
         }
 
-        const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, force3D: true });
+        const lenis = new Lenis({ 
+            lerp: 0.1, 
+            smoothWheel: true,
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothTouch: false,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+            normalizeWheel: true,
+            infinite: false,
+        });
+
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
         requestAnimationFrame(raf);
 
-        // Entrance Logic
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches && cursor) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" });
+            });
+            
+            document.querySelectorAll('a, button, .serif').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
+            });
+
+            document.querySelectorAll('.project-img-wrapper').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(cursor, { width: 80, height: 80, backgroundColor: 'white', opacity: 1, mixBlendMode: 'difference', borderRadius: '50%' });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(cursor, { width: 10, height: 10, backgroundColor: 'white', mixBlendMode: 'difference' });
+                });
+            });
+
+            document.querySelectorAll('.nav-magnetic-item').forEach(el => {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+                });
+            });
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Synchronize Lenis and ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // Entrance Transition Logic
         window.addEventListener('load', () => {
-            gsap.timeline()
-                .to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
-                .to("body", { opacity: 1, duration: 0.1 }, "-=0.8")
-                .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4")
-                .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1");
+            const tl = gsap.timeline();
+            tl.to("#page-transition-mask", {
+                yPercent: -100,
+                duration: 1.2,
+                ease: "expo.inOut"
+            })
+            .to("body", {
+                opacity: 1,
+                duration: 0.1
+            }, "-=0.8")
+            .to(".reveal-text span", { 
+                y: 0, 
+                stagger: 0.08, 
+                duration: 1.5, 
+                ease: "expo.out" 
+            }, "-=0.4")
+            .to("#hero-cred, #hero-sub, #hero-cta", { 
+                opacity: 1, 
+                y: 0, 
+                stagger: 0.1, 
+                duration: 1.2, 
+                ease: "expo.out" 
+            }, "-=1");
         });
 
-        // Exit Logic
+        // Sophisticated Exit Transition Hook
         document.querySelectorAll('.page-nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
-                const dest = link.getAttribute('href');
-                if (dest && dest !== '#' && !dest.includes('mailto:')) {
+                const destination = link.getAttribute('href');
+                if (destination && destination !== '#' && !destination.includes('mailto:')) {
                     e.preventDefault();
-                    gsap.to("#page-transition-mask", { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => window.location.href = dest });
+                    gsap.to("#page-transition-mask", {
+                        yPercent: 0,
+                        duration: 0.8,
+                        ease: "expo.inOut",
+                        onComplete: () => {
+                            window.location.href = destination;
+                        }
+                    });
                 }
             });
         });
 
-        gsap.registerPlugin(ScrollTrigger);
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
+        gsap.to("#progress-bar", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: { scrub: 0.3 }
+        });
 
-        // Horizontal Scroll Responsive Toggle
         let mm = gsap.matchMedia();
         mm.add("(min-width: 1024px)", () => {
             const track = document.getElementById("work");
             const pinWrapper = document.getElementById("work-pin-wrapper");
             let sections = gsap.utils.toArray(".horizontal-item");
             
-            gsap.to(sections, {
-                xPercent: -100 * (sections.length - 1),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: pinWrapper,
-                    pin: true,
-                    scrub: 0.8,
-                    invalidateOnRefresh: true,
-                    end: () => "+=" + (track.scrollWidth - window.innerWidth)
-                }
-            });
+            if (track && pinWrapper && sections.length > 0) {
+                gsap.to(sections, {
+                    xPercent: -100 * (sections.length - 1),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: pinWrapper,
+                        pin: true,
+                        scrub: 0.8,
+                        invalidateOnRefresh: true,
+                        force3D: true,
+                        end: () => "+=" + (track.scrollWidth - window.innerWidth)
+                    }
+                });
+            }
         });
 
-        // Global Scroll Reveal
         document.querySelectorAll('.reveal-up').forEach(el => {
-            gsap.to(el, { opacity: 1, y: 0, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 95%" } });
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 1.8, ease: "expo.out",
+                scrollTrigger: { trigger: el, start: "top 94%", toggleActions: "play none none none" }
+            });
         });
 
         document.querySelectorAll('.scale-up').forEach(el => {
-            ScrollTrigger.create({ trigger: el, start: "top 95%", onEnter: () => el.classList.add('active') });
+            ScrollTrigger.create({
+                trigger: el, start: "top 95%",
+                onEnter: () => el.classList.add('active')
+            });
         });
 
-        const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(pointer: fine)").matches) {
-            cursor.style.display = 'block';
-            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
-            document.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15 }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
-            });
-        }
+        ScrollTrigger.create({
+            start: "top -40",
+            onEnter: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.add('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 90, duration: 0.6, ease: "expo.out" });
+                }
+            },
+            onLeaveBack: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.remove('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 70 : 120, duration: 0.6, ease: "expo.out" });
+                }
+            }
+        });
+
+        window.addEventListener('resize', () => ScrollTrigger.refresh());
     </script>
 </body>
 </html>
