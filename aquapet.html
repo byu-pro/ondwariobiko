@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquapet Kenya – ondwariobiko Strategic Brand Systems</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #e5e5e5;
+            --muted: #666666;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --gutter: clamp(1.5rem, 6vw, 6rem);
+            --header-h: 70px;
+            --radius: 2rem;
+        }
+
+        @media (min-width: 1024px) { :root { --header-h: 120px; } }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .noise {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            animation: noise-move 0.2s steps(2) infinite;
+        }
+
+        @keyframes noise-move { 0% { transform: translate(0,0); } 100% { transform: translate(1%,1%); } }
+
+        .serif { font-family: var(--font-serif); font-weight: 400; }
+        
+        #cursor {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(12, 1fr);
+            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.3;
+        }
+        .grid-col { border-right: 1px solid var(--border); height: 100%; }
+        .grid-col:first-child { border-left: 1px solid var(--border); }
+
+        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .reveal-text span { display: inline-block; transform: translateY(115%); }
+
+        section { position: relative; width: 100%; padding: clamp(6rem, 12vw, 15rem) var(--gutter); }
+
+        .blur-header {
+            backdrop-filter: blur(25px);
+            background: rgba(8, 8, 8, 0.7) !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .main-logo { height: 24px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 1024px) { .main-logo { height: 32px; } }
+
+        .section-index {
+            font-size: 10px; letter-spacing: 0.4em; opacity: 0.3;
+            margin-bottom: 3rem; display: block; font-weight: 600;
+        }
+
+        .case-header-meta {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 2rem; border-top: 1px solid var(--border);
+            padding-top: 3rem; margin-top: 6rem;
+        }
+
+        @media (min-width: 1024px) { .case-header-meta { grid-template-columns: repeat(5, 1fr); } }
+
+        .meta-label { font-size: 9px; text-transform: uppercase; tracking-[0.4em]; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+        .meta-value { font-size: 15px; font-weight: 400; color: #bbb; }
+        .meta-value a { color: var(--fg); text-decoration: none; transition: opacity 0.3s; }
+        .meta-value a:hover { opacity: 0.5; }
+
+        .case-image-full-bleed {
+            width: 100%; background: #111; overflow: hidden;
+            margin: 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .case-image-full-bleed img, .case-image-full-bleed video { width: 100%; height: 100%; object-fit: cover; }
+
+        .content-label { font-size: 10px; text-transform: uppercase; tracking-[0.5em]; margin-bottom: 2rem; display: block; opacity: 0.4; }
+        .content-heading-large { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.95; margin-bottom: 4rem; letter-spacing: -0.02em; color: var(--fg); }
+        .content-body-text { font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.6; font-weight: 300; color: #999; }
+        .content-body-text strong { color: var(--fg); font-weight: 500; }
+
+        /* Visit Live Button Style */
+        .live-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 4rem;
+            padding: 1.25rem 3rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--fg);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .live-btn:hover {
+            background: var(--fg);
+            color: var(--bg);
+            border-color: var(--fg);
+        }
+
+        .reveal-up { opacity: 0; transform: translateY(60px); }
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 10px; text-transform: uppercase; letter-spacing: 0.4em;
+            opacity: 0.4; transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .back-link:hover { opacity: 1; transform: translateX(-8px); }
+
+        .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
+        .inverted h1, .inverted h2, .inverted h3, .inverted p, .inverted span { color: #080808 !important; }
+        .inverted .content-heading-large, .inverted .serif { color: #080808 !important; }
+        .inverted .content-body-text { color: #333 !important; }
+        .inverted .content-label, .inverted .section-index { opacity: 0.5 !important; }
+
+        .case-gallery-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 2rem; margin: 6rem 0;
+        }
+        .gallery-wide { grid-column: span 2; aspect-ratio: 21/9; }
+        .gallery-square { grid-column: span 1; aspect-ratio: 1/1; }
+        .gallery-portrait { grid-column: span 1; aspect-ratio: 4/5; }
+        
+        .media-container {
+            width: 100%; height: 100%; background: #0c0c0c;
+            overflow: hidden; border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        .media-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .media-container:hover img { transform: scale(1.05); }
+
+        .sketch-section { 
+            background: #0c0c0c; border-radius: var(--radius); 
+            padding: clamp(3rem, 8vw, 6rem); margin: 6rem 0; 
+            border: 1px solid var(--border); 
+        }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+    <div id="cursor"></div>
+    <div class="noise"></div>
+
+    <div class="grid-overlay">
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+    </div>
+
+    <!-- Persistent Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
+        <div class="w-full px-[var(--gutter)] flex justify-between items-center">
+            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity">
+                <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
+            </a>
+            
+            <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
+                <a href="index.html" class="nav-link">Work</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="#" class="nav-link">Services</a>
+                <a href="#" class="nav-link">Insights</a>
+                <a href="#" class="nav-link">Contact</a>
+            </div>
+            
+            <a href="index.html#work-trigger" class="back-link mix-blend-difference">
+                <svg width="20" height="1" viewBox="0 0 20 1" fill="none"><rect width="20" height="1" fill="currentColor"/></svg>
+                Back to Work
+            </a>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="pt-40 lg:pt-60 px-[var(--gutter)]">
+        <div class="max-w-screen-2xl mx-auto">
+            <h1 class="reveal-text serif text-[clamp(3.5rem,10vw,11rem)] leading-[0.82] tracking-tighter mb-16">
+                <span>Aquapet Kenya</span>
+            </h1>
+            
+            <div class="case-header-meta reveal-up">
+                <div><span class="meta-label">Industry</span><span class="meta-value">Aquatic Distribution</span></div>
+                <div><span class="meta-label">Scope</span><span class="meta-value">Identity, Strategy</span></div>
+                <div><span class="meta-label">Year</span><span class="meta-value">2025</span></div>
+                <div><span class="meta-label">Role</span><span class="meta-value">Lead Designer</span></div>
+                <div><span class="meta-label">Live Project</span><span class="meta-value"><a href="https://aquapet.co.ke/" target="_blank" rel="noopener">Visit Website</a></span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ASSET 1: MAIN HERO IMAGE (Size: 2560 x 1440px) -->
+    <div class="case-image-full-bleed reveal-up" style="aspect-ratio: 16/9; margin-top: 8rem;">
+        <img src="images/aquapet-hero.jpg" alt="Aquapet Kenya Identity Showcase">
+    </div>
+
+    <!-- INDEX 01: EXECUTIVE SUMMARY -->
+    <section>
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 01 / SUMMARY</span>
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+                <div class="lg:col-span-12">
+                    <p class="serif content-heading-large reveal-up">
+                        Redefining professional aquatic distribution through a visual system that establishes trust and market authority.
+                    </p>
+                </div>
+                <div class="lg:col-start-6 lg:col-span-7">
+                    <p class="content-body-text reveal-up">
+                        As the leading provider of professional aquatic equipment in Kenya, Aquapet required a visual language that reflected its technical prowess and distribution scale. We moved beyond retail aesthetics into a <strong>strategic brand ecosystem</strong> built for high-value B2B partnerships.
+                    </p>
+                    <a href="https://aquapet.co.ke/" target="_blank" rel="noopener" class="live-btn reveal-up">
+                        Visit Live Site
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX 02: ANALYSIS -->
+    <section class="border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 02 / ANALYSIS</span>
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+                <div class="lg:col-span-5">
+                    <span class="content-label">01 / The Environment</span>
+                    <h3 class="serif text-4xl mb-10 italic">The technical gap.</h3>
+                    <p class="content-body-text">
+                        Aquapet had built a reputation for excellence, but their legacy identity had remained static while their business pivoted toward premium global distribution. They were providing <strong>world-class support</strong> with a brand that felt local and unrefined.
+                    </p>
+                </div>
+                <div class="lg:col-start-7 lg:col-span-6">
+                    <span class="content-label">02 / The Real Problem</span>
+                    <h3 class="serif text-4xl mb-10 italic">Perception as a barrier.</h3>
+                    <p class="content-body-text mb-8">
+                        The challenge was a fundamental disconnect between their <strong>technical capability</strong> and their <strong>perceived value</strong>. This gap hindered their ability to secure large-scale commercial contracts and premium retail partners who sought a peer-level professional experience.
+                    </p>
+                    <p class="content-body-text">
+                        Without a unified brand language, stakeholders couldn't instantly recognize the brand's authority, leading to prolonged sales cycles and brand dilution across touchpoints.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX 03: STRATEGY -->
+    <section class="inverted">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 03 / STRATEGY</span>
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+                <div class="lg:col-span-8">
+                    <h2 class="serif content-heading-large reveal-up">The mission was "Precision Vitality."</h2>
+                </div>
+                <div class="lg:col-span-12 grid lg:grid-cols-12 gap-12 items-end mt-12">
+                    <div class="lg:col-span-5">
+                        <p class="content-body-text">
+                            We engineered a system focused on <strong>clarity through reduction</strong>. By stripping away visual noise, we allowed Aquapet's core values—integrity and precision—to lead the conversation. 
+                        </p>
+                    </div>
+                    <div class="lg:col-start-7 lg:col-span-6 border-l border-black/10 pl-8 lg:pl-16">
+                        <span class="content-label mb-6 block">The Logic</span>
+                        <p class="content-body-text font-medium">
+                            The new mark was designed for extreme scalability, from tiny livestock tags to large-scale maritime signage, ensuring the brand remains legible and authoritative in every environment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS: LOGO SKETCH -->
+    <section class="!py-0">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="sketch-section reveal-up">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-4">
+                        <span class="content-label">The Genesis</span>
+                        <h3 class="serif text-4xl mb-10 italic">From graphite to geometry.</h3>
+                        <p class="text-base text-[#777] leading-relaxed font-light">
+                            Capturing the fluid movement of water within a rigid professional structure. Every curve was refined to balance organic life with industrial precision.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-8">
+                        <div class="media-container aspect-[3/2]">
+                            <img src="images/aquapet-sketch.jpg" alt="Logo Sketch Process (1800x1200px)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASSET 2: BRAND REEL VIDEO (Size: 1920 x 1080px) -->
+    <div class="case-image-full-bleed reveal-up" style="aspect-ratio: 16/9;">
+        <video autoplay loop muted playsinline poster="images/aquapet-video-poster.jpg">
+            <source src="video/aquapet-brand-reel.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- ASSET 3: SYSTEM OVERVIEW (Size: 2560 x 1100px) -->
+    <div class="case-image-full-bleed reveal-up" style="aspect-ratio: 2.3/1; margin-bottom: 0;">
+        <img src="images/aquapet-system.jpg" alt="Aquapet Design System Overview">
+    </div>
+
+    <!-- INDEX 04: VISUAL LANGUAGE GALLERY -->
+    <section class="!py-0 mt-20">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 04 / VISUAL LANGUAGE</span>
+            <div class="case-gallery-grid">
+                <div class="gallery-square reveal-up"><div class="media-container"><img src="images/aquapet-detail-1.jpg" alt="Branding Detail 1 (1400x1400px)"></div></div>
+                <div class="gallery-square reveal-up" style="transition-delay: 0.1s;"><div class="media-container"><img src="images/aquapet-detail-2.jpg" alt="Branding Detail 2 (1400x1400px)"></div></div>
+                <div class="gallery-portrait reveal-up"><div class="media-container"><img src="images/aquapet-detail-3.jpg" alt="Portrait Asset (1400x1750px)"></div></div>
+                <div class="gallery-portrait reveal-up" style="transition-delay: 0.1s;"><div class="media-container"><img src="images/aquapet-detail-4.jpg" alt="Portrait Asset (1400x1750px)"></div></div>
+                <div class="gallery-wide reveal-up"><div class="media-container"><img src="images/aquapet-large.jpg" alt="Contextual Asset (2560x1200px)"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX 05: RESULTS -->
+    <section class="border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">INDEX 05 / RESULTS</span>
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-24">
+                <div class="lg:col-span-8">
+                    <h2 class="serif content-heading-large reveal-up">Established Market Authority.</h2>
+                </div>
+                <div class="lg:col-start-6 lg:col-span-7">
+                    <p class="content-body-text mb-8">
+                        The final brand system established Aquapet as the <strong>definitive authority</strong> in the East African aquatic sector. The shift from retail shop to professional distributor was immediate and measurable.
+                    </p>
+                    <p class="content-body-text">
+                        The brand now commands a peer-level presence alongside global manufacturers, securing new B2B partnerships and establishing a rigorous standard for all future growth.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <footer class="pt-40 pb-20 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] text-center">
+            <h2 class="text-[10px] tracking-[0.6em] uppercase opacity-30 mb-16">Next Project</h2>
+            <a href="fast-kat.html" class="serif text-[clamp(3rem,10vw,12rem)] leading-[1] hover:italic transition-all duration-700 block mb-32">Fast Kat Connects</a>
+            
+            <div class="flex flex-col lg:flex-row justify-between pt-16 border-t border-white/5 gap-12 text-[10px] uppercase tracking-[0.4em] opacity-30 text-left">
+                <div>© 2026 ondwariobiko — Strategic Brand Systems</div>
+                <div class="flex flex-wrap gap-12">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <a href="mailto:ondwariobiko@gmail.com" class="hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const lenis = new Lenis({ lerp: 0.1 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+        requestAnimationFrame(raf);
+
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => { gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15 }); });
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(".reveal-text span", { y: 0, duration: 1.8, ease: "expo.out", stagger: 0.1, delay: 0.5 });
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            gsap.to(el, { opacity: 1, y: 0, duration: 1.8, ease: "power4.out", scrollTrigger: { trigger: el, start: "top 90%" } });
+        });
+
+        ScrollTrigger.create({
+            start: "top -40",
+            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
+            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
+        });
+    </script>
+</body>
+</html>
