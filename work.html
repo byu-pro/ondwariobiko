@@ -39,7 +39,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* Essential Lenis Fixes for Mobile Stability */
         html.lenis {
             height: auto;
         }
@@ -62,18 +61,71 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0; 
             width: 100%;
         }
 
-        /* Page Transition Curtain */
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            pointer-events: all;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .preloader-number {
+            font-family: var(--font-serif);
+            font-size: clamp(5rem, 18vw, 15rem);
+            color: white;
+            font-weight: 400;
+            line-height: 0.8;
+            font-style: italic;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .preloader-subtext {
+            font-size: 8px;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            transform: translateY(10px);
+        }
+
+        .preloader-bar-container {
+            width: 140px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .preloader-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%; width: 0%;
+            background: white;
+        }
+
         #page-transition-mask {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100dvh;
             background: #000;
             z-index: 9999;
             pointer-events: none;
-            transform: translateY(0);
+            transform: translateY(100%);
             will-change: transform;
         }
 
@@ -97,7 +149,7 @@
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 10000;
+            z-index: 10001;
             mix-blend-mode: difference;
             display: none;
             transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
@@ -256,6 +308,19 @@
 </head>
 <body class="selection:bg-white selection:text-black">
     
+    <!-- Intro Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-number">
+                <span id="load-count">0</span>
+            </div>
+            <div class="preloader-subtext">Initializing Portfolio</div>
+            <div class="preloader-bar-container">
+                <div class="preloader-bar" id="load-bar"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="page-transition-mask"></div>
     <div id="cursor"></div>
     <div class="noise"></div>
@@ -453,7 +518,7 @@
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true, 
-            smoothTouch: false, // Critical: Disable virtual touch scrolling to fix jumping on mobile
+            smoothTouch: false,
             touchMultiplier: 2,
             infinite: false,
         });
@@ -464,6 +529,9 @@
         }
         requestAnimationFrame(raf);
 
+        // Lock scroll initially for preloader
+        lenis.stop();
+
         gsap.registerPlugin(ScrollTrigger);
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time)=>{ 
@@ -471,23 +539,50 @@
         });
         gsap.ticker.lagSmoothing(0);
 
-        // Entrance
-        window.addEventListener('load', () => {
-            gsap.timeline()
-                .to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
-                .to("body", { opacity: 1, duration: 0.1 }, "-=0.8")
-                .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4");
-        });
+        // Preloader & Entrance Animation
+        function initAnimations() {
+            const countEl = document.getElementById('load-count');
+            const barEl = document.getElementById('load-bar');
+            const loaderEl = document.getElementById('preloader');
+            
+            let loadData = { value: 0 };
+            const introTl = gsap.timeline();
 
-        /**
-         * FIX: Blank page on mobile back button.
-         * Detects if page is loaded from cache (bfcache) and forces visibility.
-         */
+            introTl.to(loadData, {
+                value: 100,
+                duration: 2.2,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    const rounded = Math.round(loadData.value);
+                    if(countEl) countEl.textContent = rounded;
+                    if(barEl) barEl.style.width = rounded + "%";
+                }
+            })
+            .to(".preloader-content", {
+                y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut"
+            })
+            .to(loaderEl, {
+                yPercent: -100, duration: 1.1, ease: "expo.inOut",
+                onComplete: () => {
+                    lenis.start();
+                    loaderEl.style.display = 'none';
+                }
+            }, "-=0.1")
+            .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.6")
+            .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1.2");
+        }
+
+        window.addEventListener('load', initAnimations);
+
         window.addEventListener('pageshow', (event) => {
             if (event.persisted) {
-                gsap.set("body", { opacity: 1 });
-                gsap.set("#page-transition-mask", { yPercent: -100 });
+                const loader = document.getElementById('preloader');
+                if (loader) {
+                    gsap.set(loader, { yPercent: -100, display: 'none' });
+                }
+                gsap.set("#page-transition-mask", { yPercent: 100 });
                 gsap.set(".reveal-text span", { y: 0 });
+                lenis.start();
             }
         });
 
@@ -497,7 +592,9 @@
                 const dest = link.getAttribute('href');
                 if (dest && dest !== '#' && !dest.includes('mailto:')) {
                     e.preventDefault();
-                    gsap.to("#page-transition-mask", { 
+                    const mask = document.getElementById('page-transition-mask');
+                    gsap.set(mask, { yPercent: 100 });
+                    gsap.to(mask, { 
                         yPercent: 0, 
                         duration: 0.8, 
                         ease: "expo.inOut", 
@@ -507,7 +604,8 @@
             });
         });
 
-        document.querySelectorAll('.reveal-up').forEach(el => {
+        // Scroll Reveal logic for inner content (Project Index)
+        document.querySelectorAll('.project-entry.reveal-up').forEach(el => {
             gsap.to(el, { 
                 opacity: 1, 
                 y: 0, 
@@ -549,7 +647,6 @@
             });
         }
 
-        // Optimized resize logic
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
