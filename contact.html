@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>About – ondwariobiko Strategic Brand Systems</title>
+    <title>Contact – ondwariobiko Strategic Brand Systems</title>
     
-    <!-- FAVICON SPECIFICATION -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="images/favicon.png">
     
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
@@ -25,7 +25,7 @@
             --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Instrument Sans', sans-serif;
             --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1rem, 5vw, 6rem);
+            --gutter: clamp(1.5rem, 5vw, 6rem);
             --header-h: 60px;
             --radius: clamp(0.75rem, 2vw, 2rem);
         }
@@ -41,7 +41,6 @@
 
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
 
         body {
@@ -53,20 +52,17 @@
             width: 100%;
         }
 
-        /* Preloader Styles */
+        /* Preloader */
         #preloader {
             position: fixed; inset: 0; background: #000; z-index: 10000;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden; pointer-events: all;
         }
-        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; }
+        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
         .preloader-number {
             font-family: var(--font-serif); font-size: clamp(5rem, 18vw, 15rem);
-            color: white; font-weight: 400; line-height: 0.8; font-style: italic;
-            display: flex; overflow: hidden;
+            color: white; line-height: 0.8; font-style: italic;
         }
-        .preloader-subtext { font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; opacity: 0.4; transform: translateY(10px); }
-        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; margin-top: 2rem; }
+        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
         .preloader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; }
 
         #page-transition-mask {
@@ -88,7 +84,7 @@
         #cursor {
             width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
             position: fixed; pointer-events: none; z-index: 10001; mix-blend-mode: difference;
-            display: none; transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
+            display: none; transition: width 0.3s, height 0.3s;
         }
 
         .grid-overlay {
@@ -96,104 +92,113 @@
             display: grid; grid-template-columns: repeat(6, 1fr);
             padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
         }
-        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); } }
         .grid-col { border-right: 1px solid var(--border); height: 100%; }
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; backface-visibility: hidden; }
+        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
 
         section { position: relative; width: 100%; padding: clamp(4rem, 10vw, 12rem) var(--gutter); }
 
         .blur-header { backdrop-filter: blur(25px); background: rgba(8, 8, 8, 0.7) !important; border-bottom: 1px solid var(--border); }
-
         .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
-        @media (min-width: 768px) { .main-logo { height: 22px; } }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
-        /* Navigation Links */
         .nav-link { position: relative; transition: opacity 0.3s; }
         .nav-link::after {
             content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
             background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link.active::after { width: 100%; opacity: 0.4; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active::after { opacity: 0.4; }
 
-        /* Mobile Nav Overlay */
         .mobile-nav-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: var(--bg); z-index: 200; display: flex; flex-direction: column;
             justify-content: center; padding: 0 var(--gutter);
             transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            visibility: hidden; pointer-events: none; will-change: transform; backface-visibility: hidden;
+            visibility: hidden; pointer-events: none;
         }
         .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; pointer-events: auto; }
         .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
         @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
-        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
-        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
-
-        /* Custom About Styles */
         .section-index {
             font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
             margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
         }
 
-        .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
-        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        /* Profile Portrait Styles */
-        .portrait-wrapper {
-            width: 100%;
-            aspect-ratio: 4/5;
-            background: #0d0d0d;
-            border-radius: var(--radius);
-            overflow: hidden;
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+
+        /* Form Styles */
+        .contact-form-container {
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            position: relative;
+            border-radius: var(--radius);
+            padding: clamp(2rem, 5vw, 4rem);
         }
 
-        /* Specification for Desktop dimensions */
-        @media (min-width: 1024px) {
-            .portrait-wrapper {
-                max-width: 480px; /* Exact Width */
-                max-height: 600px; /* Exact Height (4:5 ratio) */
-            }
-        }
-        
-        .portrait-wrapper img {
+        .input-group { position: relative; margin-bottom: 2.5rem; }
+        .input-group input, .input-group textarea {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(1);
-            opacity: 0.8;
-            transition: opacity 1s ease, transform 1s ease;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            color: white;
+            font-size: 1.15rem;
+            outline: none;
+            transition: border-color 0.4s ease;
+            font-family: var(--font-main);
         }
-        
-        @media (hover: hover) {
-            .portrait-wrapper:hover img { opacity: 1; transform: scale(1.02); }
+        .input-group input:focus, .input-group textarea:focus { border-color: white; }
+        .input-group label {
+            position: absolute;
+            top: 1rem; left: 0;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.3;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+        .input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label,
+        .input-group textarea:focus ~ label, .input-group textarea:not(:placeholder-shown) ~ label {
+            top: -1.5rem; font-size: 0.6rem; opacity: 0.6;
         }
 
-        .value-item { border-top: 1px solid var(--border); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; }
-        .value-text { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 300; }
-        .value-dot { width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.2; }
+        .btn-magnetic {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 1.25rem 3.5rem; border: 1px solid var(--border); border-radius: 999px;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1); position: relative; overflow: hidden;
+            background: transparent; color: white; cursor: pointer;
+        }
+        .btn-magnetic:hover { color: black; border-color: white; background: white; }
+
+        .link-underlined {
+            position: relative; transition: opacity 0.3s;
+        }
+        .link-underlined::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px;
+            background: currentColor; transform: scaleX(0.1); transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .link-underlined:hover::after { transform: scaleX(1); }
 
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Intro Preloader -->
     <div id="preloader">
         <div class="preloader-content">
-            <div class="preloader-number">
-                <span id="load-count">0</span>
-            </div>
-            <div class="preloader-subtext">Initializing Portfolio</div>
-            <div class="preloader-bar-container">
-                <div class="preloader-bar" id="load-bar"></div>
-            </div>
+            <div class="preloader-number"><span id="load-count">0</span></div>
+            <div class="preloader-bar-container"><div class="preloader-bar" id="load-bar"></div></div>
         </div>
     </div>
 
@@ -203,6 +208,7 @@
 
     <div class="grid-overlay">
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div>
     </div>
 
     <!-- Navigation -->
@@ -214,14 +220,14 @@
             
             <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
                 <div class="live-status mr-4">
-                    <div class="w-1 h-1 bg-green-400 rounded-full"></div>
+                    <div class="live-dot"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
                 <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
-                <a href="about.html" class="nav-link nav-magnetic-item active page-nav-link">About</a>
+                <a href="about.html" class="nav-link nav-magnetic-item page-nav-link">About</a>
                 <a href="services.html" class="nav-link nav-magnetic-item page-nav-link">Services</a>
                 <a href="#" class="nav-link nav-magnetic-item page-nav-link">Insights</a>
-                <a href="contact.html" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
+                <a href="contact.html" class="nav-link nav-magnetic-item active page-nav-link">Contact</a>
             </div>
             
             <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4 active:scale-95 transition-transform" onclick="toggleMenu()">Menu</button>
@@ -247,152 +253,154 @@
         </div>
     </div>
 
-    <!-- 1. PAGE HEADER (Orientation) -->
+    <!-- 1. HEADER -->
     <header class="pt-32 md:pt-40 lg:pt-60 px-[var(--gutter)]">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <h1 class="reveal-text serif text-[clamp(4rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-10">
+                <span>Contact.</span>
+            </h1>
+            <div class="grid lg:grid-cols-12 gap-10">
                 <div class="lg:col-span-8">
-                    <h1 class="reveal-text serif text-[clamp(3.5rem,10vw,12rem)] leading-[0.85] tracking-tighter mb-10">
-                        <span>About John Obiko.</span>
-                    </h1>
-                    <p class="text-xl md:text-3xl lg:text-4xl text-[#e5e5e5] font-light reveal-up leading-tight max-w-2xl">
-                        I’m a brand and web designer focused on clarity, structure, and long-term brand thinking.
+                    <p class="text-xl md:text-3xl lg:text-4xl text-[#e5e5e5] font-light reveal-up leading-tight">
+                        If you’re exploring a branding or web project and value a thoughtful, structured approach, you’re welcome to get in touch.
                     </p>
-                </div>
-                <div class="lg:col-span-4 reveal-up">
-                    <div class="portrait-wrapper">
-                        <!-- 
-                            PORTRAIT SPECIFICATIONS:
-                            Recommended Upload Size: 960px x 1200px (4:5 Ratio)
-                            Displayed at: 480px x 600px on desktop
-                        -->
-                        <img src="images/portrait.jpg" alt="Portrait of John Obiko, brand and web designer">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-40"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- 2. PROFESSIONAL PERSPECTIVE (The Core) -->
-    <section id="approach" class="inverted border-y border-black/5 mt-20 lg:mt-32">
+    <!-- 2 & 3. GUIDANCE -->
+    <section class="pt-20">
         <div class="max-w-screen-2xl mx-auto">
-            <span class="section-index">01 / My Approach</span>
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-10">
-                    <h2 class="serif text-[clamp(1.85rem,4.5vw,5rem)] leading-[1.1] text-black reveal-up">
-                        I approach design as a strategic discipline, not a decorative one. My work focuses on helping businesses communicate clearly, build credibility, and make better decisions through thoughtful brand and web systems.
-                    </h2>
-                    <div class="mt-12 md:mt-16 border-t border-black/10 pt-10">
-                        <p class="text-lg md:text-2xl font-light leading-relaxed text-black/70 max-w-4xl reveal-up">
-                            I’m particularly interested in the relationship between clarity and trust — how visual structure, typography, and consistency influence perception over time.
+            <div class="grid lg:grid-cols-12 gap-16 lg:gap-32">
+                <!-- What to Reach Out About -->
+                <div class="lg:col-span-6 reveal-up">
+                    <span class="section-index">01 / Scope</span>
+                    <h2 class="serif text-3xl lg:text-4xl italic mb-8">What to Reach Out About</h2>
+                    <p class="text-[#888] mb-10 text-lg font-light">I’m happy to hear from teams and individuals who are considering:</p>
+                    <ul class="space-y-6">
+                        <li class="flex items-center gap-4 text-lg font-light">
+                            <div class="w-1.5 h-1.5 bg-white/20 rounded-full"></div> Brand identity or logo systems
+                        </li>
+                        <li class="flex items-center gap-4 text-lg font-light">
+                            <div class="w-1.5 h-1.5 bg-white/20 rounded-full"></div> Website design or refinement
+                        </li>
+                        <li class="flex items-center gap-4 text-lg font-light">
+                            <div class="w-1.5 h-1.5 bg-white/20 rounded-full"></div> Improving clarity and consistency across brand and web touchpoints
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Helpful Details -->
+                <div class="lg:col-span-6 reveal-up">
+                    <span class="section-index">02 / Clarity</span>
+                    <h2 class="serif text-3xl lg:text-4xl italic mb-8">Helpful Details to Include</h2>
+                    <p class="text-[#888] mb-10 text-lg font-light">To help me respond effectively, it's useful if you can provide:</p>
+                    <div class="space-y-12">
+                        <div>
+                            <span class="block text-[8px] tracking-widest uppercase opacity-30 mb-2">Context</span>
+                            <p class="text-xl font-light">A brief description of your project or challenge.</p>
+                        </div>
+                        <div>
+                            <span class="block text-[8px] tracking-widest uppercase opacity-30 mb-2">Objective</span>
+                            <p class="text-xl font-light">Context around your organization or product.</p>
+                        </div>
+                        <div>
+                            <span class="block text-[8px] tracking-widest uppercase opacity-30 mb-2">Constraints</span>
+                            <p class="text-xl font-light">Any timelines or constraints you’re aware of.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4, 5 & 6. CONTACT INTERFACE -->
+    <section class="border-t border-white/5 mt-20">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="grid lg:grid-cols-12 gap-16 lg:gap-32">
+                
+                <!-- Methods & Logistical Reassurance -->
+                <div class="lg:col-span-4 reveal-up order-2 lg:order-1">
+                    <span class="section-index">03 / Logistics</span>
+                    <h2 class="serif text-3xl italic mb-10">Get in Touch</h2>
+                    
+                    <div class="space-y-10 mb-20">
+                        <div>
+                            <span class="block text-[9px] uppercase tracking-[0.4em] opacity-30 mb-3">Email</span>
+                            <a href="mailto:ondwariobiko@gmail.com" class="text-xl lg:text-2xl font-light link-underlined">ondwariobiko@gmail.com</a>
+                        </div>
+                        <div>
+                            <span class="block text-[9px] uppercase tracking-[0.4em] opacity-30 mb-3">Phone</span>
+                            <a href="tel:+254702255575" class="text-xl lg:text-2xl font-light link-underlined">+254 702 255 575</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-10 border-t border-white/5">
+                        <h3 class="text-lg font-medium mb-4">Location & Availability</h3>
+                        <p class="text-[#777] font-light leading-relaxed mb-6">
+                            I’m based in Nairobi, Kenya, and work remotely with clients worldwide. I collaborate across time zones and prioritize clear communication.
                         </p>
+                        <p class="text-[9px] uppercase tracking-widest opacity-30 italic">I typically respond within a reasonable timeframe during working hours.</p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-8 reveal-up order-1 lg:order-2">
+                    <span class="section-index">04 / Direct Inquiry</span>
+                    <div class="contact-form-container">
+                        <form id="contact-form">
+                            <div class="grid md:grid-cols-2 gap-x-12">
+                                <div class="input-group">
+                                    <input type="text" id="name" placeholder=" " required>
+                                    <label for="name">Name</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="email" id="email" placeholder=" " required>
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="org" placeholder=" ">
+                                <label for="org">Organization / Role (Optional)</label>
+                            </div>
+                            <div class="input-group" style="margin-bottom: 4rem;">
+                                <textarea id="message" rows="4" placeholder=" " required></textarea>
+                                <label for="message">Short message</label>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                                <button type="submit" class="btn-magnetic">
+                                    <span>Send Inquiry</span>
+                                </button>
+                                <p class="text-[10px] uppercase tracking-widest opacity-30 max-w-xs leading-relaxed">
+                                    By submitting, you're initiating a professional inquiry.
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. EXPERIENCE & SCOPE -->
-    <section class="border-b border-white/5">
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4">
-                    <span class="section-index">02 / Experience</span>
-                    <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Legacy & Scope</h2>
-                </div>
-                <div class="lg:col-span-7 lg:col-start-6">
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed mb-12">
-                        I have over 9 years of experience working across logo design, brand identity, and web design, collaborating with clients at different stages of growth.
-                    </p>
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed">
-                        My work spans branding systems, websites, and digital touchpoints designed to remain clear, consistent, and adaptable as organizations evolve.
-                    </p>
-                </div>
-            </div>
+    <!-- 7. CLOSING SAFETY -->
+    <section class="pt-0 pb-32">
+        <div class="max-w-screen-2xl mx-auto text-center border-t border-white/5 pt-20">
+            <p class="serif text-[clamp(1.5rem,3vw,3.5rem)] italic opacity-40 reveal-up">
+                “If it feels like there may be a fit, I’m always open to an initial conversation.”
+            </p>
         </div>
     </section>
 
-    <!-- 4. WHAT I VALUE -->
-    <section class="border-b border-white/5">
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4">
-                    <span class="section-index">03 / Values</span>
-                    <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Principled Design</h2>
-                </div>
-                <div class="lg:col-span-6 lg:col-start-6">
-                    <div class="reveal-up">
-                        <div class="value-item">
-                            <span class="value-text">Clarity over complexity</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item">
-                            <span class="value-text">Thoughtful decision-making</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item">
-                            <span class="value-text">Long-term consistency</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item" style="border-bottom: 1px solid var(--border);">
-                            <span class="value-text">Respect for context and constraints</span>
-                            <div class="value-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5 & 6. LOCATION & TECHNICAL -->
-    <section>
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16 lg:gap-32">
-                <div class="reveal-up">
-                    <span class="section-index">04 / Location</span>
-                    <h3 class="text-2xl font-medium mb-6">Location & Availability</h3>
-                    <p class="text-[#777] font-light leading-relaxed text-lg">
-                        I’m based in Nairobi, Kenya, and work remotely with clients worldwide. I collaborate with teams across different time zones and prioritize clear communication and structured workflows.
-                    </p>
-                </div>
-                <div class="reveal-up">
-                    <span class="section-index">05 / Execution</span>
-                    <h3 class="text-2xl font-medium mb-6">Technical Considerations</h3>
-                    <p class="text-[#777] font-light leading-relaxed text-lg">
-                        In addition to design, I have experience implementing front-end interfaces, which allows me to design systems that translate cleanly into code and remain consistent through execution.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. CLOSING (Soft Transition) -->
-    <footer class="pb-12 md:pb-16 pt-24 md:pt-32 border-t border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
-                <div class="max-w-2xl">
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed mb-10">
-                        If you’re interested in how this approach translates into real projects, you can explore selected case studies or get in touch to discuss potential work.
-                    </p>
-                    <div class="flex flex-wrap gap-10 reveal-up">
-                        <a href="work.html" class="serif text-2xl border-b border-white/20 pb-2 hover:border-white transition-all duration-500 page-nav-link">View selected work</a>
-                        <a href="mailto:ondwariobiko@gmail.com" class="serif text-2xl border-b border-white/20 pb-2 hover:border-white transition-all duration-500">Contact</a>
-                    </div>
-                </div>
-                <div class="text-right flex flex-col items-end reveal-up">
-                    <div class="text-[9px] uppercase tracking-[0.4em] opacity-30 mb-1">Status</div>
-                    <div class="serif text-2xl italic opacity-80">Open to inquiries — 2026</div>
-                </div>
-            </div>
-
-            <div class="flex flex-col lg:flex-row justify-between items-center pt-12 border-t border-white/5 gap-8 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
-                <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
-                <div class="flex gap-10 order-1 lg:order-2">
-                    <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-                    <a href="#" class="hover:text-white transition-colors">Behance</a>
-                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
-                </div>
+    <!-- FOOTER -->
+    <footer class="pb-16 pt-12 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] flex flex-col lg:flex-row justify-between items-center gap-8 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
+            <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
+            <div class="flex gap-10 order-1 lg:order-2">
+                <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-white transition-colors">Behance</a>
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
             </div>
         </div>
     </footer>
@@ -438,7 +446,7 @@
             const introTl = gsap.timeline();
 
             introTl.to(loadData, {
-                value: 100, duration: 1.8, ease: "power2.inOut",
+                value: 100, duration: 2, ease: "power2.inOut",
                 onUpdate: () => {
                     const rounded = Math.round(loadData.value);
                     if(countEl) countEl.textContent = rounded;
@@ -473,27 +481,15 @@
 
         document.querySelectorAll('.reveal-up').forEach(el => {
             gsap.to(el, { 
-                opacity: 1, y: 0, duration: 1.2, ease: "power3.out", 
+                opacity: 1, y: 0, duration: 1, ease: "power3.out", 
                 scrollTrigger: { trigger: el, start: "top 95%" } 
             });
         });
 
         ScrollTrigger.create({
             start: "top -40",
-            onEnter: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.add('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6 });
-                }
-            },
-            onLeaveBack: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.remove('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6 });
-                }
-            }
+            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
+            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
         });
 
         const cursor = document.getElementById('cursor');
@@ -505,6 +501,20 @@
                 el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
             });
         }
+
+        // Simple Form Submission Placeholder
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            btn.style.pointerEvents = 'none';
+            btn.innerHTML = '<span>Message Sent</span>';
+            e.target.reset();
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.pointerEvents = 'auto';
+            }, 3000);
+        });
     </script>
 </body>
 </html>
