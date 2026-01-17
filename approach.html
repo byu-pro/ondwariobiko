@@ -52,17 +52,28 @@
             width: 100%;
         }
 
-        /* Preloader */
+        /* Preloader Styles - Synced with Home */
         #preloader {
             position: fixed; inset: 0; background: #000; z-index: 10000;
             display: flex; align-items: center; justify-content: center;
+            overflow: hidden; pointer-events: all;
         }
-        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+
+        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; }
+        
         .preloader-number {
             font-family: var(--font-serif); font-size: clamp(5rem, 18vw, 15rem);
-            color: white; line-height: 0.8; font-style: italic;
+            color: white; font-weight: 400; line-height: 0.8; font-style: italic;
+            display: flex; overflow: hidden;
         }
-        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+
+        .preloader-subtext { font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; opacity: 0.4; transform: translateY(10px); }
+        
+        .preloader-bar-container {
+            width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1);
+            position: relative; overflow: hidden; margin-top: 2rem;
+        }
+
         .preloader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; }
 
         #page-transition-mask {
@@ -157,10 +168,16 @@
 </head>
 <body class="selection:bg-white selection:text-black">
     
+    <!-- Intro Preloader - Updated to match Home -->
     <div id="preloader">
         <div class="preloader-content">
-            <div class="preloader-number"><span id="load-count">0</span></div>
-            <div class="preloader-bar-container"><div class="preloader-bar" id="load-bar"></div></div>
+            <div class="preloader-number">
+                <span id="load-count">0</span>
+            </div>
+            <div class="preloader-subtext">Initializing Approach</div>
+            <div class="preloader-bar-container">
+                <div class="preloader-bar" id="load-bar"></div>
+            </div>
         </div>
     </div>
 
@@ -397,17 +414,24 @@
             const introTl = gsap.timeline();
 
             introTl.to(loadData, {
-                value: 100, duration: 1.8, ease: "power2.inOut",
+                value: 100, 
+                duration: 2.2, // Timed with Home
+                ease: "power2.inOut",
                 onUpdate: () => {
                     const rounded = Math.round(loadData.value);
                     if(countEl) countEl.textContent = rounded;
                     if(barEl) barEl.style.width = rounded + "%";
                 }
             })
-            .to(".preloader-content", { y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut" })
+            .to(".preloader-content", {
+                y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut"
+            })
             .to(loaderEl, {
                 yPercent: -100, duration: 1.1, ease: "expo.inOut",
-                onComplete: () => { lenis.start(); loaderEl.style.display = 'none'; }
+                onComplete: () => {
+                    lenis.start();
+                    loaderEl.style.display = 'none';
+                }
             }, "-=0.1")
             .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.6")
             .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1.2");
