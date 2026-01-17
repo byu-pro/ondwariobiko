@@ -163,17 +163,22 @@
             }
         }
         
-        .portrait-wrapper img {
+        .portrait-img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            opacity: 0;
+            pointer-events: none;
             /* grayscale(1) removed to allow color photo */
-            opacity: 0.8;
-            transition: opacity 1s ease, transform 1s ease;
+            will-change: transform, opacity;
         }
         
-        @media (hover: hover) {
-            .portrait-wrapper:hover img { opacity: 1; transform: scale(1.02); }
+        .portrait-img.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .value-item { border-top: 1px solid var(--border); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; }
@@ -266,8 +271,10 @@
                             Recommended Upload Size: 960px x 1200px (4:5 Ratio)
                             Displayed at: 480px x 600px on desktop
                         -->
-                        <img src="images/portrait.png" alt="Portrait of John Obiko, brand and web designer">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-40"></div>
+                        <img src="images/portrait.png" alt="Portrait of John Obiko" class="portrait-img active">
+                        <img src="images/portrait_b.png" alt="Alternative portrait" class="portrait-img">
+                        <img src="images/portrait_c.png" alt="Alternative portrait" class="portrait-img">
+                        <img src="images/portrait_e.png" alt="Alternative portrait" class="portrait-img">
                     </div>
                 </div>
             </div>
@@ -429,6 +436,60 @@
         lenis.stop();
         gsap.registerPlugin(ScrollTrigger);
 
+        /**
+         * Portrait Slider Logic
+         * Sophisticated cross-fade with a slow Ken Burns effect
+         */
+        function initPortraitSlider() {
+            const images = document.querySelectorAll('.portrait-img');
+            if (images.length < 2) return;
+
+            let currentIndex = 0;
+            const duration = 2; // Transition length (seconds)
+            const pause = 5;    // How long an image stays (seconds)
+
+            // Initial scale for the first image
+            gsap.set(images[0], { opacity: 1, scale: 1 });
+            gsap.to(images[0], { scale: 1.08, duration: pause + duration, ease: "none" });
+
+            function nextImage() {
+                const nextIndex = (currentIndex + 1) % images.length;
+                const currentImg = images[currentIndex];
+                const nextImg = images[nextIndex];
+
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        currentIndex = nextIndex;
+                        // Reset the image we just finished with
+                        gsap.set(currentImg, { scale: 1, opacity: 0 });
+                        setTimeout(nextImage, pause * 1000);
+                    }
+                });
+
+                // Fade out current
+                tl.to(currentImg, {
+                    opacity: 0,
+                    duration: duration,
+                    ease: "sine.inOut"
+                }, 0);
+
+                // Fade in next and start its own Ken Burns
+                tl.fromTo(nextImg, 
+                    { opacity: 0, scale: 1 }, 
+                    { opacity: 1, scale: 1.04, duration: duration, ease: "sine.inOut" }, 
+                0);
+
+                // Continue scaling during the pause
+                tl.to(nextImg, {
+                    scale: 1.08,
+                    duration: pause,
+                    ease: "none"
+                });
+            }
+
+            setTimeout(nextImage, pause * 1000);
+        }
+
         function initAnimations() {
             const countEl = document.getElementById('load-count');
             const barEl = document.getElementById('load-bar');
@@ -448,7 +509,11 @@
             .to(".preloader-content", { y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut" })
             .to(loaderEl, {
                 yPercent: -100, duration: 1.1, ease: "expo.inOut",
-                onComplete: () => { lenis.start(); loaderEl.style.display = 'none'; }
+                onComplete: () => { 
+                    lenis.start(); 
+                    loaderEl.style.display = 'none'; 
+                    initPortraitSlider(); // Start the portrait animation after loading
+                }
             }, "-=0.1")
             .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.6")
             .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1.2");
