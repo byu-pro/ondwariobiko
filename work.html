@@ -479,6 +479,18 @@
                 .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4");
         });
 
+        /**
+         * FIX: Blank page on mobile back button.
+         * Detects if page is loaded from cache (bfcache) and forces visibility.
+         */
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                gsap.set("body", { opacity: 1 });
+                gsap.set("#page-transition-mask", { yPercent: -100 });
+                gsap.set(".reveal-text span", { y: 0 });
+            }
+        });
+
         // Exit Transition
         document.querySelectorAll('.page-nav-link').forEach(link => {
             link.addEventListener('click', (e) => {

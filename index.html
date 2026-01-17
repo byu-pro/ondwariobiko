@@ -678,12 +678,29 @@
         });
         gsap.ticker.lagSmoothing(0);
 
-        window.addEventListener('load', () => {
+        function initAnimations() {
             const tl = gsap.timeline();
             tl.to("#page-transition-mask", { yPercent: -100, duration: 1.2, ease: "expo.inOut" })
             .to("body", { opacity: 1, duration: 0.1 }, "-=0.8")
             .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.4")
             .to("#hero-cred, #hero-sub, #hero-cta", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1");
+        }
+
+        window.addEventListener('load', initAnimations);
+
+        /**
+         * FIX: Blank page on mobile back button.
+         * Detects if page is loaded from Back/Forward cache and resets animations.
+         */
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                // If the page was loaded from cache (e.g. back button), force reveal
+                gsap.set("body", { opacity: 1 });
+                gsap.set("#page-transition-mask", { yPercent: -100 });
+                // Re-run the reveal of text if they were stuck
+                gsap.set(".reveal-text span", { y: 0 });
+                gsap.set("#hero-cred, #hero-sub, #hero-cta", { opacity: 1, y: 0 });
+            }
         });
 
         document.querySelectorAll('.page-nav-link').forEach(link => {
