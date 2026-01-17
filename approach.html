@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>About – ondwariobiko Strategic Brand Systems</title>
+    <title>Approach – ondwariobiko Strategic Brand Systems</title>
     
-    <!-- FAVICON SPECIFICATION -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="images/favicon.png">
     
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
@@ -41,7 +41,6 @@
 
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
 
         body {
@@ -53,20 +52,17 @@
             width: 100%;
         }
 
-        /* Preloader Styles */
+        /* Preloader */
         #preloader {
             position: fixed; inset: 0; background: #000; z-index: 10000;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden; pointer-events: all;
         }
-        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; }
+        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
         .preloader-number {
             font-family: var(--font-serif); font-size: clamp(5rem, 18vw, 15rem);
-            color: white; font-weight: 400; line-height: 0.8; font-style: italic;
-            display: flex; overflow: hidden;
+            color: white; line-height: 0.8; font-style: italic;
         }
-        .preloader-subtext { font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; opacity: 0.4; transform: translateY(10px); }
-        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; margin-top: 2rem; }
+        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
         .preloader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; }
 
         #page-transition-mask {
@@ -88,7 +84,7 @@
         #cursor {
             width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
             position: fixed; pointer-events: none; z-index: 10001; mix-blend-mode: difference;
-            display: none; transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
+            display: none; transition: width 0.3s, height 0.3s;
         }
 
         .grid-overlay {
@@ -96,104 +92,75 @@
             display: grid; grid-template-columns: repeat(6, 1fr);
             padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
         }
-        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); } }
         .grid-col { border-right: 1px solid var(--border); height: 100%; }
         .grid-col:first-child { border-left: 1px solid var(--border); }
 
         .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; backface-visibility: hidden; }
+        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
 
         section { position: relative; width: 100%; padding: clamp(4rem, 10vw, 12rem) var(--gutter); }
 
         .blur-header { backdrop-filter: blur(25px); background: rgba(8, 8, 8, 0.7) !important; border-bottom: 1px solid var(--border); }
-
         .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
-        @media (min-width: 768px) { .main-logo { height: 22px; } }
         @media (min-width: 1024px) { .main-logo { height: 32px; } }
 
-        /* Navigation Links */
         .nav-link { position: relative; transition: opacity 0.3s; }
         .nav-link::after {
             content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
             background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link.active::after { width: 100%; opacity: 0.4; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active::after { opacity: 0.4; }
 
-        /* Mobile Nav Overlay */
         .mobile-nav-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: var(--bg); z-index: 200; display: flex; flex-direction: column;
             justify-content: center; padding: 0 var(--gutter);
             transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            visibility: hidden; pointer-events: none; will-change: transform; backface-visibility: hidden;
+            visibility: hidden; pointer-events: none;
         }
         .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; pointer-events: auto; }
         .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
         @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
-        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
-        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
-
-        /* Custom About Styles */
         .section-index {
             font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
             margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
         }
 
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+
+        .approach-card { border-top: 1px solid var(--border); padding: clamp(3rem, 6vw, 5rem) 0; }
+        .approach-card:last-child { border-bottom: 1px solid var(--border); }
+        
+        .approach-title { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 0.95; letter-spacing: -0.02em; }
+        
         .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
-        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
+        .inverted h1, .inverted h2, .inverted p, .inverted .serif { color: #080808 !important; }
 
-        /* Profile Portrait Styles */
-        .portrait-wrapper {
-            width: 100%;
-            aspect-ratio: 4/5;
-            background: #0d0d0d;
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--border);
-            position: relative;
+        .link-underlined {
+            position: relative; transition: opacity 0.3s;
         }
-
-        /* Specification for Desktop dimensions */
-        @media (min-width: 1024px) {
-            .portrait-wrapper {
-                max-width: 480px; /* Exact Width */
-                max-height: 600px; /* Exact Height (4:5 ratio) */
-            }
+        .link-underlined::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px;
+            background: currentColor; transform: scaleX(0.1); transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        
-        .portrait-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(1);
-            opacity: 0.8;
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        
-        @media (hover: hover) {
-            .portrait-wrapper:hover img { opacity: 1; transform: scale(1.02); }
-        }
-
-        .value-item { border-top: 1px solid var(--border); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; }
-        .value-text { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 300; }
-        .value-dot { width: 4px; height: 4px; background: white; border-radius: 50%; opacity: 0.2; }
+        .link-underlined:hover::after { transform: scaleX(1); }
 
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
     
-    <!-- Intro Preloader -->
     <div id="preloader">
         <div class="preloader-content">
-            <div class="preloader-number">
-                <span id="load-count">0</span>
-            </div>
-            <div class="preloader-subtext">Initializing Portfolio</div>
-            <div class="preloader-bar-container">
-                <div class="preloader-bar" id="load-bar"></div>
-            </div>
+            <div class="preloader-number"><span id="load-count">0</span></div>
+            <div class="preloader-bar-container"><div class="preloader-bar" id="load-bar"></div></div>
         </div>
     </div>
 
@@ -203,6 +170,7 @@
 
     <div class="grid-overlay">
         <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div>
     </div>
 
     <!-- Navigation -->
@@ -214,13 +182,13 @@
             
             <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
                 <div class="live-status mr-4">
-                    <div class="w-1 h-1 bg-green-400 rounded-full"></div>
+                    <div class="live-dot"></div>
                     NRB — <span id="local-time">00:00:00</span>
                 </div>
                 <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
-                <a href="about.html" class="nav-link nav-magnetic-item active page-nav-link">About</a>
+                <a href="about.html" class="nav-link nav-magnetic-item page-nav-link">About</a>
                 <a href="services.html" class="nav-link nav-magnetic-item page-nav-link">Services</a>
-                <a href="approach.html" class="nav-link nav-magnetic-item page-nav-link">Approach</a>
+                <a href="approach.html" class="nav-link nav-magnetic-item active page-nav-link">Approach</a>
                 <a href="contact.html" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
             </div>
             
@@ -247,45 +215,37 @@
         </div>
     </div>
 
-    <!-- 1. PAGE HEADER (Orientation) -->
+    <!-- 1. HEADER -->
     <header class="pt-32 md:pt-40 lg:pt-60 px-[var(--gutter)]">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <h1 class="reveal-text serif text-[clamp(4rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-10">
+                <span>Approach.</span>
+            </h1>
+            <div class="grid lg:grid-cols-12 gap-10">
                 <div class="lg:col-span-8">
-                    <h1 class="reveal-text serif text-[clamp(3.5rem,10vw,12rem)] leading-[0.85] tracking-tighter mb-10">
-                        <span>About John Obiko.</span>
-                    </h1>
-                    <p class="text-xl md:text-3xl lg:text-4xl text-[#e5e5e5] font-light reveal-up leading-tight max-w-2xl">
-                        I’m a brand and web designer focused on clarity, structure, and long-term brand thinking.
+                    <p class="text-xl md:text-3xl lg:text-4xl text-[#e5e5e5] font-light reveal-up leading-tight">
+                        This page outlines how I think about design, structure, and decision-making across branding and web projects.
                     </p>
-                </div>
-                <div class="lg:col-span-4 reveal-up">
-                    <div class="portrait-wrapper">
-                        <!-- 
-                            PORTRAIT SPECIFICATIONS:
-                            Recommended Upload Size: 960px x 1200px (4:5 Ratio)
-                            Displayed at: 480px x 600px on desktop
-                        -->
-                        <img src="images/portrait.jpg" alt="Portrait of John Obiko, brand and web designer">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent opacity-40"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- 2. PROFESSIONAL PERSPECTIVE (The Core) -->
-    <section id="approach" class="inverted border-y border-black/5 mt-20 lg:mt-32">
+    <!-- 2. CORE THESIS -->
+    <section class="inverted border-y border-black/5 my-20">
         <div class="max-w-screen-2xl mx-auto">
-            <span class="section-index">01 / My Approach</span>
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-10">
-                    <h2 class="serif text-[clamp(1.85rem,4.5vw,5rem)] leading-[1.1] text-black reveal-up">
-                        I approach design as a strategic discipline, not a decorative one. My work focuses on helping businesses communicate clearly, build credibility, and make better decisions through thoughtful brand and web systems.
-                    </h2>
-                    <div class="mt-12 md:mt-16 border-t border-black/10 pt-10">
-                        <p class="text-lg md:text-2xl font-light leading-relaxed text-black/70 max-w-4xl reveal-up">
-                            I’m particularly interested in the relationship between clarity and trust — how visual structure, typography, and consistency influence perception over time.
+            <span class="section-index">01 / Logic</span>
+            <div class="grid lg:grid-cols-12 gap-10 items-start">
+                <div class="lg:col-span-5">
+                    <h2 class="serif text-4xl lg:text-6xl italic mb-10 reveal-up">Design Is a Strategic Tool</h2>
+                </div>
+                <div class="lg:col-span-7">
+                    <div class="reveal-up space-y-10">
+                        <p class="text-xl md:text-2xl font-light leading-relaxed text-black/80">
+                            I view design as a decision-making tool rather than a decorative exercise. Its role is to clarify intent, reduce ambiguity, and help organizations communicate more effectively over time.
+                        </p>
+                        <p class="text-lg md:text-xl font-light leading-relaxed text-black/60 italic border-l-2 border-black/10 pl-8">
+                            Every design decision carries consequences — for perception, usability, and trust. My approach is focused on understanding those consequences before committing to form.
                         </p>
                     </div>
                 </div>
@@ -293,100 +253,99 @@
         </div>
     </section>
 
-    <!-- 3. EXPERIENCE & SCOPE -->
-    <section class="border-b border-white/5">
+    <!-- 3, 4, 5. PRINCIPLES -->
+    <section class="pt-10">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4">
-                    <span class="section-index">02 / Experience</span>
-                    <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Legacy & Scope</h2>
-                </div>
-                <div class="lg:col-span-7 lg:col-start-6">
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed mb-12">
-                        I have over 9 years of experience working across logo design, brand identity, and web design, collaborating with clients at different stages of growth.
-                    </p>
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed">
-                        My work spans branding systems, websites, and digital touchpoints designed to remain clear, consistent, and adaptable as organizations evolve.
-                    </p>
+            <span class="section-index">02 / Principles</span>
+            
+            <!-- Clarity Before Expression -->
+            <div class="approach-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-4">
+                        <h3 class="serif text-3xl italic opacity-40 mb-4">01</h3>
+                        <h2 class="serif text-4xl mb-8">Clarity Comes First</h2>
+                    </div>
+                    <div class="lg:col-span-8">
+                        <p class="text-xl text-[#888] font-light leading-relaxed max-w-2xl">
+                            Before exploring visual expression, I focus on clarity — what needs to be communicated, to whom, and in what context. 
+                            <br><br>
+                            When clarity is established early, design systems become easier to scale, maintain, and trust. Without it, even visually strong work tends to break down over time.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- 4. WHAT I VALUE -->
-    <section class="border-b border-white/5">
-        <div class="max-w-screen-2xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-10">
-                <div class="lg:col-span-4">
-                    <span class="section-index">03 / Values</span>
-                    <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Principled Design</h2>
+            <!-- Working Within Constraints -->
+            <div class="approach-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-4">
+                        <h3 class="serif text-3xl italic opacity-40 mb-4">02</h3>
+                        <h2 class="serif text-4xl mb-8">Constraints Are Part of the Work</h2>
+                    </div>
+                    <div class="lg:col-span-8">
+                        <p class="text-xl text-[#888] font-light leading-relaxed max-w-2xl">
+                            Every project operates within constraints — time, budget, technical limitations, and existing brand equity. 
+                            <br><br>
+                            Rather than treating constraints as obstacles, I treat them as design inputs. They help shape better decisions, reduce unnecessary complexity, and keep work grounded in reality.
+                        </p>
+                    </div>
                 </div>
-                <div class="lg:col-span-6 lg:col-start-6">
-                    <div class="reveal-up">
-                        <div class="value-item">
-                            <span class="value-text">Clarity over complexity</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item">
-                            <span class="value-text">Thoughtful decision-making</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item">
-                            <span class="value-text">Long-term consistency</span>
-                            <div class="value-dot"></div>
-                        </div>
-                        <div class="value-item" style="border-bottom: 1px solid var(--border);">
-                            <span class="value-text">Respect for context and constraints</span>
-                            <div class="value-dot"></div>
-                        </div>
+            </div>
+
+            <!-- Systems Over One-Offs -->
+            <div class="approach-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10">
+                    <div class="lg:col-span-4">
+                        <h3 class="serif text-3xl italic opacity-40 mb-4">03</h3>
+                        <h2 class="serif text-4xl mb-8">Systems, Not Isolated Outputs</h2>
+                    </div>
+                    <div class="lg:col-span-8">
+                        <p class="text-xl text-[#888] font-light leading-relaxed max-w-2xl">
+                            I focus on creating systems rather than isolated assets. Whether designing a logo or a website, the goal is consistency, adaptability, and longevity — not short-term novelty.
+                            <br><br>
+                            Systems make brands easier to manage, easier to extend, and more resilient as organizations grow.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5 & 6. LOCATION & TECHNICAL -->
-    <section>
+    <!-- 6 & 7. DELIVERY -->
+    <section class="border-t border-white/5">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16 lg:gap-32">
-                <div class="reveal-up">
-                    <span class="section-index">04 / Location</span>
-                    <h3 class="text-2xl font-medium mb-6">Location & Availability</h3>
-                    <p class="text-[#777] font-light leading-relaxed text-lg">
-                        I’m based in Nairobi, Kenya, and work remotely with clients worldwide. I collaborate with teams across different time zones and prioritize clear communication and structured workflows.
+            <span class="section-index">03 / Delivery</span>
+            <div class="grid lg:grid-cols-12 gap-16 lg:gap-32">
+                <div class="lg:col-span-6 reveal-up">
+                    <h3 class="serif text-3xl italic mb-8">Collaboration & Communication</h3>
+                    <p class="text-[#888] text-lg font-light leading-relaxed">
+                        I work closely with clients to understand context, constraints, and goals before making design decisions. Clear communication and structured checkpoints are central to my process, ensuring alignment throughout the project and reducing unnecessary revisions.
                     </p>
                 </div>
-                <div class="reveal-up">
-                    <span class="section-index">05 / Execution</span>
-                    <h3 class="text-2xl font-medium mb-6">Technical Considerations</h3>
-                    <p class="text-[#777] font-light leading-relaxed text-lg">
-                        In addition to design, I have experience implementing front-end interfaces, which allows me to design systems that translate cleanly into code and remain consistent through execution.
+                <div class="lg:col-span-6 reveal-up">
+                    <h3 class="serif text-3xl italic mb-8">From Thinking to Execution</h3>
+                    <p class="text-[#888] text-lg font-light leading-relaxed">
+                        Because I have experience implementing front-end interfaces, I design with execution in mind. This helps ensure that design decisions translate cleanly into code and remain consistent through delivery — supporting positioning without compromising functionality.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 7. CLOSING (Soft Transition) -->
-    <footer class="pb-12 md:pb-16 pt-24 md:pt-32 border-t border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
-                <div class="max-w-2xl">
-                    <p class="text-lg md:text-2xl text-[#888] font-light reveal-up leading-relaxed mb-10">
-                        If you’re interested in how this approach translates into real projects, you can explore selected case studies or get in touch to discuss potential work.
-                    </p>
-                    <div class="flex flex-wrap gap-10 reveal-up">
-                        <a href="work.html" class="serif text-2xl border-b border-white/20 pb-2 hover:border-white transition-all duration-500 page-nav-link">View selected work</a>
-                        <a href="mailto:ondwariobiko@gmail.com" class="serif text-2xl border-b border-white/20 pb-2 hover:border-white transition-all duration-500">Contact</a>
-                    </div>
-                </div>
-                <div class="text-right flex flex-col items-end reveal-up">
-                    <div class="text-[9px] uppercase tracking-[0.4em] opacity-30 mb-1">Status</div>
-                    <div class="serif text-2xl italic opacity-80">Open to inquiries — 2026</div>
+    <!-- 8. CLOSING LINK -->
+    <footer class="pb-16 pt-32 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] text-center">
+            <div class="reveal-up mb-12">
+                <p class="text-xl md:text-2xl text-[#888] font-light max-w-2xl mx-auto leading-relaxed mb-10">
+                    This approach informs all of my work — from brand identity systems to website design.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-10">
+                    <a href="work.html" class="serif text-3xl md:text-5xl italic link-underlined page-nav-link">View selected work</a>
+                    <a href="contact.html" class="serif text-3xl md:text-5xl italic link-underlined page-nav-link">Contact</a>
                 </div>
             </div>
-
-            <div class="flex flex-col lg:flex-row justify-between items-center pt-12 border-t border-white/5 gap-8 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
+            
+            <div class="mt-40 pt-12 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-8 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
                 <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
                 <div class="flex gap-10 order-1 lg:order-2">
                     <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
@@ -473,27 +432,15 @@
 
         document.querySelectorAll('.reveal-up').forEach(el => {
             gsap.to(el, { 
-                opacity: 1, y: 0, duration: 1.2, ease: "power3.out", 
+                opacity: 1, y: 0, duration: 1, ease: "power3.out", 
                 scrollTrigger: { trigger: el, start: "top 95%" } 
             });
         });
 
         ScrollTrigger.create({
             start: "top -40",
-            onEnter: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.add('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6 });
-                }
-            },
-            onLeaveBack: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.remove('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6 });
-                }
-            }
+            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
+            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
         });
 
         const cursor = document.getElementById('cursor');
