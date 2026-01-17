@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Services – ondwariobiko Strategic Brand Systems</title>
+    
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #e5e5e5;
+            --muted: #666666;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --gutter: clamp(1rem, 5vw, 6rem);
+            --header-h: 60px;
+            --radius: clamp(0.75rem, 2vw, 2rem);
+        }
+
+        @media (min-width: 1024px) { :root { --header-h: 120px; } }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .preloader-content { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+        .preloader-number {
+            font-family: var(--font-serif); font-size: clamp(5rem, 18vw, 15rem);
+            color: white; line-height: 0.8; font-style: italic;
+        }
+        .preloader-bar-container { width: 140px; height: 1px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+        .preloader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; }
+
+        #page-transition-mask {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: #000; z-index: 9999; pointer-events: none;
+            transform: translateY(100%); will-change: transform;
+        }
+
+        .noise {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: 10; pointer-events: none; opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            animation: noise-move 0.2s steps(2) infinite;
+        }
+        @keyframes noise-move { 0% { transform: translate(0,0); } 100% { transform: translate(1%,1%); } }
+
+        .serif { font-family: var(--font-serif); font-weight: 400; }
+        
+        #cursor {
+            width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
+            position: fixed; pointer-events: none; z-index: 10001; mix-blend-mode: difference;
+            display: none; transition: width 0.3s, height 0.3s;
+        }
+
+        .grid-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: grid; grid-template-columns: repeat(6, 1fr);
+            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
+        }
+        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); } }
+        .grid-col { border-right: 1px solid var(--border); height: 100%; }
+        .grid-col:first-child { border-left: 1px solid var(--border); }
+
+        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
+
+        section { position: relative; width: 100%; padding: clamp(4rem, 10vw, 12rem) var(--gutter); }
+
+        .blur-header { backdrop-filter: blur(25px); background: rgba(8, 8, 8, 0.7) !important; border-bottom: 1px solid var(--border); }
+        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 1024px) { .main-logo { height: 32px; } }
+
+        .nav-link { position: relative; transition: opacity 0.3s; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link.active::after { opacity: 0.4; }
+
+        .mobile-nav-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: var(--bg); z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 var(--gutter);
+            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            visibility: hidden; pointer-events: none;
+        }
+        .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; pointer-events: auto; }
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
+        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
+
+        .section-index {
+            font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
+            margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
+        }
+
+        .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
+        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
+
+        .service-card { border-top: 1px solid var(--border); padding: clamp(3rem, 6vw, 5rem) 0; }
+        .service-card:last-child { border-bottom: 1px solid var(--border); }
+        
+        .service-title { font-size: clamp(2rem, 5vw, 5.5rem); line-height: 0.95; letter-spacing: -0.04em; }
+        .service-subtitle { font-size: 8px; text-transform: uppercase; letter-spacing: 0.4em; opacity: 0.3; margin-bottom: 2rem; display: block; }
+
+        .cap-item { font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.4; display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; }
+        .cap-dot { width: 3px; height: 3px; background: white; border-radius: 50%; }
+
+        .step-item { border-top: 1px solid var(--border); padding: 2rem 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .step-number { font-size: 8px; opacity: 0.3; padding-top: 4px; }
+        .step-text { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 300; max-width: 80%; }
+
+        .btn-magnetic {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 1.25rem 3.5rem; border: 1px solid var(--border); border-radius: 999px;
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1); position: relative; overflow: hidden;
+        }
+        .btn-magnetic:hover { color: black; border-color: white; background: white; }
+
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+    
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-number"><span id="load-count">0</span></div>
+            <div class="preloader-bar-container"><div class="preloader-bar" id="load-bar"></div></div>
+        </div>
+    </div>
+
+    <div id="page-transition-mask"></div>
+    <div id="cursor"></div>
+    <div class="noise"></div>
+
+    <div class="grid-overlay">
+        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        <div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div><div class="hidden lg:block grid-col"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
+        <div class="w-full px-[var(--gutter)] flex justify-between items-center">
+            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6 page-nav-link">
+                <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
+            </a>
+            
+            <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
+                <div class="live-status mr-4">
+                    <div class="live-dot"></div>
+                    NRB — <span id="local-time">00:00:00</span>
+                </div>
+                <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
+                <a href="about.html" class="nav-link nav-magnetic-item page-nav-link">About</a>
+                <a href="services.html" class="nav-link nav-magnetic-item active page-nav-link">Services</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Insights</a>
+                <a href="#" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
+            </div>
+            
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4 active:scale-95 transition-transform" onclick="toggleMenu()">Menu</button>
+            
+            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+                Independent Practice<br>Strategic Brand Systems
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="flex flex-col space-y-4">
+            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="about.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="services.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Insights</a>
+            <a href="#" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
+            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
+        </div>
+    </div>
+
+    <!-- 1. HEADER -->
+    <header class="pt-32 md:pt-40 lg:pt-60 px-[var(--gutter)]">
+        <div class="max-w-screen-2xl mx-auto">
+            <h1 class="reveal-text serif text-[clamp(4rem,12vw,15rem)] leading-[0.85] tracking-tighter mb-10">
+                <span>Services.</span>
+            </h1>
+            <div class="grid lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-8">
+                    <p class="text-xl md:text-3xl lg:text-4xl text-[#e5e5e5] font-light reveal-up leading-tight">
+                        I offer a focused set of branding and web design services designed to help businesses communicate clearly, build credibility, and remain consistent as they grow.
+                    </p>
+                    <p class="text-sm md:text-base text-[#666] mt-6 reveal-up tracking-[0.1em] uppercase">No hype. No promises. Just clarity.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. QUIET CONTROL -->
+    <section class="border-y border-white/5 my-20">
+        <div class="max-w-screen-2xl mx-auto">
+            <p class="serif text-[clamp(1.5rem,3vw,3.5rem)] leading-tight text-white/40 reveal-up italic">
+                “Each engagement is structured, intentional, and shaped by context rather than templates or fixed formulas.”
+            </p>
+        </div>
+    </section>
+
+    <!-- 3. CORE SERVICES -->
+    <section id="core-services" class="pt-10">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">01 / Core Services</span>
+            
+            <!-- Service 01 -->
+            <div class="service-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10 items-start">
+                    <div class="lg:col-span-8">
+                        <span class="service-subtitle">Service 01</span>
+                        <h2 class="serif service-title italic mb-8">Brand Identity & Logo Systems</h2>
+                        <div class="max-w-xl">
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">Who this is for</h4>
+                            <p class="text-lg text-[#eee] mb-8 font-light">For businesses that need a clear, credible identity they can rely on long-term — not just a logo.</p>
+                            
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">What this solves</h4>
+                            <p class="text-lg text-[#888] mb-10 font-light">This service helps organizations define and express who they are through a cohesive visual identity system that builds recognition, trust, and consistency across touchpoints.</p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 lg:pt-20">
+                        <h4 class="text-[9px] uppercase tracking-[0.3em] opacity-20 mb-6">Typically Included</h4>
+                        <div class="capabilities-list">
+                            <div class="cap-item"><div class="cap-dot"></div> Brand direction & positioning</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Logo design & supporting marks</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Typography & color systems</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Core usage guidelines</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 02 -->
+            <div class="service-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10 items-start">
+                    <div class="lg:col-span-8">
+                        <span class="service-subtitle">Service 02</span>
+                        <h2 class="serif service-title italic mb-8">Website Design</h2>
+                        <div class="max-w-xl">
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">Who this is for</h4>
+                            <p class="text-lg text-[#eee] mb-8 font-light">For teams that need a website that communicates clearly, supports decision-making, and reflects brand credibility.</p>
+                            
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">What this solves</h4>
+                            <p class="text-lg text-[#888] mb-10 font-light">I design websites that prioritize structure, hierarchy, and intent — helping visitors quickly understand what a business does and why it matters.</p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 lg:pt-20">
+                        <h4 class="text-[9px] uppercase tracking-[0.3em] opacity-20 mb-6">Typically Included</h4>
+                        <div class="capabilities-list">
+                            <div class="cap-item"><div class="cap-dot"></div> Information structure & layout</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Visual design aligned with identity</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Responsive design considerations</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Design for clean implementation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 03 -->
+            <div class="service-card reveal-up">
+                <div class="grid lg:grid-cols-12 gap-10 items-start">
+                    <div class="lg:col-span-8">
+                        <span class="service-subtitle">Service 03</span>
+                        <h2 class="serif service-title italic mb-8">Brand & Web Alignment</h2>
+                        <div class="max-w-xl">
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">Who this is for</h4>
+                            <p class="text-lg text-[#eee] mb-8 font-light">For organizations refining, evolving, or scaling their existing brand and digital presence.</p>
+                            
+                            <h4 class="text-[10px] uppercase tracking-widest opacity-30 mb-4">What this solves</h4>
+                            <p class="text-lg text-[#888] mb-10 font-light">This engagement focuses on improving clarity and consistency across existing brand and web assets, ensuring everything works together as a coherent system.</p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-4 lg:pt-20">
+                        <h4 class="text-[9px] uppercase tracking-[0.3em] opacity-20 mb-6">Typically Included</h4>
+                        <div class="capabilities-list">
+                            <div class="cap-item"><div class="cap-dot"></div> Brand & website review</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Design refinements</div>
+                            <div class="cap-item"><div class="cap-dot"></div> System improvements</div>
+                            <div class="cap-item"><div class="cap-dot"></div> Guidance for consistency</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FILTER -->
+    <section class="inverted">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">02 / Filter</span>
+            <div class="grid lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4">
+                    <h2 class="serif text-4xl lg:text-6xl text-black reveal-up">What This Is Not.</h2>
+                </div>
+                <div class="lg:col-span-7 lg:col-start-6">
+                    <div class="reveal-up space-y-6">
+                        <div class="flex items-center gap-6 py-6 border-b border-black/10">
+                            <span class="text-[8px] opacity-30">01</span>
+                            <span class="text-xl md:text-2xl font-light">One-off logo files without context</span>
+                        </div>
+                        <div class="flex items-center gap-6 py-6 border-b border-black/10">
+                            <span class="text-[8px] opacity-30">02</span>
+                            <span class="text-xl md:text-2xl font-light">Trend-driven or decorative design work</span>
+                        </div>
+                        <div class="flex items-center gap-6 py-6 border-b border-black/10">
+                            <span class="text-[8px] opacity-30">03</span>
+                            <span class="text-xl md:text-2xl font-light">Rush jobs without time for thinking</span>
+                        </div>
+                        <div class="flex items-center gap-6 py-6 border-b border-black/10">
+                            <span class="text-[8px] opacity-30">04</span>
+                            <span class="text-xl md:text-2xl font-light">Projects without clear intent or collaboration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PROCESS LITE -->
+    <section>
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index">03 / Process Lite</span>
+            <div class="grid lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4">
+                    <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 mb-10 reveal-up">Engagement Lifecycle</h2>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="reveal-up">
+                        <div class="step-item">
+                            <span class="step-number">STEP 01</span>
+                            <span class="step-text">Initial conversation to understand context and goals.</span>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">STEP 02</span>
+                            <span class="step-text">Alignment on scope and direction.</span>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">STEP 03</span>
+                            <span class="step-text">Structured design work with clear checkpoints.</span>
+                        </div>
+                        <div class="step-item">
+                            <span class="step-number">STEP 04</span>
+                            <span class="step-text">Thoughtful delivery and refinement.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. LOGISTICS -->
+    <section class="border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 lg:gap-32 reveal-up">
+                <div>
+                    <h3 class="text-2xl font-medium mb-6">Location & Access</h3>
+                    <p class="text-[#777] font-light leading-relaxed text-lg">
+                        I’m based in Nairobi, Kenya, and work remotely with clients worldwide. I collaborate across time zones and prioritize clear communication and structured workflows.
+                    </p>
+                </div>
+                <div class="flex flex-col justify-end items-start md:items-end">
+                    <div class="text-[9px] uppercase tracking-[0.4em] opacity-30 mb-2">Availability</div>
+                    <div class="serif text-4xl italic opacity-80">Open to inquiries — 2026</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CLOSING CTA -->
+    <footer class="pb-16 pt-32 border-t border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)] text-center">
+            <div class="reveal-up mb-12">
+                <h2 class="serif text-[clamp(2.5rem,6vw,5rem)] italic mb-6">Considering a Project?</h2>
+                <p class="text-xl md:text-2xl text-[#888] font-light max-w-2xl mx-auto leading-relaxed">
+                    If you’re exploring a branding or web project and value a thoughtful, structured approach, feel free to get in touch.
+                </p>
+            </div>
+            <a href="mailto:ondwariobiko@gmail.com" class="btn-magnetic group reveal-up">
+                <span>Get in touch</span>
+            </a>
+            
+            <div class="mt-40 pt-12 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-8 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
+                <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
+                <div class="flex gap-10 order-1 lg:order-2">
+                    <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition-colors">Behance</a>
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
+            const localTimeEl = document.getElementById('local-time');
+            if (localTimeEl) localTimeEl.textContent = timeStr;
+        }
+        setInterval(updateTime, 1000); updateTime();
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-nav');
+            menu.classList.toggle('active');
+            if (menu.classList.contains('active')) {
+                lenis.stop();
+            } else {
+                lenis.start();
+            }
+        }
+
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        lenis.stop();
+        gsap.registerPlugin(ScrollTrigger);
+
+        function initAnimations() {
+            const countEl = document.getElementById('load-count');
+            const loaderEl = document.getElementById('preloader');
+            let loadData = { value: 0 };
+
+            gsap.timeline()
+                .to(loadData, {
+                    value: 100, duration: 2, ease: "power2.inOut",
+                    onUpdate: () => {
+                        countEl.textContent = Math.round(loadData.value);
+                        document.getElementById('load-bar').style.width = loadData.value + "%";
+                    }
+                })
+                .to(".preloader-content", { y: -20, opacity: 0, duration: 0.5 })
+                .to(loaderEl, { yPercent: -100, duration: 1, ease: "expo.inOut", onComplete: () => { lenis.start(); loaderEl.style.display = 'none'; } })
+                .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.2, ease: "expo.out" }, "-=0.5")
+                .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: "expo.out" }, "-=0.8");
+        }
+
+        window.addEventListener('load', initAnimations);
+
+        document.querySelectorAll('.page-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const dest = link.getAttribute('href');
+                if (dest && dest !== '#' && !dest.includes('mailto:')) {
+                    e.preventDefault();
+                    const mask = document.getElementById('page-transition-mask');
+                    gsap.set(mask, { yPercent: 100 });
+                    gsap.to(mask, { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => window.location.href = dest });
+                }
+            });
+        });
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 95%" } });
+        });
+
+        ScrollTrigger.create({
+            start: "top -40",
+            onEnter: () => document.getElementById('main-nav').classList.add('blur-header'),
+            onLeaveBack: () => document.getElementById('main-nav').classList.remove('blur-header')
+        });
+
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 }));
+            document.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15 }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1 }));
+            });
+        }
+    </script>
+</body>
+</html>
