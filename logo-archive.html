@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Selected Logo Marks – ondwariobiko</title>
+    <!-- Favicon Integration -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #080808;
+            --fg: #e5e5e5;
+            --muted: #666666;
+            --accent: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --gutter: clamp(1rem, 5vw, 6rem);
+            --header-h: 60px;
+            --radius: clamp(0.75rem, 2vw, 2rem);
+        }
+
+        @media (min-width: 1024px) { :root { --header-h: 120px; } }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+        }
+
+        /* --- PRELOADER (Exact Mirror of Index) --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            pointer-events: all;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .preloader-number {
+            font-family: var(--font-serif);
+            font-size: clamp(5rem, 18vw, 15rem);
+            color: white;
+            font-weight: 400;
+            line-height: 0.8;
+            font-style: italic;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .preloader-subtext {
+            font-size: 8px;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            transform: translateY(10px);
+        }
+
+        .preloader-bar-container {
+            width: 140px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .preloader-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%; width: 0%;
+            background: white;
+        }
+
+        #page-transition-mask {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateY(100%);
+            will-change: transform;
+        }
+
+        .noise {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            animation: noise-move 0.2s steps(2) infinite;
+        }
+        @keyframes noise-move { 0% { transform: translate(0,0); } 100% { transform: translate(1%,1%); } }
+
+        .serif { font-family: var(--font-serif); font-weight: 400; }
+        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .reveal-text span { display: inline-block; transform: translateY(115%); will-change: transform; }
+        .reveal-up { opacity: 0; transform: translateY(30px); will-change: transform, opacity; }
+
+        #cursor {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            mix-blend-mode: difference;
+            display: none;
+            transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
+        }
+
+        /* --- NAVIGATION --- */
+        .blur-header {
+            backdrop-filter: blur(25px);
+            background: rgba(8, 8, 8, 0.7) !important;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
+        @media (min-width: 768px) { .main-logo { height: 22px; } }
+        @media (min-width: 1024px) { .main-logo { height: 32px; } }
+
+        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
+        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        .nav-link { position: relative; transition: opacity 0.3s; }
+        .nav-link::after {
+            content: ''; position: absolute;
+            bottom: -4px; left: 0; width: 0; height: 1px;
+            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .mobile-nav-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: var(--bg); z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 var(--gutter);
+            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            visibility: hidden; pointer-events: none;
+        }
+        .mobile-nav-overlay.active { transform: translateY(0); visibility: visible; pointer-events: auto; }
+        .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
+        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
+
+        /* --- ARCHIVE GRID --- */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        @media (min-width: 640px) { .logo-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .logo-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1440px) { .logo-grid { grid-template-columns: repeat(4, 1fr); } }
+
+        .logo-item {
+            background: var(--bg);
+            padding: clamp(2.5rem, 8vw, 6rem) 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-mark-wrapper {
+            width: 100%;
+            height: 100%;
+            max-width: 220px;
+            max-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .logo-item:hover .logo-mark-wrapper { opacity: 1; transform: scale(1.08); }
+
+        .logo-mark {
+            max-width: 60%;
+            max-height: 60%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo-meta {
+            margin-top: auto;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .logo-name {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-context {
+            display: block;
+            font-size: clamp(10px, 1.1vw, 12px);
+            color: var(--muted);
+            letter-spacing: 0.02em;
+            line-height: 1.4;
+            max-width: 260px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .section-index {
+            font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
+            margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+    
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-number"><span id="load-count">0</span></div>
+            <div class="preloader-subtext">Initializing Portfolio</div>
+            <div class="preloader-bar-container"><div class="preloader-bar" id="load-bar"></div></div>
+        </div>
+    </div>
+
+    <div id="page-transition-mask"></div>
+    <div id="cursor"></div>
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
+        <div class="w-full px-[var(--gutter)] flex justify-between items-center">
+            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6 page-nav-link">
+                <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
+            </a>
+            
+            <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
+                <div class="live-status mr-4">
+                    <div class="live-dot"></div>
+                    NRB — <span id="local-time">00:00:00</span>
+                </div>
+                <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
+                <a href="about.html" class="nav-link nav-magnetic-item page-nav-link">About</a>
+                <a href="services.html" class="nav-link nav-magnetic-item page-nav-link">Services</a>
+                <a href="approach.html" class="nav-link nav-magnetic-item page-nav-link">Approach</a>
+                <a href="contact.html" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
+            </div>
+            
+            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
+            
+            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
+                Independent Practice<br>Strategic Brand Systems
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav">
+        <div class="flex flex-col space-y-4">
+            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
+            <a href="about.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
+            <a href="services.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
+            <a href="approach.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Approach</a>
+            <a href="contact.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
+            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
+            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="pt-32 md:pt-48 lg:pt-64 px-[var(--gutter)] pb-12 md:pb-24">
+        <div class="max-w-screen-2xl mx-auto">
+            <span class="section-index mb-8">Selected Logo Marks</span>
+            <h1 class="reveal-text serif text-[clamp(2.5rem,8.5vw,10.5rem)] leading-[0.92] tracking-tighter mb-12">
+                <span>Standalone logo solutions created</span><br>
+                <span>for specific operational environments.</span>
+            </h1>
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8">
+                    <p class="reveal-up text-lg md:text-xl lg:text-3xl leading-snug text-[#999] font-light">
+                        This archive captures breadth across industries. Every mark below represents a functional solution created under specific constraints, designed to maintain clarity without relying on decoration or trends.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- LOGO GRID -->
+    <main class="px-[var(--gutter)] pb-32">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="logo-grid reveal-up">
+                <!-- Mark 01 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/aquapet-mark.png" alt="Aquapet" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Aquapet Submark</span>
+                        <span class="logo-context">Aquatic infrastructure. Required high legibility at small sizes.</span>
+                    </div>
+                </div>
+                <!-- Mark 02 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/fastkat-mark.png" alt="Fast Kat" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Fast Kat Partner Mark</span>
+                        <span class="logo-context">Technology services. Designed for digital-first use.</span>
+                    </div>
+                </div>
+                <!-- Mark 03 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/transport-mark.png" alt="Regional Transport" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Regional Transport Brand</span>
+                        <span class="logo-context">Logistics. Required recognition at distance.</span>
+                    </div>
+                </div>
+                <!-- Mark 04 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/ikon-mark.png" alt="Ikon Industrial" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Ikon Industrial</span>
+                        <span class="logo-context">Heavy manufacturing. Optimized for metallic etching.</span>
+                    </div>
+                </div>
+                <!-- Mark 05 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/ocean-mark.png" alt="Ocean Line" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Ocean Line</span>
+                        <span class="logo-context">Maritime freight. Designed for controlled reproduction across materials.</span>
+                    </div>
+                </div>
+                <!-- Mark 06 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/tech-mark.png" alt="Nexus Systems" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Nexus Systems</span>
+                        <span class="logo-context">Software infrastructure. High-density UI performance.</span>
+                    </div>
+                </div>
+                <!-- Mark 07 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/prime-mark.png" alt="Prime Cargo" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Prime Cargo</span>
+                        <span class="logo-context">Logistics. High-visibility global fleet application.</span>
+                    </div>
+                </div>
+                <!-- Mark 08 -->
+                <div class="logo-item">
+                    <div class="logo-mark-wrapper"><img src="images/logos/apex-mark.png" alt="Apex Distribution" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Apex Distribution</span>
+                        <span class="logo-context">Supply chain. Refined for extreme scalability across packaging.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 border-t border-white/5 pt-12 text-center reveal-up">
+                <p class="text-[9px] uppercase tracking-[0.4em] opacity-30">
+                    Selected logos represent focused engagements where clarity and function were the primary goals.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-16 border-t border-white/5 px-[var(--gutter)]">
+        <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex gap-10 text-[9px] uppercase tracking-[0.4em] font-bold">
+                <a href="work.html" class="hover:text-white transition-colors page-nav-link nav-magnetic-item">Back to Work</a>
+                <a href="work.html#case-studies" class="hover:text-white transition-colors page-nav-link nav-magnetic-item">Case Studies</a>
+            </div>
+            <div class="text-[8px] uppercase tracking-[0.4em] opacity-30">
+                © 2026 ondwariobiko — Strategic Brand Systems
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
+            const localTimeEl = document.getElementById('local-time');
+            if (localTimeEl) localTimeEl.textContent = timeStr;
+        }
+        setInterval(updateTime, 1000); updateTime();
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-nav');
+            if (!menu) return;
+            menu.classList.toggle('active');
+            const isActive = menu.classList.contains('active');
+            if (isActive) { if (typeof lenis !== 'undefined') lenis.stop(); } 
+            else { if (typeof lenis !== 'undefined') lenis.start(); }
+        }
+
+        const lenis = new Lenis({ 
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) { 
+            lenis.raf(time); 
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        lenis.stop();
+
+        gsap.registerPlugin(ScrollTrigger);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        function initAnimations() {
+            const countEl = document.getElementById('load-count');
+            const barEl = document.getElementById('load-bar');
+            const loaderEl = document.getElementById('preloader');
+            
+            let loadData = { value: 0 };
+            const introTl = gsap.timeline();
+
+            introTl.to(loadData, {
+                value: 100,
+                duration: 2.2,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    const rounded = Math.round(loadData.value);
+                    if(countEl) countEl.textContent = rounded;
+                    if(barEl) barEl.style.width = rounded + "%";
+                }
+            })
+            .to(".preloader-content", { y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut" })
+            .to(loaderEl, {
+                yPercent: -100, duration: 1.1, ease: "expo.inOut",
+                onComplete: () => {
+                    lenis.start();
+                    loaderEl.style.display = 'none';
+                }
+            }, "-=0.1")
+            .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.6")
+            .to(".reveal-up", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1.2");
+        }
+
+        window.addEventListener('load', initAnimations);
+
+        document.querySelectorAll('.page-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const dest = link.getAttribute('href');
+                if (dest && dest !== '#' && !dest.includes('mailto:')) {
+                    e.preventDefault();
+                    const mask = document.getElementById('page-transition-mask');
+                    gsap.set(mask, { yPercent: 100 });
+                    gsap.to(mask, { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => { window.location.href = dest; } });
+                }
+            });
+        });
+
+        ScrollTrigger.create({
+            start: "top -40",
+            onEnter: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.add('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6, ease: "expo.out" });
+                }
+            },
+            onLeaveBack: () => {
+                const nav = document.getElementById('main-nav');
+                if (nav) {
+                    nav.classList.remove('blur-header');
+                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6, ease: "expo.out" });
+                }
+            }
+        });
+
+        const cursor = document.getElementById('cursor');
+        if (window.matchMedia("(pointer: fine)").matches && cursor) {
+            cursor.style.display = 'block';
+            document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" }));
+            document.querySelectorAll('a, button, .logo-item').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15, mixBlendMode: 'difference' }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
+            });
+        }
+
+        document.querySelectorAll('.nav-magnetic-item').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+            });
+        });
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            gsap.to(el, {
+                opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 92%", toggleActions: "play none none none" }
+            });
+        });
+    </script>
+</body>
+</html>

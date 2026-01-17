@@ -266,11 +266,37 @@
             .thumbnail-restrained { max-width: 100%; opacity: 0.7; } 
         }
         .project-entry:hover .thumbnail-restrained { opacity: 1; transform: scale(1.02); }
+        
         .thumbnail-restrained img { 
             width: 100%; height: 100%; object-fit: cover; 
             position: absolute; top: 0; left: 0;
+            z-index: 2;
             will-change: transform;
             backface-visibility: hidden;
+            background: transparent;
+        }
+
+        /* Dimension Placeholder Styles */
+        .dimension-label {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: #444;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+        .dimension-label .size {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+            letter-spacing: 0;
         }
 
         /* Navigation Links */
@@ -378,7 +404,7 @@
                 <span>Selected Work.</span>
             </h1>
             <p class="text-base md:text-xl lg:text-2xl text-[#888] font-light max-w-2xl reveal-up leading-relaxed">
-                A curated selection of branding and web projects focused on clarity, structure, and long-term impact.
+                Each project represents a complete design system shaped by context, constraints, and long-term use.
             </p>
         </div>
     </header>
@@ -390,20 +416,21 @@
             <!-- PROJECT 01: AQUAPET KENYA -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
-                    <span class="meta-label">01 / Logistics</span>
+                    <span class="meta-label">Logistics</span>
                 </div>
                 <div class="entry-main">
                     <a href="aquapet.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Aquapet Kenya</h2>
                     </a>
-                    <p class="project-focus">Positioned the brand for market leadership through a cohesive visual ecosystem.</p>
+                    <p class="project-focus">Brand identity system and brand guidelines for a professional aquatic infrastructure company.</p>
                     <a href="aquapet.html" class="case-study-link page-nav-link">
-                        → View case study
+                        → View project
                     </a>
                 </div>
                 <div class="entry-visual">
                     <a href="aquapet.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/aquapet.jpg" alt="Aquapet Kenya">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
                     </a>
                 </div>
             </article>
@@ -411,62 +438,131 @@
             <!-- PROJECT 02: FAST KAT CONNECTS -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
-                    <span class="meta-label">02 / Distribution</span>
+                    <span class="meta-label">Technology</span>
                 </div>
                 <div class="entry-main">
                     <a href="fast-kat.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Fast Kat Connects</h2>
                     </a>
-                    <p class="project-focus">Streamlined brand perception to secure high-value B2B partnerships.</p>
+                    <p class="project-focus">Brand identity system designed for a technology and connectivity business.</p>
                     <a href="fast-kat.html" class="case-study-link page-nav-link">
-                        → View case study
+                        → View project
                     </a>
                 </div>
                 <div class="entry-visual">
                     <a href="fast-kat.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/fastkat.jpg" alt="Fast Kat Connects">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
                     </a>
                 </div>
             </article>
 
-            <!-- PROJECT 03: OCEAN LINE -->
+            <!-- PROJECT 03: OCEAN LINE FREIGHT -->
             <article class="project-entry reveal-up">
                 <div class="entry-metadata">
-                    <span class="meta-label">03 / Maritime</span>
+                    <span class="meta-label">Logistics</span>
                 </div>
                 <div class="entry-main">
                     <a href="ocean-line.html" class="block group no-underline page-nav-link">
-                        <h2 class="project-title">Ocean Line</h2>
+                        <h2 class="project-title">Ocean Line Freight</h2>
                     </a>
-                    <p class="project-focus">Architected identity to drive global authority in freight systems.</p>
+                    <p class="project-focus">Brand identity and website system for an international freight and logistics company.</p>
                     <a href="ocean-line.html" class="case-study-link page-nav-link">
-                        → View case study
+                        → View project
                     </a>
                 </div>
                 <div class="entry-visual">
                     <a href="ocean-line.html" class="thumbnail-restrained page-nav-link">
-                        <img src="images/oceanline.jpg" alt="Ocean Line">
+                        <img src="images/oceanline.jpg" alt="Ocean Line Freight">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
                     </a>
                 </div>
             </article>
 
             <!-- PROJECT 04: IKON TRAILERS -->
-            <article class="project-entry reveal-up" style="border-bottom: 1px solid var(--border);">
+            <article class="project-entry reveal-up">
                 <div class="entry-metadata">
-                    <span class="meta-label">04 / Industrial</span>
+                    <span class="meta-label">Industrial</span>
                 </div>
                 <div class="entry-main">
                     <a href="ikon-trailers.html" class="block group no-underline page-nav-link">
                         <h2 class="project-title">Ikon Trailers</h2>
                     </a>
-                    <p class="project-focus">Engineered a robust system to increase recognition across dealer networks.</p>
+                    <p class="project-focus">Industrial brand identity system for heavy-duty trailer manufacturing.</p>
                     <a href="ikon-trailers.html" class="case-study-link page-nav-link">
-                        → View case study
+                        → View project
                     </a>
                 </div>
                 <div class="entry-visual">
                     <a href="ikon-trailers.html" class="thumbnail-restrained page-nav-link">
                         <img src="images/ikontrailers.jpg" alt="Ikon Trailers">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
+                    </a>
+                </div>
+            </article>
+
+            <!-- PROJECT 05: WEBSITE SYSTEM -->
+            <article class="project-entry reveal-up">
+                <div class="entry-metadata">
+                    <span class="meta-label">Digital</span>
+                </div>
+                <div class="entry-main">
+                    <a href="website-system.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Website System</h2>
+                    </a>
+                    <p class="project-focus">Website-only system focused on structure, hierarchy, and content clarity.</p>
+                    <a href="website-system.html" class="case-study-link page-nav-link">
+                        → View project
+                    </a>
+                </div>
+                <div class="entry-visual">
+                    <a href="website-system.html" class="thumbnail-restrained page-nav-link">
+                        <img src="images/website-system.jpg" alt="Website System">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
+                    </a>
+                </div>
+            </article>
+
+            <!-- PROJECT 06: MOBILE APP INTERFACE -->
+            <article class="project-entry reveal-up">
+                <div class="entry-metadata">
+                    <span class="meta-label">Product</span>
+                </div>
+                <div class="entry-main">
+                    <a href="mobile-app.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Mobile App Interface</h2>
+                    </a>
+                    <p class="project-focus">Mobile app interface system focused on usability, constraints, and consistency.</p>
+                    <a href="mobile-app.html" class="case-study-link page-nav-link">
+                        → View project
+                    </a>
+                </div>
+                <div class="entry-visual">
+                    <a href="mobile-app.html" class="thumbnail-restrained page-nav-link">
+                        <img src="images/mobile-app.jpg" alt="Mobile App Interface">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
+                    </a>
+                </div>
+            </article>
+
+            <!-- PROJECT 07: SELECTED LOGO MARKS -->
+            <article class="project-entry reveal-up" style="border-bottom: 1px solid var(--border);">
+                <div class="entry-metadata">
+                    <span class="meta-label">Archive</span>
+                </div>
+                <div class="entry-main">
+                    <a href="logo-archive.html" class="block group no-underline page-nav-link">
+                        <h2 class="project-title">Selected Logo Marks</h2>
+                    </a>
+                    <p class="project-focus">A curated archive of standalone logo projects created for different industries and use cases.</p>
+                    <a href="logo-archive.html" class="case-study-link page-nav-link">
+                        → View project
+                    </a>
+                </div>
+                <div class="entry-visual">
+                    <a href="logo-archive.html" class="thumbnail-restrained page-nav-link">
+                        <img src="images/logos.jpg" alt="Selected Logo Marks">
+                        <div class="dimension-label"><span class="size">1280 x 800</span>Recommended</div>
                     </a>
                 </div>
             </article>
