@@ -44,7 +44,7 @@
             width: 100%;
         }
 
-        /* --- PRELOADER (Exact Mirror of Index) --- */
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed;
             inset: 0;
@@ -171,7 +171,7 @@
         .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
         @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
 
-        /* --- ARCHIVE GRID --- */
+        /* --- LOGO GRID --- */
         .logo-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -205,10 +205,10 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 2rem;
-            opacity: 0.8;
-            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            opacity: 1; /* Full visibility as requested */
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .logo-item:hover .logo-mark-wrapper { opacity: 1; transform: scale(1.08); }
+        .logo-item:hover .logo-mark-wrapper { transform: scale(1.05); }
 
         .logo-mark {
             max-width: 60%;
@@ -216,12 +216,11 @@
             width: auto;
             height: auto;
             object-fit: contain;
-            filter: brightness(0) invert(1);
+            /* Filters removed for full color as requested */
         }
 
         .logo-meta {
             margin-top: auto;
-            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .logo-name {
@@ -242,6 +241,22 @@
             max-width: 260px;
             margin: 0 auto;
             font-weight: 300;
+        }
+
+        .size-tag {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            font-size: 7px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0.3;
         }
 
         .section-index {
@@ -318,7 +333,7 @@
             <div class="grid lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-8">
                     <p class="reveal-up text-lg md:text-xl lg:text-3xl leading-snug text-[#999] font-light">
-                        This archive captures breadth across industries. Every mark below represents a functional solution created under specific constraints, designed to maintain clarity without relying on decoration or trends.
+                        This archive captures breadth across industries. Every mark represents a functional solution created under specific constraints.
                     </p>
                 </div>
             </div>
@@ -329,68 +344,241 @@
     <main class="px-[var(--gutter)] pb-32">
         <div class="max-w-screen-2xl mx-auto">
             <div class="logo-grid reveal-up">
-                <!-- Mark 01 -->
+                <!-- Row 1 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/aquapet-mark.png" alt="Aquapet" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Aquapet Submark</span>
                         <span class="logo-context">Aquatic infrastructure. Required high legibility at small sizes.</span>
                     </div>
                 </div>
-                <!-- Mark 02 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/fastkat-mark.png" alt="Fast Kat" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Fast Kat Partner Mark</span>
                         <span class="logo-context">Technology services. Designed for digital-first use.</span>
                     </div>
                 </div>
-                <!-- Mark 03 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/transport-mark.png" alt="Regional Transport" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Regional Transport Brand</span>
                         <span class="logo-context">Logistics. Required recognition at distance.</span>
                     </div>
                 </div>
-                <!-- Mark 04 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/ikon-mark.png" alt="Ikon Industrial" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Ikon Industrial</span>
                         <span class="logo-context">Heavy manufacturing. Optimized for metallic etching.</span>
                     </div>
                 </div>
-                <!-- Mark 05 -->
+
+                <!-- Row 2 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/ocean-mark.png" alt="Ocean Line" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Ocean Line</span>
-                        <span class="logo-context">Maritime freight. Designed for controlled reproduction across materials.</span>
+                        <span class="logo-context">Maritime freight. Designed for controlled reproduction.</span>
                     </div>
                 </div>
-                <!-- Mark 06 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/tech-mark.png" alt="Nexus Systems" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Nexus Systems</span>
                         <span class="logo-context">Software infrastructure. High-density UI performance.</span>
                     </div>
                 </div>
-                <!-- Mark 07 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/prime-mark.png" alt="Prime Cargo" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Prime Cargo</span>
                         <span class="logo-context">Logistics. High-visibility global fleet application.</span>
                     </div>
                 </div>
-                <!-- Mark 08 -->
                 <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
                     <div class="logo-mark-wrapper"><img src="images/logos/apex-mark.png" alt="Apex Distribution" class="logo-mark"></div>
                     <div class="logo-meta">
                         <span class="logo-name">Apex Distribution</span>
-                        <span class="logo-context">Supply chain. Refined for extreme scalability across packaging.</span>
+                        <span class="logo-context">Supply chain. Refined for extreme scalability.</span>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/soko-mark.png" alt="Soko Agri" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Soko Agri</span>
+                        <span class="logo-context">Agribusiness. Optimized for stencil application on crates.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/horizon-mark.png" alt="Blue Horizon" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Blue Horizon</span>
+                        <span class="logo-context">Energy. Designed for high-contrast visibility on solar panels.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/kinetic-mark.png" alt="Kinetic Dynamics" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Kinetic Dynamics</span>
+                        <span class="logo-context">Automotive. Scalable for precision branding on components.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/urban-mark.png" alt="Urban Build" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Urban Build</span>
+                        <span class="logo-context">Construction. High recognition for site hoarding and PPE.</span>
+                    </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/safar-mark.png" alt="Safar Travel" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Safar Travel</span>
+                        <span class="logo-context">Tourism. Designed for embroidery and textile applications.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/cloud-mark.png" alt="Cloud Stream" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Cloud Stream</span>
+                        <span class="logo-context">Media services. Optimized for favicon and mobile icon scale.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/forge-mark.png" alt="Forge Metal" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Forge Metal</span>
+                        <span class="logo-context">Fabrication. Monogram designed for heat stamping.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/eco-mark.png" alt="Eco Flow" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Eco Flow</span>
+                        <span class="logo-context">Sustainability. High clarity for monochrome certification marks.</span>
+                    </div>
+                </div>
+
+                <!-- Row 5 -->
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/peak-mark.png" alt="Peak Finance" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Peak Finance</span>
+                        <span class="logo-context">Fintech. Designed for clarity in dense data interfaces.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/core-mark.png" alt="Core Robotics" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Core Robotics</span>
+                        <span class="logo-context">Engineering. Modular mark for hardware branding.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/vista-mark.png" alt="Vista Media" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Vista Media</span>
+                        <span class="logo-context">Content production. Optimized for video watermarking.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/nova-mark.png" alt="Nova Energy" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Nova Energy</span>
+                        <span class="logo-context">Renewables. Refined for large-scale infrastructure signage.</span>
+                    </div>
+                </div>
+
+                <!-- Row 6 -->
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/shield-mark.png" alt="Shield Security" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Shield Security</span>
+                        <span class="logo-context">Public safety. High legibility for vehicle livery.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/pulse-mark.png" alt="Pulse Health" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Pulse Health</span>
+                        <span class="logo-context">Healthcare. Scalable for medical device marking.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/orbit-mark.png" alt="Orbit Logistics" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Orbit Logistics</span>
+                        <span class="logo-context">Global shipping. Balanced for horizontal and vertical layouts.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/terra-mark.png" alt="Terra Mining" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Terra Mining</span>
+                        <span class="logo-context">Resources. Rugged construction for heavy machinery application.</span>
+                    </div>
+                </div>
+
+                <!-- Row 7 -->
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/zenith-mark.png" alt="Zenith Tech" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Zenith Tech</span>
+                        <span class="logo-context">Consulting. Typographic solution for corporate documentation.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/anchor-mark.png" alt="Anchor Maritime" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Anchor Maritime</span>
+                        <span class="logo-context">Harbor services. Built for extreme environmental durability.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/solas-mark.png" alt="Solas Power" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Solas Power</span>
+                        <span class="logo-context">Electrical grid. Geometric mark for utility marking.</span>
+                    </div>
+                </div>
+                <div class="logo-item">
+                    <div class="size-tag">1200 x 1200px</div>
+                    <div class="logo-mark-wrapper"><img src="images/logos/grid-mark.png" alt="Grid Systems" class="logo-mark"></div>
+                    <div class="logo-meta">
+                        <span class="logo-name">Grid Systems</span>
+                        <span class="logo-context">Urban planning. Designed for blueprint and map integration.</span>
                     </div>
                 </div>
             </div>
@@ -520,7 +708,7 @@
         if (window.matchMedia("(pointer: fine)").matches && cursor) {
             cursor.style.display = 'block';
             document.addEventListener('mousemove', (e) => gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" }));
-            document.querySelectorAll('a, button, .logo-item').forEach(el => {
+            document.querySelectorAll('a, button').forEach(el => {
                 el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, opacity: 0.15, mixBlendMode: 'difference' }));
                 el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
             });
