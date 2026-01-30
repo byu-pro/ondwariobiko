@@ -280,7 +280,7 @@
     <main class="px-6 md:px-12 pt-24 md:pt-40">
         
         <!-- Hero Header -->
-        <header class="mb-12 md:mb-24 overflow-hidden">
+        <header id="hero-header" class="mb-12 md:mb-24 overflow-hidden">
             <h1 class="display-bold text-huge mb-6 md:mb-10">ondwariobiko</h1>
             <div class="flex justify-start">
                 <!-- Alignment set below the 'r' in 'ondwariobiko' and width increased significantly to cover space as depicted -->
@@ -294,8 +294,8 @@
         </header>
 
         <!-- Project Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
-            <!-- Project 1 - Reverted mobile aspect ratio to standard square-ish clean look -->
+        <section id="project-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
+            <!-- Project 1 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
                     <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=1000&auto=format&fit=crop" alt="Brew Can Co.">
@@ -572,12 +572,23 @@
             });
         }, { threshold: 0.1 });
 
+        // Removed the hiding transition from the top elements (hero and project grid) 
+        // to ensure they are visible immediately without scrolling.
         document.querySelectorAll('section, header, footer').forEach(el => {
+            if (el.id === 'hero-header' || el.id === 'project-grid') {
+                // These are the elements at the top of the page. 
+                // We keep them visible instantly.
+                el.classList.add('reveal-element');
+                return;
+            }
+            
             if (el.id === 'scroll-reveal-text' || el.querySelector('#scroll-reveal-text')) {
                 el.classList.add('reveal-element');
                 observer.observe(el);
                 return;
             }
+            
+            // Lower sections still use the reveal transition for a premium feel.
             el.classList.add('reveal-element', 'opacity-0', 'translate-y-10');
             observer.observe(el);
         });
