@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — ondwariobiko</title>
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta name="theme-color" content="#000000">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            letter-spacing: -0.02em;
+        }
+
+        /* Animated Background Lines */
+        .bg-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.04;
+            overflow: hidden;
+        }
+
+        .bg-lines::before,
+        .bg-lines::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+        }
+
+        .floating-line {
+            position: absolute;
+            background: white;
+            opacity: 0.1;
+        }
+
+        .floating-line-1 {
+            width: 60%;
+            height: 1px;
+            top: 20%;
+            left: -10%;
+            transform: rotate(-15deg);
+            animation: floatLine1 20s ease-in-out infinite;
+        }
+
+        .floating-line-2 {
+            width: 40%;
+            height: 1px;
+            top: 50%;
+            right: -5%;
+            transform: rotate(25deg);
+            animation: floatLine2 25s ease-in-out infinite;
+        }
+
+        @keyframes floatLine1 {
+
+            0%,
+            100% {
+                transform: rotate(-15deg) translateX(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: rotate(-12deg) translateX(100px);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes floatLine2 {
+
+            0%,
+            100% {
+                transform: rotate(25deg) translateX(0);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: rotate(20deg) translateX(-80px);
+                opacity: 0.6;
+            }
+        }
+
+        /* Typography */
+        .display-bold {
+            font-weight: 800;
+            letter-spacing: -0.07em;
+            line-height: 0.8;
+        }
+
+        /* Footer Glow */
+        @keyframes footerGlow {
+
+            0%,
+            100% {
+                color: #666;
+                text-shadow: none;
+                opacity: 0.8;
+            }
+
+            50% {
+                color: #fff;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+                opacity: 1;
+            }
+        }
+
+        .brand-animated-footer {
+            display: inline-block;
+            color: #fff;
+            animation: footerGlow 4s ease-in-out infinite;
+        }
+
+        .text-huge {
+            font-size: 15.1vw;
+            white-space: nowrap;
+            display: block;
+            width: 100%;
+            line-height: 0.85;
+        }
+
+        @media (min-width: 768px) {
+            .text-huge {
+                font-size: 16.2vw;
+                line-height: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white relative">
+
+    <!-- Animated BG -->
+    <div class="bg-lines">
+        <div class="floating-line floating-line-1"></div>
+        <div class="floating-line floating-line-2"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav"
+        class="fixed top-0 left-0 w-full px-6 py-2 md:px-12 md:py-2 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div class="flex-1 -ml-1 md:-ml-2">
+            <a href="index.html" class="inline-block hover:opacity-80 transition-opacity">
+                <img src="images/logo-white.png" alt="ondwariobiko" class="h-12 md:h-20 w-auto object-contain">
+            </a>
+        </div>
+        <div class="hidden md:flex flex-[4] justify-between items-center px-4 md:px-16">
+            <a href="index.html" class="text-[17px] font-bold hover:opacity-50 transition-opacity">Work</a>
+            <a href="index.html" class="text-[17px] font-bold hover:opacity-50 transition-opacity">About Me</a>
+            <a href="index.html" class="text-[17px] font-bold hover:opacity-50 transition-opacity">Start a Project</a>
+        </div>
+        <div class="hidden md:flex flex-1 text-right justify-end items-center">
+            <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/15 bg-white/5 backdrop-blur-md text-[11px] font-semibold">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Available
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 px-6 md:px-12 pt-40 md:pt-60 min-h-screen">
+
+        <!-- Hero Header -->
+        <header class="mb-24 md:mb-40 border-b border-white/10 pb-12">
+            <h1 class="display-bold text-[14vw] md:text-[10vw] leading-[0.8] tracking-[-0.08em] mb-8">
+                Privacy<br><span class="text-neutral-500">Policy.</span>
+            </h1>
+            <div class="flex md:justify-end">
+                <div class="max-w-md text-lg md:text-xl text-neutral-400 leading-relaxed">
+                    This document explains how we handle your data with the same care and precision we apply to our
+                    design work.
+                    <div class="mt-4 text-sm font-mono text-neutral-600">Last Updated: January 2026</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Grid -->
+        <div class="max-w-[90%] mx-auto space-y-20 md:space-y-32">
+
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-white/10 pt-8">
+                <div class="md:col-span-4">
+                    <span class="font-mono text-xs text-neutral-500 mb-2 block">01</span>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Introduction</h2>
+                </div>
+                <div class="md:col-span-8 text-xl md:text-2xl text-neutral-300 leading-relaxed font-light">
+                    <p>Welcome to ondwariobiko. We respect your privacy and are committed to protecting your personal
+                        data. This privacy policy will inform you as to how we look after your personal data when you
+                        visit our website and tell you about your privacy rights.</p>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-white/10 pt-8">
+                <div class="md:col-span-4">
+                    <span class="font-mono text-xs text-neutral-500 mb-2 block">02</span>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Data Collection</h2>
+                </div>
+                <div class="md:col-span-8 space-y-6 text-lg text-neutral-400 leading-relaxed">
+                    <p>We collect minimal data necessary to provide our services. This effectively includes:</p>
+                    <ul class="list-disc list-inside space-y-2 text-white">
+                        <li>Identity Data (Name, title)</li>
+                        <li>Contact Data (Email address, phone number)</li>
+                        <li>Technical Data (IP address, browser type)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-white/10 pt-8">
+                <div class="md:col-span-4">
+                    <span class="font-mono text-xs text-neutral-500 mb-2 block">03</span>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Usage</h2>
+                </div>
+                <div class="md:col-span-8 text-xl md:text-2xl text-neutral-300 leading-relaxed font-light">
+                    <p>We use your data solely to communicate regarding projects, deliver agreed-upon services, and
+                        improve our digital presence. We never sell your data to third-party advertisers.</p>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 border-t border-white/10 pt-8">
+                <div class="md:col-span-4">
+                    <span class="font-mono text-xs text-neutral-500 mb-2 block">04</span>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Security</h2>
+                </div>
+                <div class="md:col-span-8 text-lg text-neutral-400 leading-relaxed">
+                    <p>We have implemented appropriate security measures to prevent your personal data from being
+                        accidentally lost, used, or accessed in an unauthorized way. Access is strictly limited to
+                        employees and contractors who have a business need to know.</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-12 pb-10 pt-32 md:pt-48 relative overflow-hidden">
+        <div class="relative py-4 md:py-10 mb-8 md:mb-10 overflow-hidden">
+            <h2 class="display-bold text-huge select-none pointer-events-none brand-animated-footer">ondwariobiko</h2>
+        </div>
+        <div
+            class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[10px] md:text-[11px] font-medium opacity-60 gap-4 text-left tracking-tight">
+            <div class="flex flex-col md:flex-row gap-4 md:gap-8">
+                <span>© 2026 ondwariobiko. All rights reserved.</span>
+                <div class="flex gap-4">
+                    <a href="privacy.html" class="text-white hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-white transition-colors">Terms of Use</a>
+                </div>
+            </div>
+            <span>Portfolio designed by ondwariobiko</span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+        document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
