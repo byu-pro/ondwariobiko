@@ -1,21 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ondwariobiko — brand designer</title>
+    <title>ondwariobiko — Brand Designer | Strategic Brand Identity Design</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="I'm John Obiko, a brand designer based in Nairobi, Kenya. I design strategic brand identities that win trust, attract customers, and drive growth. Available for remote work worldwide.">
+    <meta name="keywords"
+        content="brand designer, logo design, brand identity, graphic designer, Nairobi, Kenya, ondwariobiko, John Obiko">
+    <meta name="author" content="John Obiko">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ondwariobiko.com/">
+    <meta property="og:title" content="ondwariobiko — Brand Designer">
+    <meta property="og:description"
+        content="I design strategic brand identities that win trust, attract customers, and drive growth. Based in Nairobi, Kenya. Available worldwide.">
+    <meta property="og:image" content="https://ondwariobiko.com/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ondwariobiko.com/">
+    <meta name="twitter:title" content="ondwariobiko — Brand Designer">
+    <meta name="twitter:description"
+        content="I design strategic brand identities that win trust, attract customers, and drive growth.">
+    <meta name="twitter:image" content="https://ondwariobiko.com/images/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/favicon.png">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="msapplication-TileColor" content="#0d0d0d">
+
+    <!-- Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-color: #0d0d0d;
-            --text-color: #e5e2d9; 
+            --text-color: #e5e2d9;
             --cursor-color: #ffffff;
             --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
         /* Hide default cursor on desktop */
         @media (pointer: fine) {
             * {
@@ -29,16 +68,276 @@
             color: var(--text-color);
             -webkit-font-smoothing: antialiased;
             letter-spacing: -0.02em;
-            text-transform: lowercase; /* Main branding stays lowercase */
+            text-transform: lowercase;
+            /* Main branding stays lowercase */
             overflow-x: hidden;
             width: 100%;
+        }
+
+        /* Animated Background Lines Container */
+        .bg-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            opacity: 0.04;
+        }
+
+        .bg-lines::before,
+        .bg-lines::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+        }
+
+        /* First set of diagonal lines */
+        .bg-lines::before {
+            background: repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(255, 255, 255, 0.5) 100px,
+                    rgba(255, 255, 255, 0.5) 101px);
+            animation: linesDrift1 25s linear infinite;
+        }
+
+        /* Second set of diagonal lines - opposite direction */
+        .bg-lines::after {
+            background: repeating-linear-gradient(-45deg,
+                    transparent,
+                    transparent 150px,
+                    rgba(255, 255, 255, 0.3) 150px,
+                    rgba(255, 255, 255, 0.3) 151px);
+            animation: linesDrift2 35s linear infinite;
+        }
+
+        @keyframes linesDrift1 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(100px, 100px);
+            }
+        }
+
+        @keyframes linesDrift2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-150px, 150px);
+            }
+        }
+
+        /* Floating abstract lines */
+        .floating-line {
+            position: fixed;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-line-1 {
+            width: 60%;
+            height: 1px;
+            top: 20%;
+            left: -10%;
+            transform: rotate(-15deg);
+            animation: floatLine1 20s ease-in-out infinite;
+        }
+
+        .floating-line-2 {
+            width: 40%;
+            height: 1px;
+            top: 50%;
+            right: -5%;
+            transform: rotate(25deg);
+            animation: floatLine2 25s ease-in-out infinite;
+        }
+
+        .floating-line-3 {
+            width: 70%;
+            height: 1px;
+            bottom: 30%;
+            left: 20%;
+            transform: rotate(-8deg);
+            animation: floatLine3 30s ease-in-out infinite;
+        }
+
+        @keyframes floatLine1 {
+
+            0%,
+            100% {
+                transform: rotate(-15deg) translateX(0);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: rotate(-12deg) translateX(100px);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes floatLine2 {
+
+            0%,
+            100% {
+                transform: rotate(25deg) translateX(0);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: rotate(20deg) translateX(-80px);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes floatLine3 {
+
+            0%,
+            100% {
+                transform: rotate(-8deg) translateY(0);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: rotate(-5deg) translateY(-50px);
+                opacity: 0.5;
+            }
+        }
+
+        /* ========================================
+           PARALLAX EFFECTS
+        ======================================== */
+        .parallax-slow {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        .parallax-medium {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        .parallax-fast {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* ========================================
+           PAGE TRANSITION OVERLAY
+        ======================================== */
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            background-color: #000000;
+            z-index: 9999;
+            pointer-events: none;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .page-transition.active {
+            transform: translateY(0);
+        }
+
+        .page-transition.exit {
+            transform: translateY(-100%);
+        }
+
+        /* ========================================
+           AVAILABILITY BADGE
+        ======================================== */
+        .availability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: #e5e2d9;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .availability-badge:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .availability-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        /* ========================================
+           PROJECT CARD VIDEO HOVER
+        ======================================== */
+        .project-card .video-preview {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .project-card:hover .video-preview {
+            opacity: 1;
+        }
+
+        .project-card:hover img:not(.video-preview) {
+            opacity: 0;
+        }
+
+        .project-image-container {
+            position: relative;
+        }
+
+        /* ========================================
+           SMOOTH LINK TRANSITIONS
+        ======================================== */
+        a[href^="#"] {
+            scroll-behavior: smooth;
         }
 
         /* Specific override to respect Title Case for proper nouns */
         .respect-case {
             text-transform: none !important;
         }
-        
+
         /* Custom Inverting Mouse Pointer */
         #custom-cursor {
             display: none;
@@ -57,9 +356,9 @@
                 z-index: 9999;
                 transform: translate(-50%, -50%);
                 mix-blend-mode: difference;
-                transition: width 0.5s var(--transition-main), 
-                            height 0.5s var(--transition-main), 
-                            opacity 0.3s ease;
+                transition: width 0.5s var(--transition-main),
+                    height 0.5s var(--transition-main),
+                    opacity 0.3s ease;
                 will-change: transform, width, height;
                 display: flex;
                 align-items: center;
@@ -76,7 +375,7 @@
             transition: opacity 0.2s ease;
             white-space: nowrap;
             pointer-events: none;
-            mix-blend-mode: normal; 
+            mix-blend-mode: normal;
         }
 
         /* Hover states */
@@ -96,9 +395,9 @@
 
         /* Navigation Scroll State */
         nav {
-            transition: background-color 0.6s var(--transition-main), 
-                        padding 0.6s var(--transition-main),
-                        border-bottom 0.4s ease;
+            transition: background-color 0.6s var(--transition-main),
+                padding 0.6s var(--transition-main),
+                border-bottom 0.4s ease;
             border-bottom: 1px solid transparent;
             will-change: background-color, padding;
         }
@@ -113,12 +412,12 @@
         .display-bold {
             font-weight: 800;
             letter-spacing: -0.07em;
-            line-height: 0.8; 
+            line-height: 0.8;
         }
 
         /* Adjusted font sizes to ensure 'ondwariobiko' fits edge-to-edge without clipping the last 'o' */
         .text-huge {
-            font-size: 15.1vw; 
+            font-size: 15.1vw;
             white-space: nowrap;
             display: block;
             width: 100%;
@@ -127,7 +426,7 @@
 
         @media (min-width: 768px) {
             .text-huge {
-                font-size: 16.2vw; 
+                font-size: 16.2vw;
                 line-height: 0.8;
             }
         }
@@ -143,7 +442,7 @@
                 border-radius: 24px;
             }
         }
-        
+
         .project-image-container img {
             transition: transform 1.2s var(--transition-main);
             width: 100%;
@@ -151,30 +450,14 @@
             object-fit: cover;
             will-change: transform;
         }
-        
+
         @media (hover: hover) {
             .project-card:hover img {
                 transform: scale(1.04);
             }
         }
 
-        .pill-button {
-            background: #e5e2d9;
-            color: black;
-            padding: 12px 24px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: transform 0.3s var(--transition-main);
-            will-change: transform;
-        }
-        
-        .pill-button:active {
-            transform: scale(0.96);
-        }
+
 
         /* Polygon shape for desktop only */
         @media (min-width: 768px) {
@@ -190,9 +473,62 @@
         }
 
         /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0d0d0d; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0d0d0d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        /* Animated Brand Text - Glow Pulse Effect */
+        .brand-animated {
+            display: inline-block;
+            color: #e5e2d9;
+            animation: brandGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes brandGlow {
+
+            0%,
+            100% {
+                color: #e5e2d9;
+                text-shadow: 0 0 0 transparent;
+            }
+
+            50% {
+                color: #ffffff;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        /* Footer large brand - slower, more dramatic glow */
+        .brand-animated-footer {
+            display: inline-block;
+            color: #e5e2d9;
+            animation: footerGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes footerGlow {
+
+            0%,
+            100% {
+                color: #e5e2d9;
+                text-shadow: 0 0 0 transparent;
+                opacity: 1;
+            }
+
+            50% {
+                color: #ffffff;
+                text-shadow: 0 0 60px rgba(255, 255, 255, 0.4), 0 0 100px rgba(255, 255, 255, 0.2);
+                opacity: 1;
+            }
+        }
 
         /* Animation utilities */
         .reveal-element {
@@ -220,21 +556,237 @@
             transition: opacity 0.4s var(--transition-main), transform 0.4s var(--transition-main);
             will-change: opacity, transform;
         }
+
         #back-to-top.visible {
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
         }
+
+        /* ========================================
+           PREMIUM PRELOADER STYLES
+           Inspired by landonorris.com
+        ======================================== */
+
+        /* Preloader Container */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Preloader Content Wrapper */
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            transform: translateY(0);
+            opacity: 1;
+            transition: transform 0.8s var(--transition-main), opacity 0.6s ease;
+        }
+
+        #preloader.exit .preloader-content {
+            transform: translateY(-30px);
+            opacity: 0;
+        }
+
+        /* Logo Animation - Dramatic Pulsating Effect */
+        .preloader-logo {
+            width: 120px;
+            height: 120px;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: logoReveal 1s var(--transition-main) 0.3s forwards,
+                logoPulse 1.2s ease-in-out 1.3s infinite;
+            filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+        }
+
+        @media (min-width: 768px) {
+            .preloader-logo {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        @keyframes logoReveal {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Dramatic pulsating/breathing animation */
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)) brightness(1);
+            }
+
+            50% {
+                transform: scale(1.18);
+                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3)) brightness(1.2);
+            }
+        }
+
+        /* Exit animation for logo */
+        #preloader.exit .preloader-logo {
+            animation: logoExit 0.6s var(--transition-main) forwards;
+        }
+
+        @keyframes logoExit {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Brand name at bottom of preloader */
+        .preloader-brand-bottom {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-transform: lowercase;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            animation: brandFadeIn 1s ease 0.8s forwards;
+        }
+
+        @media (min-width: 768px) {
+            .preloader-brand-bottom {
+                font-size: 15px;
+                bottom: 50px;
+            }
+        }
+
+        @keyframes brandFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Fade out brand on exit */
+        #preloader.exit .preloader-brand-bottom {
+            animation: brandFadeOut 0.4s ease forwards;
+        }
+
+        @keyframes brandFadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Preloader Exit Animation */
+        #preloader.exit {
+            animation: preloaderExit 0.8s var(--transition-main) 0.3s forwards;
+        }
+
+        @keyframes preloaderExit {
+            0% {
+                clip-path: inset(0 0 0 0);
+            }
+
+            100% {
+                clip-path: inset(0 0 100% 0);
+            }
+        }
+
+        /* Main content hidden state during preload */
+        body.preloading main,
+        body.preloading nav,
+        body.preloading footer,
+        body.preloading #mobile-menu-overlay,
+        body.preloading #back-to-top {
+            opacity: 0;
+        }
+
+        /* Main content reveal after preload */
+        body.loaded main,
+        body.loaded nav,
+        body.loaded footer {
+            animation: contentReveal 1s var(--transition-main) forwards;
+        }
+
+        @keyframes contentReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
-<body class="selection:bg-white selection:text-black">
+
+<body class="selection:bg-white selection:text-black preloading">
+
+    <!-- Animated Background Lines -->
+    <div class="bg-lines"></div>
+    <div class="floating-line floating-line-1"></div>
+    <div class="floating-line floating-line-2"></div>
+    <div class="floating-line floating-line-3"></div>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="page-transition"></div>
+
+    <!-- ========================================
+         PREMIUM PRELOADER
+         Minimal logo-only with throbbing animation
+    ======================================== -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <!-- Logo with Throbbing Animation -->
+            <img src="images/logo-white.png" alt="ondwariobiko" class="preloader-logo">
+        </div>
+
+        <!-- Brand name at bottom -->
+        <div class="preloader-brand-bottom">ondwariobiko</div>
+    </div>
 
     <div id="custom-cursor">
         <span>See more</span>
     </div>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#0d0d0d] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
+    <div id="mobile-menu-overlay"
+        class="fixed inset-0 bg-[#0d0d0d] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
         <div class="flex justify-between items-center mb-16">
             <div class="text-[14px] font-bold text-white">ondwariobiko</div>
             <button id="mobile-menu-close" class="relative w-6 h-6 flex items-center justify-center">
@@ -242,24 +794,29 @@
                 <span class="absolute w-full h-[2px] bg-white -rotate-45"></span>
             </button>
         </div>
-        
+
         <nav class="flex flex-col gap-6 mb-12">
             <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Work</a>
             <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">About Me</a>
-            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Start a Project</a>
+            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Start a
+                Project</a>
         </nav>
 
-        <div>
-            <a href="#" class="pill-button">
-                Download Resume
-            </a>
+        <div class="mb-8">
+            <div class="availability-badge">
+                <span class="availability-dot"></span>
+                Available for New Projects
+            </div>
         </div>
+
+
     </div>
 
     <!-- Sticky Navigation -->
-    <nav id="main-nav" class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 md:py-10 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
-        <div class="flex-1">ondwariobiko</div>
-        
+    <nav id="main-nav"
+        class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 md:py-10 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
+        <div class="flex-1"><span class="brand-animated">ondwariobiko</span></div>
+
         <!-- Hamburger Button -->
         <button id="mobile-menu-open" class="md:hidden flex flex-col gap-1 w-6 items-end group">
             <div class="h-[2px] w-full bg-white transition-all group-hover:w-full"></div>
@@ -272,13 +829,17 @@
         <div class="hidden md:flex md:w-1/4 text-center justify-center">
             <a href="#" class="hover:opacity-50 transition-opacity">About Me</a>
         </div>
-        <div class="hidden md:flex md:w-1/4 text-right justify-end">
+        <div class="hidden md:flex md:w-1/4 text-right justify-end items-center gap-6">
+            <div class="availability-badge hidden lg:inline-flex">
+                <span class="availability-dot"></span>
+                Available
+            </div>
             <a href="#" class="hover:opacity-50 transition-opacity">Start a Project</a>
         </div>
     </nav>
 
     <main class="px-6 md:px-12 pt-24 md:pt-40">
-        
+
         <!-- Hero Header -->
         <header id="hero-header" class="mb-12 md:mb-24 overflow-hidden">
             <h1 class="display-bold text-huge mb-6 md:mb-10">ondwariobiko</h1>
@@ -286,7 +847,8 @@
                 <!-- Alignment set below the 'r' in 'ondwariobiko' and width increased significantly to cover space as depicted -->
                 <div class="max-w-full md:max-w-[850px] md:ml-[42.5vw] ml-0">
                     <!-- Color #999 grey, desktop size increased to 38px to fill and cover the area highlighted -->
-                    <p class="text-[28px] md:text-[38px] leading-[1.1] md:leading-[1.15] font-medium text-[#999] tracking-[-0.03em] respect-case">
+                    <p
+                        class="text-[28px] md:text-[38px] leading-[1.1] md:leading-[1.15] font-medium text-[#999] tracking-[-0.03em] respect-case">
                         I design strategic brand identities that win trust, attract customers, and drive growth.
                     </p>
                 </div>
@@ -294,86 +856,109 @@
         </header>
 
         <!-- Project Grid -->
-        <section id="project-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
+        <section id="project-grid"
+            class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
             <!-- Project 1 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
-                    <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=1000&auto=format&fit=crop" alt="Brew Can Co.">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=1000&auto=format&fit=crop"
+                        alt="Brew Can Co." class="transition-opacity duration-500">
+                    <!-- Video on Hover (Example video) -->
+                    <video class="video-preview" muted loop playsinline preload="none">
+                        <source src="https://videos.pexels.com/video-files/5532765/5532765-hd_1080_1920_25fps.mp4"
+                            type="video/mp4">
+                    </video>
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Brew Can Co.</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging Design</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging
+                        Design</span>
                 </div>
             </div>
 
             <!-- Project 2 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1521334885634-9552f3953bb2?q=80&w=1000&auto=format&fit=crop" alt="Lemon Yellow">
+                    <img src="https://images.unsplash.com/photo-1521334885634-9552f3953bb2?q=80&w=1000&auto=format&fit=crop"
+                        alt="Lemon Yellow">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Lemon Yellow</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Merchandise & Apparel</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Merchandise &
+                        Apparel</span>
                 </div>
             </div>
 
             <!-- Project 3 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop" alt="Kernel House">
+                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop"
+                        alt="Kernel House">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Kernel House</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand Identity</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand
+                        Identity</span>
                 </div>
             </div>
 
             <!-- Project 4 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
-                    <img src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1000&auto=format&fit=crop" alt="Scoop & Roll">
+                    <img src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1000&auto=format&fit=crop"
+                        alt="Scoop & Roll">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Scoop & Roll</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Complete Brand Identity</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Complete Brand
+                        Identity</span>
                 </div>
             </div>
 
             <!-- Project 5 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
-                    <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1000&auto=format&fit=crop" alt="Peak Performance">
+                    <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1000&auto=format&fit=crop"
+                        alt="Peak Performance">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Peak Performance</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging Design & Branding</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging
+                        Design & Branding</span>
                 </div>
             </div>
 
             <!-- Project 6 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1586075010623-26c50dec4a15?q=80&w=1000&auto=format&fit=crop" alt="Savor Magazine">
+                    <img src="https://images.unsplash.com/photo-1586075010623-26c50dec4a15?q=80&w=1000&auto=format&fit=crop"
+                        alt="Savor Magazine">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Savor Magazine</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Print Design & Editorial Branding</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Print Design &
+                        Editorial Branding</span>
                 </div>
             </div>
         </section>
 
         <!-- Profile Section Headline -->
         <section class="mb-24 md:mb-32">
-            <h2 id="scroll-reveal-text" class="text-[28px] md:text-[68px] font-semibold tracking-[-0.07em] leading-[1.05] text-[#333]">
-                i'm <span class="respect-case">John Obiko</span>, a brand designer based in <span class="respect-case">Nairobi, Kenya</span>. i work remotely with clients worldwide who want a brand identity that positions them as the premium choice in their market.
+            <h2 id="scroll-reveal-text"
+                class="text-[28px] md:text-[68px] font-semibold tracking-[-0.07em] leading-[1.05] text-[#333]">
+                i'm <span class="respect-case">John Obiko</span>, a brand designer based in <span
+                    class="respect-case">Nairobi, Kenya</span>. i work remotely with clients worldwide who want a brand
+                identity that positions them as the premium choice in their market.
             </h2>
         </section>
 
         <!-- Profile Detail Section -->
         <section class="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
             <div class="col-span-1 md:col-span-4">
-                <div class="aspect-square bg-zinc-900 rounded-[24px] overflow-hidden grayscale contrast-125 brightness-90">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" alt="John Obiko Portrait" class="w-full h-full object-cover">
+                <div
+                    class="aspect-square bg-zinc-900 rounded-[24px] overflow-hidden grayscale contrast-125 brightness-90">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop"
+                        alt="John Obiko Portrait" class="w-full h-full object-cover">
                 </div>
             </div>
 
@@ -381,19 +966,22 @@
                 <div>
                     <h4 class="text-[13px] font-bold opacity-40 mb-4 tracking-widest uppercase">Why Work With Me</h4>
                     <p class="text-[16px] md:text-[17px] leading-relaxed font-medium tracking-[-0.03em]">
-                        I believe the best brands come from true collaboration. When we work together, you're not just getting a designer, you're getting a strategic partner who takes time to understand your business, your customers, and your goals.
+                        I believe the best brands come from true collaboration. When we work together, you're not just
+                        getting a designer, you're getting a strategic partner who takes time to understand your
+                        business, your customers, and your goals.
                     </p>
                 </div>
-                <a href="#" class="pill-button">
-                    Download Resume
-                </a>
+
             </div>
 
             <div class="col-span-1 md:col-span-4 space-y-6 md:space-y-8">
                 <div>
-                    <h4 class="text-[13px] font-bold opacity-40 mb-4 tracking-widest uppercase">When I'm Not Designing</h4>
+                    <h4 class="text-[13px] font-bold opacity-40 mb-4 tracking-widest uppercase">When I'm Not Designing
+                    </h4>
                     <p class="text-[16px] md:text-[17px] leading-relaxed font-medium tracking-[-0.03em]">
-                        You'll find me exploring the vibrant coffee culture, exploring the beauty of the Rift Valley, or shooting film photography. I'm always looking for inspiration in unexpected places, from traditional African patterns to the colors of a savannah sunset.
+                        You'll find me exploring the vibrant coffee culture, exploring the beauty of the Rift Valley, or
+                        shooting film photography. I'm always looking for inspiration in unexpected places, from
+                        traditional African patterns to the colors of a savannah sunset.
                     </p>
                 </div>
             </div>
@@ -401,33 +989,39 @@
 
         <!-- Get In Touch Section -->
         <section class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 py-12 md:py-24">
-            
-            <a href="mailto:ondwariobiko@agmail.com" class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 group/touch no-underline text-inherit w-full md:w-auto">
+
+            <a href="mailto:ondwariobiko@agmail.com"
+                class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 group/touch no-underline text-inherit w-full md:w-auto">
                 <h2 class="md:hidden display-bold text-huge text-[#e5e2d9] mb-8 w-full">Get In Touch</h2>
-                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]" style="font-size: 14vw; width: auto;">Get In</h2>
-                <div class="touch-frame-desktop w-full h-64 md:w-80 md:h-[450px] bg-zinc-800 overflow-hidden shrink-0 rounded-xl md:rounded-none mb-12 md:mb-0">
-                    <img id="cycling-image" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop" 
-                         alt="Get in Touch" 
-                         class="w-full h-full object-cover brightness-90 transition-all duration-700 group-hover/touch:scale-110">
+                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]"
+                    style="font-size: 14vw; width: auto;">Get In</h2>
+                <div
+                    class="touch-frame-desktop w-full h-64 md:w-80 md:h-[450px] bg-zinc-800 overflow-hidden shrink-0 rounded-xl md:rounded-none mb-12 md:mb-0">
+                    <img id="cycling-image"
+                        src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop"
+                        alt="Get in Touch"
+                        class="w-full h-full object-cover brightness-90 transition-all duration-700 group-hover/touch:scale-110">
                 </div>
-                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]" style="font-size: 14vw; width: auto;">Touch</h2>
+                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]"
+                    style="font-size: 14vw; width: auto;">Touch</h2>
             </a>
 
             <div class="md:hidden w-full space-y-4 text-[20px] font-medium tracking-tight">
                 <div class="flex flex-wrap gap-1.5">
-                    <span>Email:</span> 
-                    <a href="mailto:ondwariobiko@agmail.com" class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
+                    <span>Email:</span>
+                    <a href="mailto:ondwariobiko@agmail.com"
+                        class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
                 </div>
                 <div class="flex gap-1.5">
-                    <span>Based In:</span> 
+                    <span>Based In:</span>
                     <span class="respect-case">Nairobi, Kenya</span>
                 </div>
                 <div class="flex gap-1.5">
-                    <span>Tel:</span> 
+                    <span>Tel:</span>
                     <a href="tel:+254702255575" class="hover:opacity-50 transition-opacity">+254 702 255575</a>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
-                    <span>Available For:</span> 
+                    <span>Available For:</span>
                     <span>Remote Work Worldwide</span>
                 </div>
             </div>
@@ -437,23 +1031,24 @@
 
     <!-- Footer -->
     <footer class="px-6 md:px-12 pb-10 pt-8 md:pt-12 relative overflow-hidden">
-        
+
         <div class="flex flex-col md:flex-row justify-between items-start mb-12 md:mb-16 gap-10 md:gap-0">
             <div class="hidden md:block space-y-3 text-[17px] font-medium w-auto tracking-tight">
                 <div class="flex flex-wrap gap-1.5">
-                    <span>Email:</span> 
-                    <a href="mailto:ondwariobiko@agmail.com" class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
+                    <span>Email:</span>
+                    <a href="mailto:ondwariobiko@agmail.com"
+                        class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
                 </div>
                 <div class="flex gap-1.5">
-                    <span>Based In:</span> 
+                    <span>Based In:</span>
                     <span class="respect-case">Nairobi, Kenya</span>
                 </div>
                 <div class="flex gap-1.5">
-                    <span>Tel:</span> 
+                    <span>Tel:</span>
                     <a href="tel:+254702255575" class="hover:opacity-50 transition-opacity">+254 702 255575</a>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
-                    <span>Available For:</span> 
+                    <span>Available For:</span>
                     <span>Remote Projects Worldwide</span>
                 </div>
             </div>
@@ -461,35 +1056,125 @@
             <div class="flex w-full md:w-auto gap-20 md:gap-20">
                 <div class="flex flex-col gap-2 flex-1 md:flex-none">
                     <span class="text-[13px] font-bold opacity-60 mb-1 tracking-widest">Pages</span>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Home</a>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">About</a>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Work</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Home</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">About</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Work</a>
                 </div>
                 <div class="flex flex-col gap-2 flex-1 md:flex-none">
                     <span class="text-[13px] font-bold opacity-60 mb-1 tracking-widest">Socials</span>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Instagram</a>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Behance</a>
-                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">LinkedIn</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Instagram</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Behance</a>
+                    <a href="#"
+                        class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">LinkedIn</a>
                 </div>
             </div>
         </div>
 
         <div class="relative py-4 md:py-10 mb-8 md:mb-10 overflow-hidden">
-            <h2 class="display-bold text-huge select-none pointer-events-none">ondwariobiko</h2>
+            <h2 class="display-bold text-huge select-none pointer-events-none brand-animated-footer">ondwariobiko</h2>
         </div>
 
-        <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[10px] md:text-[11px] font-medium opacity-60 gap-4 text-left tracking-tight">
+        <div
+            class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[10px] md:text-[11px] font-medium opacity-60 gap-4 text-left tracking-tight">
             <span>© 2026 <span class="respect-case">John Obiko</span>. All rights reserved</span>
             <span>Portfolio designed by ondwariobiko</span>
         </div>
     </footer>
 
     <!-- Back to top button -->
-    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 md:w-14 md:h-14 bg-[#e5e2d9] rounded-full flex items-center justify-center z-[60] opacity-0 translate-y-4 pointer-events-none hover:scale-110 active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    <button id="back-to-top"
+        class="fixed bottom-8 right-8 w-12 h-12 md:w-14 md:h-14 bg-[#e5e2d9] rounded-full flex items-center justify-center z-[60] opacity-0 translate-y-4 pointer-events-none hover:scale-110 active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6" />
+        </svg>
     </button>
 
     <script>
+        // ========================================
+        // SIMPLE PRELOADER LOGIC - Logo only with throbbing
+        // ========================================
+
+        (function initPreloader() {
+            const preloader = document.getElementById('preloader');
+            let isComplete = false;
+
+            // Minimum display time for the preloader (in ms)
+            // Set to 4 seconds to show at least 3 full pulse cycles
+            const minDisplayTime = 4000;
+            const startTime = performance.now();
+
+            // Track actual loading progress
+            let resourcesLoaded = 0;
+            let totalResources = 0;
+
+            // Count all images on the page (excluding preloader logo)
+            const allImages = document.querySelectorAll('img:not(.preloader-logo)');
+            totalResources = allImages.length || 1;
+
+            // Track image loading
+            allImages.forEach(img => {
+                if (img.complete) {
+                    resourcesLoaded++;
+                    checkComplete();
+                } else {
+                    img.addEventListener('load', () => {
+                        resourcesLoaded++;
+                        checkComplete();
+                    });
+                    img.addEventListener('error', () => {
+                        resourcesLoaded++;
+                        checkComplete();
+                    });
+                }
+            });
+
+            function checkComplete() {
+                if (isComplete) return;
+
+                const elapsed = performance.now() - startTime;
+                const allLoaded = resourcesLoaded >= totalResources;
+                const minTimePassed = elapsed >= minDisplayTime;
+
+                if (allLoaded && minTimePassed) {
+                    completeLoading();
+                } else if (allLoaded && !minTimePassed) {
+                    // Wait for minimum time
+                    setTimeout(completeLoading, minDisplayTime - elapsed);
+                }
+            }
+
+            function completeLoading() {
+                if (isComplete) return;
+                isComplete = true;
+
+                // Trigger exit animation
+                preloader.classList.add('exit');
+                document.body.classList.remove('preloading');
+                document.body.classList.add('loaded');
+
+                // Remove preloader from DOM after animation completes
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 1200);
+            }
+
+            // Initial check in case all images are already cached
+            setTimeout(checkComplete, 100);
+
+            // Fallback: ensure preloader exits even if something goes wrong
+            setTimeout(() => {
+                if (!isComplete) {
+                    completeLoading();
+                }
+            }, 5000);
+        })();
+
         const cursor = document.getElementById('custom-cursor');
         const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
 
@@ -528,7 +1213,7 @@
         const generalInteractives = document.querySelectorAll('a, button, .pill-button, h1, h2, .touch-frame-desktop, .project-card');
         generalInteractives.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                if(hasFinePointer) {
+                if (hasFinePointer) {
                     if (el.classList.contains('project-card')) {
                         document.body.classList.add('cursor-project');
                     } else {
@@ -537,7 +1222,7 @@
                 }
             });
             el.addEventListener('mouseleave', () => {
-                if(hasFinePointer) {
+                if (hasFinePointer) {
                     document.body.classList.remove('cursor-hover', 'cursor-project');
                 }
             });
@@ -550,7 +1235,7 @@
         ];
         let currentImg = 0;
         const cyclingImgEl = document.getElementById('cycling-image');
-        
+
         if (cyclingImgEl) {
             setInterval(() => {
                 currentImg = (currentImg + 1) % images.length;
@@ -581,13 +1266,13 @@
                 el.classList.add('reveal-element');
                 return;
             }
-            
+
             if (el.id === 'scroll-reveal-text' || el.querySelector('#scroll-reveal-text')) {
                 el.classList.add('reveal-element');
                 observer.observe(el);
                 return;
             }
-            
+
             // Lower sections still use the reveal transition for a premium feel.
             el.classList.add('reveal-element', 'opacity-0', 'translate-y-10');
             observer.observe(el);
@@ -597,7 +1282,7 @@
         if (revealText) {
             const words = revealText.innerText.split(/\s+/);
             revealText.innerHTML = '';
-            
+
             words.forEach(word => {
                 const span = document.createElement('span');
                 span.innerText = word;
@@ -616,7 +1301,7 @@
                 const windowHeight = window.innerHeight;
                 const startReveal = windowHeight * 0.90;
                 const endReveal = windowHeight * 0.10;
-                
+
                 let progress = (startReveal - rect.top) / (startReveal - endReveal);
                 progress = Math.max(0, Math.min(1, progress));
 
@@ -656,6 +1341,96 @@
         mobileMenuOverlay.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => toggleMenu(false));
         });
+
+        // ========================================
+        // PARALLAX & INTERACTIONS
+        // ========================================
+
+        // Parallax Effect
+        const parallaxSlow = document.querySelectorAll('.parallax-slow');
+        const parallaxMedium = document.querySelectorAll('.parallax-medium');
+        const parallaxFast = document.querySelectorAll('.parallax-fast');
+
+        if (parallaxSlow.length || parallaxMedium.length || parallaxFast.length) {
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const screenHeight = window.innerHeight;
+
+                    // Animation function
+                    const animate = (elements, speed) => {
+                        elements.forEach(el => {
+                            const rect = el.getBoundingClientRect();
+                            // Only animate if close to viewport
+                            if (rect.top < screenHeight + 100 && rect.bottom > -100) {
+                                // Calculate displacement based on scroll
+                                const offset = (window.pageYOffset - el.offsetTop + (screenHeight / 2)) * speed;
+                                el.style.transform = `translateY(${offset}px)`;
+                            }
+                        });
+                    };
+
+                    animate(parallaxSlow, 0.08); // Subtle slow movement
+                    animate(parallaxMedium, 0.15);
+                    animate(parallaxFast, 0.25);
+                });
+            }, { passive: true });
+        }
+
+        // Page Transitions
+        const pageOverlay = document.getElementById('page-transition');
+
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+
+            const href = link.getAttribute('href');
+
+            // Ignore anchors, JS triggers, active page, or external
+            if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank') {
+                return;
+            }
+
+            e.preventDefault();
+            pageOverlay.classList.remove('exit');
+            pageOverlay.classList.add('active');
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, 600); // Wait for animation
+        });
+
+        // Handle browser back/forward cache
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                pageOverlay.classList.remove('active');
+            }
+        });
+
+        // Video Hover behavior - Smart Loading
+        const projectCards = document.querySelectorAll('.project-card');
+
+        projectCards.forEach(card => {
+            const video = card.querySelector('video');
+            if (video) {
+                card.addEventListener('mouseenter', () => {
+                    // Start playing
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            // Auto-play was prevented
+                            console.log('Autoplay prevented');
+                        });
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0; // Reset to start
+                });
+            }
+        });
     </script>
 </body>
+
 </html>
