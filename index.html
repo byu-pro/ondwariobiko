@@ -37,8 +37,8 @@
     <link rel="apple-touch-icon" href="images/favicon.png">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#0d0d0d">
-    <meta name="msapplication-TileColor" content="#0d0d0d">
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-TileColor" content="#000000">
 
     <!-- Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -49,8 +49,8 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d0d0d;
-            --text-color: #e5e2d9;
+            --bg-color: #000000;
+            --text-color: #ffffff;
             --cursor-color: #ffffff;
             --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -489,7 +489,7 @@
         /* Animated Brand Text - Glow Pulse Effect */
         .brand-animated {
             display: inline-block;
-            color: #e5e2d9;
+            color: #ffffff;
             animation: brandGlow 3s ease-in-out infinite;
         }
 
@@ -510,7 +510,7 @@
         /* Footer large brand - slower, more dramatic glow */
         .brand-animated-footer {
             display: inline-block;
-            color: #e5e2d9;
+            color: #ffffff;
             animation: footerGlow 4s ease-in-out infinite;
         }
 
@@ -786,7 +786,7 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay"
-        class="fixed inset-0 bg-[#0d0d0d] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
+        class="fixed inset-0 bg-[#000000] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
         <div class="flex justify-between items-center mb-16">
             <div class="text-[14px] font-bold text-white">ondwariobiko</div>
             <button id="mobile-menu-close" class="relative w-6 h-6 flex items-center justify-center">
@@ -815,7 +815,9 @@
     <!-- Sticky Navigation -->
     <nav id="main-nav"
         class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 md:py-10 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
-        <div class="flex-1"><span class="brand-animated">ondwariobiko</span></div>
+        <div class="flex-1">
+            <img src="images/logo-white.png" alt="ondwariobiko brand mark" class="h-10 md:h-16 w-auto object-contain">
+        </div>
 
         <!-- Hamburger Button -->
         <button id="mobile-menu-open" class="md:hidden flex flex-col gap-1 w-6 items-end group">
@@ -823,18 +825,16 @@
             <div class="h-[2px] w-3/4 bg-white transition-all group-hover:w-full"></div>
         </button>
 
-        <div class="hidden md:flex md:w-1/4 text-center justify-center">
+        <div class="hidden md:flex flex-[4] justify-between items-center px-4 md:px-16">
             <a href="#" class="hover:opacity-50 transition-opacity">Work</a>
-        </div>
-        <div class="hidden md:flex md:w-1/4 text-center justify-center">
             <a href="#" class="hover:opacity-50 transition-opacity">About Me</a>
+            <a href="#" class="hover:opacity-50 transition-opacity">Start a Project</a>
         </div>
-        <div class="hidden md:flex md:w-1/4 text-right justify-end items-center gap-6">
+        <div class="hidden md:flex flex-1 text-right justify-end items-center">
             <div class="availability-badge hidden lg:inline-flex">
                 <span class="availability-dot"></span>
                 Available
             </div>
-            <a href="#" class="hover:opacity-50 transition-opacity">Start a Project</a>
         </div>
     </nav>
 
@@ -1088,8 +1088,8 @@
 
     <!-- Back to top button -->
     <button id="back-to-top"
-        class="fixed bottom-8 right-8 w-12 h-12 md:w-14 md:h-14 bg-[#e5e2d9] rounded-full flex items-center justify-center z-[60] opacity-0 translate-y-4 pointer-events-none hover:scale-110 active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d"
+        class="fixed bottom-8 right-8 w-12 h-12 md:w-14 md:h-14 bg-[#ffffff] rounded-full flex items-center justify-center z-[60] opacity-0 translate-y-4 pointer-events-none hover:scale-110 active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000"
             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="m18 15-6-6-6 6" />
         </svg>
@@ -1308,7 +1308,7 @@
                 spans.forEach((span, index) => {
                     const threshold = index / spans.length;
                     if (progress > threshold) {
-                        span.style.color = '#e5e2d9';
+                        span.style.color = '#ffffff';
                     } else {
                         span.style.color = '#333';
                     }
