@@ -869,9 +869,9 @@
         <section class="mb-24 md:mb-32">
             <h2 id="scroll-reveal-text"
                 class="text-[28px] md:text-[60px] font-bold tracking-[-0.04em] leading-[1.05] text-[#333]">
-                i'm <span class="respect-case">John Obiko</span>, a graphic & web designer + frontend developer with 9+
-                years of experience. i help ambitious businesses scale through strategic brand identity and
-                high-performance digital experiences. based in <span class="respect-case">Nairobi</span>. working
+                I'm <span class="respect-case">John Obiko</span>, a graphic & web designer + frontend developer with 9+
+                years of experience. I help ambitious businesses scale through strategic brand identity and
+                high-performance digital experiences. Based in <span class="respect-case">Nairobi</span>. Working
                 globally.
             </h2>
         </section>
@@ -1189,16 +1189,13 @@
 
         const revealText = document.getElementById('scroll-reveal-text');
         if (revealText) {
-            const words = revealText.innerText.split(/\s+/);
+            const words = revealText.textContent.trim().split(/\s+/);
             revealText.innerHTML = '';
 
             words.forEach(word => {
                 const span = document.createElement('span');
                 span.innerText = word;
-                span.className = 'reveal-word';
-                if (['John', 'Obiko', 'Nairobi,', 'Kenya.'].some(p => word.includes(p))) {
-                    span.classList.add('respect-case');
-                }
+                span.className = 'reveal-word respect-case';
                 revealText.appendChild(span);
                 revealText.appendChild(document.createTextNode(' '));
             });
