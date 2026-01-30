@@ -55,12 +55,7 @@
             --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Hide default cursor on desktop */
-        @media (pointer: fine) {
-            * {
-                cursor: none !important;
-            }
-        }
+
 
         body {
             font-family: 'Inter', sans-serif;
@@ -300,27 +295,7 @@
             }
         }
 
-        /* ========================================
-           PROJECT CARD VIDEO HOVER
-        ======================================== */
-        .project-card .video-preview {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 1;
-        }
 
-        .project-card:hover .video-preview {
-            opacity: 1;
-        }
-
-        .project-card:hover img:not(.video-preview) {
-            opacity: 0;
-        }
 
         .project-image-container {
             position: relative;
@@ -338,60 +313,7 @@
             text-transform: none !important;
         }
 
-        /* Custom Inverting Mouse Pointer */
-        #custom-cursor {
-            display: none;
-        }
 
-        @media (pointer: fine) {
-            #custom-cursor {
-                width: 20px;
-                height: 20px;
-                background-color: var(--cursor-color);
-                border-radius: 50%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                pointer-events: none;
-                z-index: 9999;
-                transform: translate(-50%, -50%);
-                mix-blend-mode: difference;
-                transition: width 0.5s var(--transition-main),
-                    height 0.5s var(--transition-main),
-                    opacity 0.3s ease;
-                will-change: transform, width, height;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-        }
-
-        #custom-cursor span {
-            color: black;
-            font-size: 14px;
-            font-weight: 700;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            white-space: nowrap;
-            pointer-events: none;
-            mix-blend-mode: normal;
-        }
-
-        /* Hover states */
-        body.cursor-hover #custom-cursor {
-            width: 80px;
-            height: 80px;
-        }
-
-        body.cursor-project #custom-cursor {
-            width: 110px;
-            height: 110px;
-        }
-
-        body.cursor-project #custom-cursor span {
-            opacity: 1;
-        }
 
         /* Navigation Scroll State */
         nav {
@@ -780,10 +702,6 @@
         <div class="preloader-brand-bottom">ondwariobiko</div>
     </div>
 
-    <div id="custom-cursor">
-        <span>See more</span>
-    </div>
-
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay"
         class="fixed inset-0 bg-[#000000] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
@@ -796,9 +714,9 @@
         </div>
 
         <nav class="flex flex-col gap-6 mb-12">
-            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Work</a>
-            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">About Me</a>
-            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Start a
+            <a href="#" class="display-bold text-[32px] text-white hover:opacity-50 transition-opacity">Work</a>
+            <a href="#" class="display-bold text-[32px] text-white hover:opacity-50 transition-opacity">About Me</a>
+            <a href="#" class="display-bold text-[32px] text-white hover:opacity-50 transition-opacity">Start a
                 Project</a>
         </nav>
 
@@ -814,9 +732,12 @@
 
     <!-- Sticky Navigation -->
     <nav id="main-nav"
-        class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 md:py-10 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
+        class="fixed top-0 left-0 w-full px-6 py-4 md:px-12 md:py-5 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
         <div class="flex-1">
-            <img src="images/logo-white.png" alt="ondwariobiko brand mark" class="h-10 md:h-16 w-auto object-contain">
+            <a href="index.html" class="inline-block hover:opacity-80 transition-opacity">
+                <img src="images/logo-white.png" alt="ondwariobiko brand mark"
+                    class="h-12 md:h-20 w-auto object-contain">
+            </a>
         </div>
 
         <!-- Hamburger Button -->
@@ -826,9 +747,9 @@
         </button>
 
         <div class="hidden md:flex flex-[4] justify-between items-center px-4 md:px-16">
-            <a href="#" class="hover:opacity-50 transition-opacity">Work</a>
-            <a href="#" class="hover:opacity-50 transition-opacity">About Me</a>
-            <a href="#" class="hover:opacity-50 transition-opacity">Start a Project</a>
+            <a href="#" class="text-[17px] font-bold hover:opacity-50 transition-opacity">Work</a>
+            <a href="#" class="text-[17px] font-bold hover:opacity-50 transition-opacity">About Me</a>
+            <a href="#" class="text-[17px] font-bold hover:opacity-50 transition-opacity">Start a Project</a>
         </div>
         <div class="hidden md:flex flex-1 text-right justify-end items-center">
             <div class="availability-badge hidden lg:inline-flex">
@@ -862,83 +783,78 @@
             <!-- Project 1 -->
             <div class="project-card group cursor-pointer">
                 <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=1000&auto=format&fit=crop"
-                        alt="Brew Can Co." class="transition-opacity duration-500">
-                    <!-- Video on Hover (Example video) -->
-                    <video class="video-preview" muted loop playsinline preload="none">
-                        <source src="https://videos.pexels.com/video-files/5532765/5532765-hd_1080_1920_25fps.mp4"
-                            type="video/mp4">
-                    </video>
+                    <img src="images/project-thumb-1.png" alt="Fast Kat Connects"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Brew Can Co.</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging
-                        Design</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Fast Kat Connects</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand Identity
+                        & Logo Design</span>
                 </div>
             </div>
 
             <!-- Project 2 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1521334885634-9552f3953bb2?q=80&w=1000&auto=format&fit=crop"
-                        alt="Lemon Yellow">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5 overflow-hidden">
+                    <img src="images/project-thumb-2.png" alt="Aquapet"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Lemon Yellow</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Merchandise &
-                        Apparel</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Aquapet</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand Identity
+                        & Illustration</span>
                 </div>
             </div>
 
             <!-- Project 3 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop"
-                        alt="Kernel House">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5 overflow-hidden">
+                    <img src="images/project-thumb-3.png" alt="Ocean-Line"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Kernel House</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand
-                        Identity</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Ocean-Line</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Visual Identity
+                        System</span>
                 </div>
             </div>
 
             <!-- Project 4 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
-                    <img src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1000&auto=format&fit=crop"
-                        alt="Scoop & Roll">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5 overflow-hidden">
+                    <img src="images/project-thumb-4.png" alt="Ikon Trailers"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Scoop & Roll</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Complete Brand
-                        Identity</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Ikon Trailers</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand Identity
+                        & Embroidery</span>
                 </div>
             </div>
 
             <!-- Project 5 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
-                    <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1000&auto=format&fit=crop"
-                        alt="Peak Performance">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5 overflow-hidden">
+                    <img src="images/project-thumb-5.png" alt="Fast Kat Kit"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Peak Performance</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging
-                        Design & Branding</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Fast Kat Kit</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Product
+                        Branding</span>
                 </div>
             </div>
 
             <!-- Project 6 -->
             <div class="project-card group cursor-pointer">
-                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
-                    <img src="https://images.unsplash.com/photo-1586075010623-26c50dec4a15?q=80&w=1000&auto=format&fit=crop"
-                        alt="Savor Magazine">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5 overflow-hidden">
+                    <img src="images/project-thumb-6.png" alt="Apes of the State"
+                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Savor Magazine</span>
-                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Print Design &
-                        Editorial Branding</span>
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Apes of the State</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Character
+                        Design & Illustration</span>
                 </div>
             </div>
         </section>
@@ -1175,18 +1091,6 @@
             }, 5000);
         })();
 
-        const cursor = document.getElementById('custom-cursor');
-        const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-
-        if (hasFinePointer && cursor) {
-            document.addEventListener('mousemove', (e) => {
-                requestAnimationFrame(() => {
-                    cursor.style.left = e.clientX + 'px';
-                    cursor.style.top = e.clientY + 'px';
-                });
-            });
-        }
-
         const nav = document.getElementById('main-nav');
         const backToTop = document.getElementById('back-to-top');
 
@@ -1213,18 +1117,10 @@
         const generalInteractives = document.querySelectorAll('a, button, .pill-button, h1, h2, .touch-frame-desktop, .project-card');
         generalInteractives.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                if (hasFinePointer) {
-                    if (el.classList.contains('project-card')) {
-                        document.body.classList.add('cursor-project');
-                    } else {
-                        document.body.classList.add('cursor-hover');
-                    }
-                }
+                // No custom cursor logic
             });
             el.addEventListener('mouseleave', () => {
-                if (hasFinePointer) {
-                    document.body.classList.remove('cursor-hover', 'cursor-project');
-                }
+                // No custom cursor logic
             });
         });
 
@@ -1407,29 +1303,7 @@
             }
         });
 
-        // Video Hover behavior - Smart Loading
-        const projectCards = document.querySelectorAll('.project-card');
 
-        projectCards.forEach(card => {
-            const video = card.querySelector('video');
-            if (video) {
-                card.addEventListener('mouseenter', () => {
-                    // Start playing
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            // Auto-play was prevented
-                            console.log('Autoplay prevented');
-                        });
-                    }
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    video.pause();
-                    video.currentTime = 0; // Reset to start
-                });
-            }
-        });
     </script>
 </body>
 
