@@ -739,7 +739,7 @@
     <!-- Sticky Navigation -->
     <nav id="main-nav"
         class="fixed top-0 left-0 w-full px-6 py-4 md:px-12 md:py-5 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
-        <div class="flex-1">
+        <div class="flex-1 pl-1 md:pl-4">
             <a href="index.html" class="inline-block hover:opacity-80 transition-opacity">
                 <img src="images/logo-white.png" alt="ondwariobiko brand mark"
                     class="h-12 md:h-20 w-auto object-contain">
@@ -1311,6 +1311,36 @@
         });
 
 
+
+        // ========================================
+        // ASSET PROTECTION
+        // ========================================
+
+        // Disable Right Click
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable Image Dragging
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable specific keyboard shortcuts (Ctrl+S, Ctrl+U)
+        document.addEventListener('keydown', (e) => {
+            // Prevent Ctrl+S (Save)
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+            }
+            // Prevent Ctrl+U (View Source)
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 
