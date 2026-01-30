@@ -1,890 +1,649 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ondwariobiko – Strategic Brand & Web Systems</title>
-    
-    <!-- 
-      FAVICON SPEC: 32px x 32px (.png)
-    -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
-    
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ondwariobiko — brand designer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #080808;
-            --fg: #e5e5e5;
-            --muted: #666666;
-            --accent: #ffffff;
-            --border: rgba(255, 255, 255, 0.08);
-            --font-main: 'Instrument Sans', sans-serif;
-            --font-serif: 'Instrument Serif', serif;
-            --gutter: clamp(1rem, 5vw, 6rem);
-            --header-h: 60px;
-            --radius: clamp(0.75rem, 2vw, 2rem);
+            --bg-color: #0d0d0d;
+            --text-color: #e5e2d9; 
+            --cursor-color: #ffffff;
+            --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        @media (min-width: 1024px) { :root { --header-h: 120px; } }
-
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-
-        html.lenis {
-            height: auto;
-        }
-
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
-        }
-
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-
-        .lenis.lenis-stopped {
-            overflow: hidden;
+        
+        /* Hide default cursor on desktop */
+        @media (pointer: fine) {
+            * {
+                cursor: none !important;
+            }
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--fg);
-            font-family: var(--font-main);
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.02em;
+            text-transform: lowercase; /* Main branding stays lowercase */
+            overflow-x: hidden;
             width: 100%;
         }
 
-        /* Preloader Styles */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            pointer-events: all;
+        /* Specific override to respect Title Case for proper nouns */
+        .respect-case {
+            text-transform: none !important;
         }
-
-        .preloader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            position: relative;
-        }
-
-        .preloader-number {
-            font-family: var(--font-serif);
-            font-size: clamp(5rem, 18vw, 15rem);
-            color: white;
-            font-weight: 400;
-            line-height: 0.8;
-            font-style: italic;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .preloader-subtext {
-            font-size: 8px;
-            letter-spacing: 0.6em;
-            text-transform: uppercase;
-            opacity: 0.4;
-            transform: translateY(10px);
-        }
-
-        .preloader-bar-container {
-            width: 140px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            margin-top: 2rem;
-        }
-
-        .preloader-bar {
-            position: absolute;
-            top: 0; left: 0; height: 100%; width: 0%;
-            background: white;
-        }
-
-        #page-transition-mask {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
-            pointer-events: none;
-            transform: translateY(100%);
-            will-change: transform;
-        }
-
-        .noise {
-            position: fixed;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            z-index: 10;
-            pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            animation: noise-move 0.2s steps(2) infinite;
-        }
-
-        @keyframes noise-move { 0% { transform: translate(0,0); } 100% { transform: translate(1%,1%); } }
-
-        .serif { font-family: var(--font-serif); font-weight: 400; }
         
-        #cursor {
-            width: 10px; height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            mix-blend-mode: difference;
+        /* Custom Inverting Mouse Pointer */
+        #custom-cursor {
             display: none;
-            transition: width 0.3s, height 0.3s, background 0.3s, border-radius 0.3s;
         }
 
-        #progress-bar {
-            position: fixed;
-            top: 0; left: 0; width: 0%; height: 2px;
-            background: white;
-            z-index: 201;
-            mix-blend-mode: difference;
-        }
-
-        .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: grid; grid-template-columns: repeat(6, 1fr);
-            padding: 0 var(--gutter); pointer-events: none; z-index: 1; opacity: 0.15;
-        }
-        @media (min-width: 1024px) { .grid-overlay { grid-template-columns: repeat(12, 1fr); opacity: 0.3; } }
-        .grid-col { border-right: 1px solid var(--border); height: 100%; }
-        .grid-col:first-child { border-left: 1px solid var(--border); }
-
-        .reveal-text { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-        .reveal-text span { 
-            display: inline-block; 
-            transform: translateY(115%); 
-            will-change: transform;
-        }
-
-        .btn-magnetic {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            background: transparent;
-            color: var(--fg);
-            position: relative;
-            overflow: hidden;
-        }
-        @media (min-width: 1024px) { .btn-magnetic { padding: 1.25rem 3rem; font-size: 0.7rem; } }
-
-        .btn-magnetic::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%; width: 0; height: 0;
-            background: white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-            z-index: -1;
-        }
-
-        .btn-magnetic:hover { color: black; border-color: white; }
-        .btn-magnetic:hover::before { width: 300%; height: 300%; }
-
-        @media (min-width: 1024px) {
-            .horizontal-track {
+        @media (pointer: fine) {
+            #custom-cursor {
+                width: 20px;
+                height: 20px;
+                background-color: var(--cursor-color);
+                border-radius: 50%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                mix-blend-mode: difference;
+                transition: width 0.5s var(--transition-main), 
+                            height 0.5s var(--transition-main), 
+                            opacity 0.3s ease;
+                will-change: transform, width, height;
                 display: flex;
-                flex-wrap: nowrap;
-                width: max-content;
-                height: 100vh;
-                will-change: transform;
-            }
-            .horizontal-item {
-                width: 100vw;
-                height: 100vh;
-                display: flex;
-                flex-shrink: 0;
                 align-items: center;
                 justify-content: center;
-                padding: 0 var(--gutter);
+                overflow: hidden;
             }
         }
 
-        @media (max-width: 1023px) {
-            .horizontal-item { 
-                padding: clamp(3.5rem, 10vh, 8rem) var(--gutter);
-                border-bottom: 1px solid var(--border);
-            }
-        }
-
-        .project-img-wrapper {
-            width: 100%;
-            max-width: 1100px;
-            aspect-ratio: 16/9;
-            max-height: 55vh;
-            background: #0f0f0f;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border);
-            margin-top: 1.5rem;
-            cursor: pointer;
-            display: block;
-            will-change: transform;
-            border-radius: var(--radius);
-        }
-
-        .project-img {
-            width: 100%;
-            height: 110%;
-            object-fit: cover;
-            /* grayscale filter removed to show full color by default */
-            transition: filter 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-            backface-visibility: hidden;
-        }
-
-        .project-hover-overlay {
-            position: absolute;
-            inset: 0;
-            /* background and backdrop-filter removed to ensure no overlays hide the image */
+        #custom-cursor span {
+            color: black;
+            font-size: 14px;
+            font-weight: 700;
             opacity: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 10;
-        }
-
-        @media (hover: hover) {
-            .project-img-wrapper:hover .project-hover-overlay { opacity: 1; }
-            .project-img-wrapper:hover .project-inner-label { transform: translateY(0); opacity: 1; }
-            .project-img-wrapper:hover .project-img { transform: scale(1.05); }
-        }
-
-        .project-inner-label {
-            font-family: var(--font-serif);
-            font-size: clamp(1.2rem, 3vw, 2.5rem);
-            color: white;
-            font-style: italic;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1) 0.1s;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5); /* added subtle shadow for legibility without overlay */
-        }
-
-        .mobile-nav-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            background: var(--bg); z-index: 200; display: flex; flex-direction: column;
-            justify-content: center; padding: 0 var(--gutter);
-            transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-            visibility: hidden;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
             pointer-events: none;
+            mix-blend-mode: normal; 
+        }
+
+        /* Hover states */
+        body.cursor-hover #custom-cursor {
+            width: 80px;
+            height: 80px;
+        }
+
+        body.cursor-project #custom-cursor {
+            width: 110px;
+            height: 110px;
+        }
+
+        body.cursor-project #custom-cursor span {
+            opacity: 1;
+        }
+
+        /* Navigation Scroll State */
+        nav {
+            transition: background-color 0.6s var(--transition-main), 
+                        padding 0.6s var(--transition-main),
+                        border-bottom 0.4s ease;
+            border-bottom: 1px solid transparent;
+            will-change: background-color, padding;
+        }
+
+        nav.scrolled {
+            background-color: #000000;
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .display-bold {
+            font-weight: 800;
+            letter-spacing: -0.07em;
+            line-height: 0.8; 
+        }
+
+        /* Adjusted font sizes to ensure 'ondwariobiko' fits edge-to-edge without clipping the last 'o' */
+        .text-huge {
+            font-size: 15.1vw; 
+            white-space: nowrap;
+            display: block;
+            width: 100%;
+            line-height: 0.85;
+        }
+
+        @media (min-width: 768px) {
+            .text-huge {
+                font-size: 16.2vw; 
+                line-height: 0.8;
+            }
+        }
+
+        .project-image-container {
+            overflow: hidden;
+            border-radius: 24px;
+            background-color: #1a1a1a;
+        }
+
+        @media (min-width: 768px) {
+            .project-image-container {
+                border-radius: 24px;
+            }
+        }
+        
+        .project-image-container img {
+            transition: transform 1.2s var(--transition-main);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             will-change: transform;
+        }
+        
+        @media (hover: hover) {
+            .project-card:hover img {
+                transform: scale(1.04);
+            }
+        }
+
+        .pill-button {
+            background: #e5e2d9;
+            color: black;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.3s var(--transition-main);
+            will-change: transform;
+        }
+        
+        .pill-button:active {
+            transform: scale(0.96);
+        }
+
+        /* Polygon shape for desktop only */
+        @media (min-width: 768px) {
+            .touch-frame-desktop {
+                clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+            }
+        }
+
+        /* Prevent tap highlight and ensuring link group is stable */
+        .group\/touch {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0d0d0d; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        /* Animation utilities */
+        .reveal-element {
+            transition: transform 1.2s var(--transition-main), opacity 1.2s var(--transition-main);
+            will-change: transform, opacity;
             backface-visibility: hidden;
         }
 
-        .mobile-nav-overlay.active { 
-            transform: translateY(0); 
-            visibility: visible;
+        /* Mobile Menu Transitions */
+        #mobile-menu-overlay {
+            transition: transform 0.7s var(--transition-main), opacity 0.5s ease;
+            will-change: transform, opacity;
+        }
+
+        /* Scroll reveal word styling */
+        .reveal-word {
+            transition: color 0.6s var(--transition-main);
+            display: inline-block;
+            margin-right: 0.25em;
+            will-change: color;
+        }
+
+        /* Back to top button styling */
+        #back-to-top {
+            transition: opacity 0.4s var(--transition-main), transform 0.4s var(--transition-main);
+            will-change: opacity, transform;
+        }
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
             pointer-events: auto;
         }
-        
-        .mobile-nav-link { font-size: 12vw; line-height: 1.1; backface-visibility: hidden; }
-        @media (min-width: 768px) { .mobile-nav-link { font-size: 8vw; } }
-
-        .nav-link { position: relative; transition: opacity 0.3s; }
-        .nav-link::after {
-            content: ''; position: absolute;
-            bottom: -4px; left: 0; width: 0; height: 1px;
-            background: white; transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .nav-link:hover::after { width: 100%; }
-        
-        section { position: relative; width: 100%; padding: clamp(4rem, 15vw, 15rem) var(--gutter); }
-
-        .blur-header {
-            backdrop-filter: blur(25px);
-            background: rgba(8, 8, 8, 0.7) !important;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .main-logo { height: 18px; width: auto; transition: transform 0.5s ease; }
-        @media (min-width: 768px) { .main-logo { height: 22px; } }
-        @media (min-width: 1024px) { .main-logo { height: 32px; } }
-
-        .inverted { background-color: #f7f7f7 !important; color: #080808 !important; }
-        .inverted h2, .inverted .text-white, .inverted .serif { color: #080808 !important; }
-        .inverted .border-white\/5 { border-color: rgba(0,0,0,0.06); }
-
-        .section-index {
-            font-size: 8px; letter-spacing: 0.3em; opacity: 0.2;
-            margin-bottom: 1.5rem; display: block; font-weight: 600; text-transform: uppercase;
-        }
-
-        .live-status { display: flex; align-items: center; gap: 8px; opacity: 0.5; font-size: 8px; letter-spacing: 0.2em; }
-        .live-dot { width: 4px; height: 4px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        .reveal-up { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
-        .scale-up { transform: scale(0.96); opacity: 0; transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.2s ease; will-change: transform, opacity; }
-        .scale-up.active { transform: scale(1); opacity: 1; }
-
-        .impact-list { display: flex; flex-direction: column; gap: 1.5rem; }
-        .impact-item { display: flex; gap: 1rem; align-items: flex-start; }
-        .impact-dot { width: 4px; height: 4px; background: currentColor; border-radius: 50%; margin-top: 0.75rem; flex-shrink: 0; opacity: 0.3; }
-        .impact-text { font-weight: 300; line-height: 1.6; }
     </style>
 </head>
 <body class="selection:bg-white selection:text-black">
-    
-    <!-- Intro Preloader -->
-    <div id="preloader">
-        <div class="preloader-content">
-            <div class="preloader-number">
-                <span id="load-count">0</span>
-            </div>
-            <div class="preloader-subtext">Initializing Portfolio</div>
-            <div class="preloader-bar-container">
-                <div class="preloader-bar" id="load-bar"></div>
-            </div>
+
+    <div id="custom-cursor">
+        <span>See more</span>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-[#0d0d0d] z-[100] translate-x-full opacity-0 pointer-events-none p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-16">
+            <div class="text-[14px] font-bold text-white">ondwariobiko</div>
+            <button id="mobile-menu-close" class="relative w-6 h-6 flex items-center justify-center">
+                <span class="absolute w-full h-[2px] bg-white rotate-45"></span>
+                <span class="absolute w-full h-[2px] bg-white -rotate-45"></span>
+            </button>
+        </div>
+        
+        <nav class="flex flex-col gap-6 mb-12">
+            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Work</a>
+            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">About Me</a>
+            <a href="#" class="display-bold text-[44px] text-white hover:opacity-50 transition-opacity">Start a Project</a>
+        </nav>
+
+        <div>
+            <a href="#" class="pill-button">
+                Download Resume
+            </a>
         </div>
     </div>
 
-    <div id="page-transition-mask"></div>
-    <div id="progress-bar"></div>
-    <div id="cursor"></div>
-    <div class="noise"></div>
+    <!-- Sticky Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 md:py-10 flex justify-between items-center z-50 text-[15px] md:text-[16px] font-bold tracking-tight text-white">
+        <div class="flex-1">ondwariobiko</div>
+        
+        <!-- Hamburger Button -->
+        <button id="mobile-menu-open" class="md:hidden flex flex-col gap-1 w-6 items-end group">
+            <div class="h-[2px] w-full bg-white transition-all group-hover:w-full"></div>
+            <div class="h-[2px] w-3/4 bg-white transition-all group-hover:w-full"></div>
+        </button>
 
-    <div class="grid-overlay">
-        <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
-    </div>
-
-    <nav id="main-nav" class="fixed top-0 left-0 w-full z-[150] h-[var(--header-h)] flex items-center transition-all duration-700">
-        <div class="w-full px-[var(--gutter)] flex justify-between items-center">
-            <a href="index.html" class="mix-blend-difference hover:opacity-50 transition-opacity flex items-center gap-6">
-                <!-- LOGO SPEC: Height 128px (width scales) -->
-                <img src="images/logo.png" alt="ondwariobiko" class="main-logo">
-            </a>
-            
-            <div class="hidden lg:flex items-center space-x-12 text-[10px] uppercase tracking-[0.4em] font-semibold mix-blend-difference">
-                <div class="live-status mr-4">
-                    <div class="live-dot"></div>
-                    NRB — <span id="local-time">00:00:00</span>
-                </div>
-                <a href="work.html" class="nav-link nav-magnetic-item page-nav-link">Work</a>
-                <a href="about.html" class="nav-link nav-magnetic-item page-nav-link">About</a>
-                <a href="services.html" class="nav-link nav-magnetic-item page-nav-link">Services</a>
-                <a href="approach.html" class="nav-link nav-magnetic-item page-nav-link">Approach</a>
-                <a href="contact.html" class="nav-link nav-magnetic-item page-nav-link">Contact</a>
-            </div>
-            
-            <button class="lg:hidden text-[9px] uppercase tracking-[0.4em] font-bold mix-blend-difference p-2 border border-white/10 rounded-full px-4" onclick="toggleMenu()">Menu</button>
-            
-            <div class="hidden xl:block text-[9px] uppercase tracking-[0.4em] opacity-30 mix-blend-difference text-right leading-relaxed">
-                Independent Practice<br>Strategic Brand Systems
-            </div>
+        <div class="hidden md:flex md:w-1/4 text-center justify-center">
+            <a href="#" class="hover:opacity-50 transition-opacity">Work</a>
+        </div>
+        <div class="hidden md:flex md:w-1/4 text-center justify-center">
+            <a href="#" class="hover:opacity-50 transition-opacity">About Me</a>
+        </div>
+        <div class="hidden md:flex md:w-1/4 text-right justify-end">
+            <a href="#" class="hover:opacity-50 transition-opacity">Start a Project</a>
         </div>
     </nav>
 
-    <div class="mobile-nav-overlay" id="mobile-nav">
-        <div class="flex flex-col space-y-4">
-            <a href="work.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Work</a>
-            <a href="about.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">About</a>
-            <a href="services.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Services</a>
-            <a href="approach.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Approach</a>
-            <a href="contact.html" class="serif mobile-nav-link hover:italic transition-all page-nav-link" onclick="toggleMenu()">Contact</a>
-        </div>
-        <div class="absolute bottom-10 left-0 right-0 px-[var(--gutter)] flex justify-between items-center border-t border-white/5 pt-8">
-            <div class="text-[9px] uppercase tracking-[0.4em] opacity-40">Nairobi / Kenya</div>
-            <button class="text-[9px] uppercase tracking-[0.5em] font-bold" onclick="toggleMenu()">[ Close ]</button>
-        </div>
-    </div>
-
-    <!-- HERO SECTION -->
-    <section class="min-h-screen flex flex-col justify-end pt-28 pb-16 md:pb-20">
-        <div class="max-w-screen-2xl w-full mx-auto">
-            <h1 class="reveal-text serif text-[clamp(2.5rem,9vw,10.5rem)] leading-[0.92] tracking-tighter mb-8 md:mb-12">
-                <span>I design strategic brand</span><br>
-                <span>and web systems for businesses</span><br>
-                <span>that need clarity, credibility,</span><br>
-                <span>and operational consistency.</span>
-            </h1>
-
-            <div id="hero-cred" class="mb-10 md:mb-14 overflow-hidden flex items-center gap-6 text-[9px] md:text-[10px] tracking-[0.5em] uppercase opacity-0 translate-y-6">
-                <div class="w-8 md:w-12 h-[1px] bg-white opacity-20"></div>
-                Strategy-led brand and web systems
-            </div>
-
-            <div class="grid lg:grid-cols-12 gap-10 md:gap-12 items-end">
-                <div class="lg:col-span-8 xl:col-span-6">
-                    <p id="hero-sub" class="text-lg md:text-xl lg:text-3xl leading-snug text-[#999] font-light opacity-0 translate-y-6 max-w-2xl">
-                        I help organizations turn complex ideas into clear brand and web systems.
+    <main class="px-6 md:px-12 pt-24 md:pt-40">
+        
+        <!-- Hero Header -->
+        <header class="mb-12 md:mb-24 overflow-hidden">
+            <h1 class="display-bold text-huge mb-6 md:mb-10">ondwariobiko</h1>
+            <div class="flex justify-start">
+                <!-- Alignment set below the 'r' in 'ondwariobiko' and width increased significantly to cover space as depicted -->
+                <div class="max-w-full md:max-w-[850px] md:ml-[42.5vw] ml-0">
+                    <!-- Color #999 grey, desktop size increased to 38px to fill and cover the area highlighted -->
+                    <p class="text-[28px] md:text-[38px] leading-[1.1] md:leading-[1.15] font-medium text-[#999] tracking-[-0.03em] respect-case">
+                        I design strategic brand identities that win trust, attract customers, and drive growth.
                     </p>
                 </div>
-                <div id="hero-cta" class="lg:col-start-10 lg:col-span-3 flex flex-col gap-6 items-start lg:items-end opacity-0 translate-y-6">
-                    <a href="#work-trigger" class="btn-magnetic group">
-                        <span>View selected work</span>
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" class="ml-4 group-hover:translate-x-1 transition-transform">
-                            <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" stroke-width="1.5" />
-                        </svg>
-                    </a>
+            </div>
+        </header>
+
+        <!-- Project Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
+            <!-- Project 1 - Reverted mobile aspect ratio to standard square-ish clean look -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
+                    <img src="https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=1000&auto=format&fit=crop" alt="Brew Can Co.">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Brew Can Co.</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging Design</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- INDEX 01: MENTAL MODEL -->
-    <section id="who" class="inverted border-y border-black/5">
-        <div class="max-w-screen-2xl mx-auto grid lg:grid-cols-12 gap-10">
-            <div class="lg:col-span-4">
-                <span class="section-index">INDEX 01</span>
-                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 reveal-up">Mental Model</h2>
-            </div>
-            <div class="lg:col-span-8">
-                <p class="serif text-[clamp(1.85rem,5.5vw,5rem)] leading-[1.1] text-black mb-14 reveal-up">
-                    I work with founders and teams in technology, logistics, and service businesses who value clarity and long-term credibility.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- INDEX 02: CAPABILITIES -->
-    <section id="about" class="border-b border-white/5">
-        <div class="max-w-screen-2xl mx-auto">
-            <span class="section-index">INDEX 02</span>
-            <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-16 md:mb-24 reveal-up">Capabilities</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-20">
-                <!-- Brand Identity -->
-                <div class="reveal-up">
-                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">01 / BRAND IDENTITY</span>
-                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Identity</h3>
-                    <div class="impact-list">
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Translate complex business strategy into high-fidelity visual identity systems.</p>
-                        </div>
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Build audience trust and market recognition through rigorous design standards.</p>
-                        </div>
-                    </div>
+            <!-- Project 2 -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
+                    <img src="https://images.unsplash.com/photo-1521334885634-9552f3953bb2?q=80&w=1000&auto=format&fit=crop" alt="Lemon Yellow">
                 </div>
-                <!-- Web Systems -->
-                <div class="reveal-up">
-                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">02 / WEB SYSTEMS</span>
-                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Systems</h3>
-                    <div class="impact-list">
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Design digital systems that align business objectives with clear user paths.</p>
-                        </div>
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Deliver high-performance web systems optimized for longevity, accessibility, and speed.</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Continuity -->
-                <div class="reveal-up">
-                    <span class="block text-[8px] font-mono opacity-20 mb-8 tracking-[0.3em]">03 / CONTINUITY</span>
-                    <h3 class="text-2xl font-medium mb-8 md:mb-10">Growth</h3>
-                    <div class="impact-list">
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Sustain brand authority through cohesive standards across every digital touchpoint.</p>
-                        </div>
-                        <div class="impact-item">
-                            <div class="impact-dot"></div>
-                            <p class="impact-text text-lg text-[#777]">Scale visual communication systems that adapt as the organization grows in complexity.</p>
-                        </div>
-                    </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Lemon Yellow</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Merchandise & Apparel</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- INDEX 03: SELECTED WORK -->
-    <div id="work-trigger" class="work-section bg-[#050505]">
-        <div class="px-[var(--gutter)] pt-24 md:pt-32 pb-16">
-            <div class="max-w-screen-2xl mx-auto">
-                <span class="section-index">INDEX 03</span>
-                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 reveal-up">Selected Work</h2>
-                <p class="serif text-[clamp(1.75rem,4vw,4rem)] text-[#eee] max-w-4xl font-light reveal-up leading-tight">
-                    A selection of branding and web projects designed to bring structure, clarity, and confidence to complex businesses.
-                </p>
-            </div>
-        </div>
-
-        <div class="lg:sticky lg:top-0 lg:overflow-hidden lg:h-screen" id="work-pin-wrapper">
-            <div class="horizontal-track" id="work">
-                <!-- Project 01 -->
-                <div class="horizontal-item">
-                    <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 01 / Logistics</span>
-                        <a href="aquapet.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic transition-all group-hover:opacity-70">Aquapet Kenya</h3>
-                        </a>
-                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Designed a brand identity system to support scale and credibility in a professional aquatic infrastructure business.</p>
-                        <a href="aquapet.html" class="project-img-wrapper group scale-up page-nav-link">
-                            <!-- CASE STUDY IMAGE SPEC: 2200px x 1238px (16:9) -->
-                            <img src="images/aquapet_thumbnail.png" alt="Aquapet" class="project-img">
-                            <div class="project-hover-overlay">
-                                <span class="project-inner-label">View Case Study</span>
-                            </div>
-                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Aquatic</div>
-                        </a>
-                    </div>
+            <!-- Project 3 -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
+                    <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=1000&auto=format&fit=crop" alt="Kernel House">
                 </div>
-                <!-- Project 02 -->
-                <div class="horizontal-item">
-                    <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 02 / Distribution</span>
-                        <a href="fast-kat.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic transition-all group-hover:opacity-70">Fast Kat Connects</h3>
-                        </a>
-                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Architected a visual system to streamline brand perception and scale high-value logistics partnerships.</p>
-                        <a href="fast-kat.html" class="project-img-wrapper group scale-up page-nav-link">
-                            <!-- CASE STUDY IMAGE SPEC: 2200px x 1238px (16:9) -->
-                            <img src="images/fastkat_thumbnail.png" alt="Fast Kat" class="project-img">
-                            <div class="project-hover-overlay">
-                                <span class="project-inner-label">View Case Study</span>
-                            </div>
-                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Velocity</div>
-                        </a>
-                    </div>
-                </div>
-                <!-- Project 03 -->
-                <div class="horizontal-item">
-                    <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 03 / Maritime</span>
-                        <a href="ocean-line.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic transition-all group-hover:opacity-70">Ocean Line</h3>
-                        </a>
-                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Engineered a high-performance identity system to establish authority in maritime freight logistics.</p>
-                        <a href="ocean-line.html" class="project-img-wrapper group scale-up page-nav-link">
-                            <!-- CASE STUDY IMAGE SPEC: 2200px x 1238px (16:9) -->
-                            <img src="images/oceanline_thumbnail.png" alt="Ocean Line" class="project-img">
-                            <div class="project-hover-overlay">
-                                <span class="project-inner-label">View Case Study</span>
-                            </div>
-                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Maritime</div>
-                        </a>
-                    </div>
-                </div>
-                <!-- Project 04 -->
-                <div class="horizontal-item">
-                    <div class="max-w-screen-2xl w-full">
-                        <span class="text-[8px] font-mono opacity-20 mb-6 md:mb-8 block uppercase tracking-[0.4em]">Project 04 / Industrial</span>
-                        <a href="ikon-trailers.html" class="block group page-nav-link">
-                            <h3 class="serif text-[clamp(2.5rem,8.5vw,9.5rem)] leading-[0.9] mb-4 italic transition-all group-hover:opacity-70">Ikon Trailers</h3>
-                        </a>
-                        <p class="text-base md:text-xl text-[#888] max-w-xl mb-10 font-light leading-relaxed">Delivered a robust visual system to increase market recognition across a growing industrial dealer network.</p>
-                        <a href="ikon-trailers.html" class="project-img-wrapper group scale-up page-nav-link">
-                            <!-- CASE STUDY IMAGE SPEC: 2200px x 1238px (16:9) -->
-                            <img src="images/ikontrailers_thumbnail.png" alt="Ikon Trailers" class="project-img">
-                            <div class="project-hover-overlay">
-                                <span class="project-inner-label">View Case Study</span>
-                            </div>
-                            <div class="absolute inset-0 flex items-center justify-center text-[10vw] serif opacity-[0.03] tracking-tighter uppercase italic pointer-events-none">Industrial</div>
-                        </a>
-                    </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Kernel House</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Brand Identity</span>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- INDEX 04: PRINCIPLES -->
-    <section class="inverted border-t border-black/5">
-        <div class="max-w-screen-2xl mx-auto flex flex-col items-center text-center">
-            <span class="section-index mb-10">INDEX 04</span>
-            <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-40 mb-12 md:mb-16 reveal-up">Principles</h2>
-            <p class="serif text-[clamp(2rem,7vw,8rem)] leading-[1.1] md:leading-[0.92] tracking-tight mb-12 md:mb-20 max-w-6xl text-black reveal-up">
-                I approach design as a strategic tool, not decoration.
-            </p>
-            <div class="w-full max-w-4xl border-t border-black/10 pt-12 md:pt-16 reveal-up">
-                 <p class="text-lg md:text-2xl lg:text-3xl leading-relaxed text-[#555] font-light">
-                    Every decision is shaped by context, purpose, and long-term impact. If it doesn't solve a problem, it's just noise.
-                 </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- INDEX 05: COLLABORATIONS -->
-    <footer id="contact" class="pb-16 pt-32 md:pt-40 border-t border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-[var(--gutter)]">
-            <div class="mb-24 md:mb-48">
-                <span class="section-index">INDEX 05</span>
-                <h2 class="text-[9px] tracking-[0.5em] uppercase opacity-30 mb-10 md:mb-14 reveal-up">Collaborations</h2>
-                <p class="serif text-[clamp(1.75rem,4.5vw,5rem)] text-[#ccc] max-w-5xl mb-16 md:mb-24 font-light leading-[1.1] reveal-up">
-                    Looking for a thoughtful, structured approach to your next brand system? I’m open to conversations about new projects.
-                </p>
-                <div class="flex flex-col items-start gap-6 reveal-up">
-                    <a href="mailto:ondwariobiko@gmail.com" class="text-2xl sm:text-5xl lg:text-7xl underline underline-offset-[12px] md:underline-offset-[20px] decoration-white/5 hover:decoration-white/100 transition-all duration-700 break-all serif inline-block">
-                        Send an inquiry
-                    </a>
-
-                    <div class="mt-20 md:mt-32 pt-12 md:pt-16 border-t border-white/5 grid md:grid-cols-2 gap-12 md:gap-20 w-full">
-                        <div>
-                            <span class="text-[8px] uppercase tracking-[0.5em] opacity-30 mb-6 block">Strategic Reach</span>
-                            <p class="text-base md:text-lg text-[#888] leading-relaxed font-light max-w-md">
-                                Partnering with founders in Nairobi, London, and Berlin to transform technical complexity into clear, high-trust brand systems.
-                            </p>
-                        </div>
-                        <div>
-                            <span class="text-[8px] uppercase tracking-[0.5em] opacity-30 mb-6 block">The Mandate</span>
-                            <p class="text-base md:text-lg text-[#888] leading-relaxed font-light max-w-md">
-                                A disciplined blend of business context and design systems, ensuring every decision serves a clear purpose.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="mt-16 md:mt-24 flex flex-col gap-3">
-                        <span class="text-[8px] uppercase tracking-[0.5em] opacity-30">Direct Contact</span>
-                        <a href="mailto:ondwariobiko@gmail.com" class="text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">ondwariobiko@gmail.com</a>
-                        <a href="tel:+254702255575" class="text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">+254 702 255 575</a>
-                    </div>
+            <!-- Project 4 -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
+                    <img src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?q=80&w=1000&auto=format&fit=crop" alt="Scoop & Roll">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Scoop & Roll</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Complete Brand Identity</span>
                 </div>
             </div>
+
+            <!-- Project 5 -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/5] mb-5">
+                    <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=1000&auto=format&fit=crop" alt="Peak Performance">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Peak Performance</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Packaging Design & Branding</span>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="project-card group cursor-pointer">
+                <div class="project-image-container aspect-[4/4] md:aspect-[4/4] mb-5">
+                    <img src="https://images.unsplash.com/photo-1586075010623-26c50dec4a15?q=80&w=1000&auto=format&fit=crop" alt="Savor Magazine">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[20px] md:text-[18px] font-bold tracking-tight">Savor Magazine</span>
+                    <span class="text-[15px] md:text-[14px] text-[#999] font-medium mt-1 tracking-tight">Print Design & Editorial Branding</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section Headline -->
+        <section class="mb-24 md:mb-32">
+            <h2 id="scroll-reveal-text" class="text-[28px] md:text-[68px] font-semibold tracking-[-0.07em] leading-[1.05] text-[#333]">
+                i'm <span class="respect-case">John Obiko</span>, a brand designer based in <span class="respect-case">Nairobi, Kenya</span>. i work remotely with clients worldwide who want a brand identity that positions them as the premium choice in their market.
+            </h2>
+        </section>
+
+        <!-- Profile Detail Section -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-12 md:gap-y-16 mb-20 md:mb-24 items-start">
+            <div class="col-span-1 md:col-span-4">
+                <div class="aspect-square bg-zinc-900 rounded-[24px] overflow-hidden grayscale contrast-125 brightness-90">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" alt="John Obiko Portrait" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="col-span-1 md:col-span-4 space-y-6 md:max-w-[90%] md:space-y-8">
+                <div>
+                    <h4 class="text-[13px] font-bold opacity-40 mb-4 tracking-widest uppercase">Why Work With Me</h4>
+                    <p class="text-[16px] md:text-[17px] leading-relaxed font-medium tracking-[-0.03em]">
+                        I believe the best brands come from true collaboration. When we work together, you're not just getting a designer, you're getting a strategic partner who takes time to understand your business, your customers, and your goals.
+                    </p>
+                </div>
+                <a href="#" class="pill-button">
+                    Download Resume
+                </a>
+            </div>
+
+            <div class="col-span-1 md:col-span-4 space-y-6 md:space-y-8">
+                <div>
+                    <h4 class="text-[13px] font-bold opacity-40 mb-4 tracking-widest uppercase">When I'm Not Designing</h4>
+                    <p class="text-[16px] md:text-[17px] leading-relaxed font-medium tracking-[-0.03em]">
+                        You'll find me exploring the vibrant coffee culture, exploring the beauty of the Rift Valley, or shooting film photography. I'm always looking for inspiration in unexpected places, from traditional African patterns to the colors of a savannah sunset.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Get In Touch Section -->
+        <section class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 py-12 md:py-24">
             
-            <div class="flex flex-col lg:flex-row justify-between pt-12 md:pt-16 border-t border-white/5 gap-8 md:gap-12 text-[8px] md:text-[9px] uppercase tracking-[0.4em] opacity-30">
-                <div class="order-2 lg:order-1">© 2026 ondwariobiko — Registered Practice</div>
-                <div class="flex flex-wrap gap-x-10 gap-y-4 order-1 lg:order-2">
-                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">LinkedIn</a>
-                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Behance</a>
-                    <a href="#" class="hover:text-white transition-colors nav-magnetic-item">Instagram</a>
+            <a href="mailto:ondwariobiko@agmail.com" class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 group/touch no-underline text-inherit w-full md:w-auto">
+                <h2 class="md:hidden display-bold text-huge text-[#e5e2d9] mb-8 w-full">Get In Touch</h2>
+                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]" style="font-size: 14vw; width: auto;">Get In</h2>
+                <div class="touch-frame-desktop w-full h-64 md:w-80 md:h-[450px] bg-zinc-800 overflow-hidden shrink-0 rounded-xl md:rounded-none mb-12 md:mb-0">
+                    <img id="cycling-image" src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Get in Touch" 
+                         class="w-full h-full object-cover brightness-90 transition-all duration-700 group-hover/touch:scale-110">
                 </div>
-                <div class="order-3">Based in Nairobi — Serving Worldwide</div>
+                <h2 class="hidden md:block display-bold text-huge select-none text-left transition-colors duration-500 group-hover/touch:text-[#666]" style="font-size: 14vw; width: auto;">Touch</h2>
+            </a>
+
+            <div class="md:hidden w-full space-y-4 text-[20px] font-medium tracking-tight">
+                <div class="flex flex-wrap gap-1.5">
+                    <span>Email:</span> 
+                    <a href="mailto:ondwariobiko@agmail.com" class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
+                </div>
+                <div class="flex gap-1.5">
+                    <span>Based In:</span> 
+                    <span class="respect-case">Nairobi, Kenya</span>
+                </div>
+                <div class="flex gap-1.5">
+                    <span>Tel:</span> 
+                    <a href="tel:+254702255575" class="hover:opacity-50 transition-opacity">+254 702 255575</a>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                    <span>Available For:</span> 
+                    <span>Remote Work Worldwide</span>
+                </div>
             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-12 pb-10 pt-8 md:pt-12 relative overflow-hidden">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start mb-12 md:mb-16 gap-10 md:gap-0">
+            <div class="hidden md:block space-y-3 text-[17px] font-medium w-auto tracking-tight">
+                <div class="flex flex-wrap gap-1.5">
+                    <span>Email:</span> 
+                    <a href="mailto:ondwariobiko@agmail.com" class="hover:opacity-50 transition-opacity">ondwariobiko@agmail.com</a>
+                </div>
+                <div class="flex gap-1.5">
+                    <span>Based In:</span> 
+                    <span class="respect-case">Nairobi, Kenya</span>
+                </div>
+                <div class="flex gap-1.5">
+                    <span>Tel:</span> 
+                    <a href="tel:+254702255575" class="hover:opacity-50 transition-opacity">+254 702 255575</a>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                    <span>Available For:</span> 
+                    <span>Remote Projects Worldwide</span>
+                </div>
+            </div>
+
+            <div class="flex w-full md:w-auto gap-20 md:gap-20">
+                <div class="flex flex-col gap-2 flex-1 md:flex-none">
+                    <span class="text-[13px] font-bold opacity-60 mb-1 tracking-widest">Pages</span>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Home</a>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">About</a>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Work</a>
+                </div>
+                <div class="flex flex-col gap-2 flex-1 md:flex-none">
+                    <span class="text-[13px] font-bold opacity-60 mb-1 tracking-widest">Socials</span>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Instagram</a>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">Behance</a>
+                    <a href="#" class="text-[20px] md:text-[17px] font-medium hover:opacity-50 transition-opacity tracking-tight">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative py-4 md:py-10 mb-8 md:mb-10 overflow-hidden">
+            <h2 class="display-bold text-huge select-none pointer-events-none">ondwariobiko</h2>
+        </div>
+
+        <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-[10px] md:text-[11px] font-medium opacity-60 gap-4 text-left tracking-tight">
+            <span>© 2026 <span class="respect-case">John Obiko</span>. All rights reserved</span>
+            <span>Portfolio designed by ondwariobiko</span>
         </div>
     </footer>
 
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 md:w-14 md:h-14 bg-[#e5e2d9] rounded-full flex items-center justify-center z-[60] opacity-0 translate-y-4 pointer-events-none hover:scale-110 active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+
     <script>
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Africa/Nairobi', hour12: false });
-            const localTimeEl = document.getElementById('local-time');
-            if (localTimeEl) localTimeEl.textContent = timeStr;
-        }
-        setInterval(updateTime, 1000); updateTime();
+        const cursor = document.getElementById('custom-cursor');
+        const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
 
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-nav');
-            if (!menu) return;
-            menu.classList.toggle('active');
-            const isActive = menu.classList.contains('active');
-            if (isActive) {
-                if (typeof lenis !== 'undefined') lenis.stop();
-            } else {
-                if (typeof lenis !== 'undefined') lenis.start();
-            }
-        }
-
-        const lenis = new Lenis({ 
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smoothWheel: true,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-        });
-
-        function raf(time) { 
-            lenis.raf(time); 
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Lock scroll initially
-        lenis.stop();
-
-        const cursor = document.getElementById('cursor');
-        if (window.matchMedia("(pointer: fine)").matches && cursor) {
-            cursor.style.display = 'block';
+        if (hasFinePointer && cursor) {
             document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power1.out" });
-            });
-            
-            document.querySelectorAll('a, button, .serif').forEach(el => {
-                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 6, opacity: 0.15, mixBlendMode: 'difference' }));
-                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, opacity: 1, mixBlendMode: 'difference' }));
-            });
-
-            document.querySelectorAll('.project-img-wrapper').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(cursor, { width: 80, height: 80, backgroundColor: 'white', opacity: 1, mixBlendMode: 'difference', borderRadius: '50%' });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(cursor, { width: 10, height: 10, backgroundColor: 'white', mixBlendMode: 'difference' });
-                });
-            });
-
-            document.querySelectorAll('.nav-magnetic-item').forEach(el => {
-                el.addEventListener('mousemove', (e) => {
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+                requestAnimationFrame(() => {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
                 });
             });
         }
 
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Sync Lenis with GSAP ScrollTrigger
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-        });
-        gsap.ticker.lagSmoothing(0);
+        const nav = document.getElementById('main-nav');
+        const backToTop = document.getElementById('back-to-top');
 
-        function initAnimations() {
-            const countEl = document.getElementById('load-count');
-            const barEl = document.getElementById('load-bar');
-            const loaderEl = document.getElementById('preloader');
-            
-            let loadData = { value: 0 };
-            const introTl = gsap.timeline();
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
 
-            introTl.to(loadData, {
-                value: 100,
-                duration: 2.2,
-                ease: "power2.inOut",
-                onUpdate: () => {
-                    const rounded = Math.round(loadData.value);
-                    if(countEl) countEl.textContent = rounded;
-                    if(barEl) barEl.style.width = rounded + "%";
-                }
-            })
-            .to(".preloader-content", {
-                y: -40, opacity: 0, duration: 0.6, ease: "expo.inOut"
-            })
-            .to(loaderEl, {
-                yPercent: -100, duration: 1.1, ease: "expo.inOut",
-                onComplete: () => {
-                    lenis.start();
-                    loaderEl.style.display = 'none';
-                }
-            }, "-=0.1")
-            .to(".reveal-text span", { y: 0, stagger: 0.08, duration: 1.5, ease: "expo.out" }, "-=0.6")
-            .to("#hero-cred, #hero-sub, #hero-cta", { opacity: 1, y: 0, stagger: 0.1, duration: 1.2, ease: "expo.out" }, "-=1");
-        }
-
-        window.addEventListener('load', initAnimations);
-
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                const loader = document.getElementById('preloader');
-                if (loader) {
-                    gsap.set(loader, { yPercent: -100, display: 'none' });
-                }
-                gsap.set("#page-transition-mask", { yPercent: 100 });
-                gsap.set(".reveal-text span", { y: 0 });
-                gsap.set("#hero-cred, #hero-sub, #hero-cta", { opacity: 1, y: 0 });
-                lenis.start();
+            // Show back to top if scrolled past halfway
+            const halfHeight = document.documentElement.scrollHeight / 2;
+            if (window.scrollY > halfHeight) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
             }
         });
 
-        document.querySelectorAll('.page-nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const destination = link.getAttribute('href');
-                if (destination && destination !== '#' && !destination.includes('mailto:')) {
-                    e.preventDefault();
-                    const mask = document.getElementById('page-transition-mask');
-                    gsap.set(mask, { yPercent: 100 });
-                    gsap.to(mask, { yPercent: 0, duration: 0.8, ease: "expo.inOut", onComplete: () => { window.location.href = destination; } });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const generalInteractives = document.querySelectorAll('a, button, .pill-button, h1, h2, .touch-frame-desktop, .project-card');
+        generalInteractives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if(hasFinePointer) {
+                    if (el.classList.contains('project-card')) {
+                        document.body.classList.add('cursor-project');
+                    } else {
+                        document.body.classList.add('cursor-hover');
+                    }
+                }
+            });
+            el.addEventListener('mouseleave', () => {
+                if(hasFinePointer) {
+                    document.body.classList.remove('cursor-hover', 'cursor-project');
                 }
             });
         });
 
-        gsap.to("#progress-bar", { width: "100%", ease: "none", scrollTrigger: { scrub: 0.3 } });
+        const images = [
+            "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?q=80&w=800&auto=format&fit=crop"
+        ];
+        let currentImg = 0;
+        const cyclingImgEl = document.getElementById('cycling-image');
+        
+        if (cyclingImgEl) {
+            setInterval(() => {
+                currentImg = (currentImg + 1) % images.length;
+                cyclingImgEl.style.opacity = 0;
+                setTimeout(() => {
+                    cyclingImgEl.src = images[currentImg];
+                    cyclingImgEl.style.opacity = 1;
+                }, 400);
+            }, 3000);
+        }
 
-        let mm = gsap.matchMedia();
-        mm.add("(min-width: 1024px)", () => {
-            const track = document.getElementById("work");
-            const pinWrapper = document.getElementById("work-pin-wrapper");
-            let sections = gsap.utils.toArray(".horizontal-item");
-            if (track && pinWrapper && sections.length > 0) {
-                gsap.to(sections, {
-                    xPercent: -100 * (sections.length - 1),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: pinWrapper, 
-                        pin: true, 
-                        scrub: 1, 
-                        invalidateOnRefresh: true, 
-                        force3D: true,
-                        end: () => "+=" + (track.scrollWidth - window.innerWidth)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section, header, footer').forEach(el => {
+            if (el.id === 'scroll-reveal-text' || el.querySelector('#scroll-reveal-text')) {
+                el.classList.add('reveal-element');
+                observer.observe(el);
+                return;
+            }
+            el.classList.add('reveal-element', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+
+        const revealText = document.getElementById('scroll-reveal-text');
+        if (revealText) {
+            const words = revealText.innerText.split(/\s+/);
+            revealText.innerHTML = '';
+            
+            words.forEach(word => {
+                const span = document.createElement('span');
+                span.innerText = word;
+                span.className = 'reveal-word';
+                if (['John', 'Obiko', 'Nairobi,', 'Kenya.'].some(p => word.includes(p))) {
+                    span.classList.add('respect-case');
+                }
+                revealText.appendChild(span);
+                revealText.appendChild(document.createTextNode(' '));
+            });
+
+            const spans = revealText.querySelectorAll('.reveal-word');
+
+            const handleScrollReveal = () => {
+                const rect = revealText.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const startReveal = windowHeight * 0.90;
+                const endReveal = windowHeight * 0.10;
+                
+                let progress = (startReveal - rect.top) / (startReveal - endReveal);
+                progress = Math.max(0, Math.min(1, progress));
+
+                spans.forEach((span, index) => {
+                    const threshold = index / spans.length;
+                    if (progress > threshold) {
+                        span.style.color = '#e5e2d9';
+                    } else {
+                        span.style.color = '#333';
                     }
                 });
+            };
+
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(handleScrollReveal);
+            }, { passive: true });
+            handleScrollReveal();
+        }
+
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const openBtn = document.getElementById('mobile-menu-open');
+        const closeBtn = document.getElementById('mobile-menu-close');
+
+        const toggleMenu = (open) => {
+            if (open) {
+                mobileMenuOverlay.classList.remove('translate-x-full', 'opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenuOverlay.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
             }
-        });
+        };
 
-        document.querySelectorAll('.reveal-up').forEach(el => {
-            gsap.to(el, {
-                opacity: 1, 
-                y: 0, 
-                duration: window.innerWidth < 1024 ? 1 : 1.5,
-                ease: "power3.out",
-                scrollTrigger: { 
-                    trigger: el, 
-                    start: "top 92%", 
-                    toggleActions: "play none none none" 
-                }
-            });
-        });
+        openBtn.addEventListener('click', () => toggleMenu(true));
+        closeBtn.addEventListener('click', () => toggleMenu(false));
 
-        document.querySelectorAll('.scale-up').forEach(el => {
-            ScrollTrigger.create({ trigger: el, start: "top 95%", onEnter: () => el.classList.add('active') });
-        });
-
-        ScrollTrigger.create({
-            start: "top -40",
-            onEnter: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.add('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 90, duration: 0.6, ease: "expo.out" });
-                }
-            },
-            onLeaveBack: () => {
-                const nav = document.getElementById('main-nav');
-                if (nav) {
-                    nav.classList.remove('blur-header');
-                    gsap.to(nav, { height: window.innerWidth < 1024 ? 60 : 120, duration: 0.6, ease: "expo.out" });
-                }
-            }
-        });
-
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 250);
+        mobileMenuOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => toggleMenu(false));
         });
     </script>
 </body>
